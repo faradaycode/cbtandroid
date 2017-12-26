@@ -14,39 +14,29 @@ import { Component, trigger, state, style, transition, animate, keyframes } from
       transition('* => flipped', animate('400ms ease'))
     ]),
 
-    //right to left flyin
-    trigger('flyInOutRL', [
-      state('in', style({
+    //right and left flyin
+    trigger('flyin', [
+      state('default', style({
         transform: 'translate3d(0, 0, 0)'
       })),
-      state('out', style({
+      state('right', style({
         transform: 'translate3d(250%, 0, 0)'
       })),
-      transition('in => out', animate('200ms ease-in')),
-      transition('out => in', animate('1200ms ease-out'))
-    ]),
-
-    //left to right flyIn
-    trigger('flyInOutLR', [
-      state('in', style({
-        transform: 'translate3d(0, 0, 0)'
-      })),
-      state('out', style({
+      state('left', style({
         transform: 'translate3d(-250%, 0, 0)'
       })),
-      transition('in => out', animate('200ms ease-in')),
-      transition('out => in', animate('1200ms ease-out'))
+      transition('right => default', animate('800ms ease-out')),
+      transition('left => default', animate('800ms ease-out'))
     ]),
-
 
     trigger('fade', [
       state('visible', style({
         opacity: 1
       })),
       state('invisible', style({
-        opacity: 0.1
+        opacity: 0
       })),
-      transition('visible <=> invisible', animate('200ms linear'))
+      transition('invisible <=> visible', animate('800ms ease-in'))
     ]),
 
     trigger('bounce', [
@@ -54,9 +44,9 @@ import { Component, trigger, state, style, transition, animate, keyframes } from
         transform: 'translate3d(0,0,0)'
       })),
       transition('* => bouncing', [
-        animate('300ms ease-in', keyframes([
-          style({transform: 'translate3d(0,0,0)', offset: 0}),
-          style({transform: 'translate3d(0,-10px,0)', offset: 0.5}),
+        animate('800ms ease-in', keyframes([
+          style({transform: 'translate3d(0,-100%,0)', offset: 0}),
+          style({transform: 'translate3d(0,100%,0)', offset: 0.5}),
           style({transform: 'translate3d(0,0,0)', offset: 1})
         ]))
       ])
@@ -64,12 +54,23 @@ import { Component, trigger, state, style, transition, animate, keyframes } from
   ]
 })
 export class HomePage {
-  flyInOutState: String = 'in';
+  flyL: String = 'default';
+  flyR: String = 'default';
+  b_status: String = 'invisible';
+
   constructor(public navCtrl: NavController) {
-    this.flyInOutState = 'out';
+    this.flyL = 'left';
+    this.flyR = 'right';
+
     setInterval(() => {
-      this.flyInOutState = 'in';
-    }, 2000);
+      this.flyL = 'default';
+      this.flyR = 'default';
+    }, 1000);
+  }
+  ionViewDidLoad() {
+    setTimeout(()=> {
+      this.b_status = (this.b_status == 'visible') ? 'invisible' : 'visible';
+    },1500);
   }
   goTo(page) {
     this.navCtrl.push(page);
