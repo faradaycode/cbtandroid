@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Home</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12>
+        <!-- <img src="assets/imgs/title-circle.png" /> -->
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6>
+        <img src="assets/imgs/b01.png" [@flyInOutRL]="flyInOutState" />
+      </ion-col>
+      <ion-col col-6>
+        <img src="assets/imgs/b02.png" [@flyInOutLR]="flyInOutState" />
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <div class="btn-home" text-center rounded large>
+    <button ion-button color="danger" (click)="goTo('MainmenuPage')">Mulai</button>
+  </div>
+</ion-content>
