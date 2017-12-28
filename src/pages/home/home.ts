@@ -44,7 +44,7 @@ import { Component, trigger, state, style, transition, animate, keyframes } from
         transform: 'translate3d(0,0,0)'
       })),
       transition('* => bouncing', [
-        animate('800ms ease-in', keyframes([
+        animate('1000ms ease-in', keyframes([
           style({transform: 'translate3d(0,-100%,0)', offset: 0}),
           style({transform: 'translate3d(0,100%,0)', offset: 0.5}),
           style({transform: 'translate3d(0,0,0)', offset: 1})
@@ -57,6 +57,7 @@ export class HomePage {
   flyL: String = 'default';
   flyR: String = 'default';
   b_status: String = 'invisible';
+  bounceState: String = 'noBounce';
 
   constructor(public navCtrl: NavController) {
     this.flyL = 'left';
@@ -68,6 +69,7 @@ export class HomePage {
     }, 1000);
   }
   ionViewDidLoad() {
+    this.bounceState = (this.bounceState == 'noBounce') ? 'bouncing' : 'noBounce';
     setTimeout(()=> {
       this.b_status = (this.b_status == 'visible') ? 'invisible' : 'visible';
     },1500);

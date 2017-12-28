@@ -9,40 +9,85 @@
   <ion-navbar>
     <ion-title>mainmenu</ion-title>
   </ion-navbar>
-
+  <ion-toolbar>
+    <ion-segment [(ngModel)]="paket" color="light">
+      <ion-segment-button value="pka" (click)="pka()">
+        <h5 text-capitalize>paket a</h5>
+      </ion-segment-button>
+      <ion-segment-button value="pkb" (click)="pkb()">
+        <h5 text-capitalize>paket b</h5>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-list no-lines [@flyInOut]>
-    <ion-item class="item-list">
-      <ion-avatar item-start>
-        <img src="assets/imgs/mtk.png">
-      </ion-avatar>
-      <span>Matematika</span>
-    </ion-item>
-    <ion-item class="item-list">
-      <ion-avatar item-start>
-        <img src="assets/imgs/chemistry.png">
-      </ion-avatar>
-      <span>IPA</span>
-    </ion-item>
-    <ion-item class="item-list">
-      <ion-avatar item-start>
-        <img src="assets/imgs/ips.png">
-      </ion-avatar>
-      <span>IPS</span>
-    </ion-item>
-    <ion-item class="item-list">
-      <ion-avatar item-start>
-        <img src="assets/imgs/bindo.png">
-      </ion-avatar>
-      <span text-capitalize>bahasa indonesia</span>
-    </ion-item>
-    <ion-item class="item-list">
-      <ion-avatar item-start>
-        <img src="assets/imgs/pkn.png">
-      </ion-avatar>
-      <span>PPKN</span>
-    </ion-item>
-  </ion-list>
+  <div [ngSwitch]="paket">
+    <ion-list no-lines *ngSwitchCase="'pka'" [@flyInOut]="animVar">
+      <ion-item class="item-list" (click)="goto('QuisPage')">
+        <ion-avatar item-start>
+          <img src="assets/imgs/mtk.png">
+        </ion-avatar>
+        <span>Matematika</span>
+      </ion-item>
+      <ion-item class="item-list">
+        <ion-avatar item-start>
+          <img src="assets/imgs/chemistry.png">
+        </ion-avatar>
+        <span>IPA</span>
+      </ion-item>
+      <ion-item class="item-list">
+        <ion-avatar item-start>
+          <img src="assets/imgs/ips.png">
+        </ion-avatar>
+        <span>IPS</span>
+      </ion-item>
+      <ion-item class="item-list">
+        <ion-avatar item-start>
+          <img src="assets/imgs/bindo.png">
+        </ion-avatar>
+        <span text-capitalize>bahasa indonesia</span>
+      </ion-item>
+      <ion-item class="item-list">
+        <ion-avatar item-start>
+          <img src="assets/imgs/pkn.png">
+        </ion-avatar>
+        <span>PPKN</span>
+      </ion-item>
+    </ion-list>
+
+    <!-- list paket B -->
+    <ion-list no-lines *ngSwitchCase="'pkb'" class="item-pb" [@flyInOut]="animVar">
+      <ion-item class="item-list">
+        <ion-avatar item-start>
+          <img src="assets/imgs/mtk.png">
+        </ion-avatar>
+        <span>Matematika</span>
+      </ion-item>
+      <ion-item class="item-list">
+        <ion-avatar item-start>
+          <img src="assets/imgs/chemistry.png">
+        </ion-avatar>
+        <span>IPA</span>
+      </ion-item>
+      <ion-item class="item-list">
+        <ion-avatar item-start>
+          <img src="assets/imgs/ips.png">
+        </ion-avatar>
+        <span>IPS</span>
+      </ion-item>
+      <ion-item class="item-list">
+        <ion-avatar item-start>
+          <img src="assets/imgs/bindo.png">
+        </ion-avatar>
+        <span text-capitalize>bahasa indonesia</span>
+      </ion-item>
+      <ion-item class="item-list">
+        <ion-avatar item-start>
+          <img src="assets/imgs/pkn.png">
+        </ion-avatar>
+        <span>PPKN</span>
+      </ion-item>
+    </ion-list>
+  </div>
 </ion-content>

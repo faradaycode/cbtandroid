@@ -1,5 +1,25 @@
 page-home {
-  .btn-home {
-  
+  .header-div {
+    height: 85px;
+  }
+
+  .header-div img {
+    width: 100%;
+  }
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    .header-div {
+      height: 200px;
+    }
+    .button-large {
+      font-size: 5rem;
+    }
+  }
+  @media screen and (min-width: 1024px) {
+    .header-div {
+      height: 245px;
+    }
+    .button-large {
+      font-size: 5rem;
+    }
   }
 }

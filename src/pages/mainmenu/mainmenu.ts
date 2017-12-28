@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { trigger, style, transition, animate, keyframes, query, stagger, state } from '@angular/animations';
+import { trigger, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
@@ -15,11 +15,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'mainmenu.html',
   animations: [
     trigger('flyInOut', [
-      transition('* => *', [
+      transition('* => anim-a', [
         query('.item-list', style({ opacity: 0 }), {optional: true}),
         query('.item-list', stagger('300ms', [
           animate('1s ease-in', keyframes([
-            style({opacity: 0, transform: 'translate3d(-150%, 0, 0)', offset: 0.3}),
+            style({opacity: 0, transform: 'translate3d(0, -100px, 0)', offset: 0.3}),
+            style({opacity: 1, transform: 'translate3d(0, 0, 0)', offset: 1.0}),
+          ]))]), {optional: true})
+      ]),
+      transition('* => anim-b', [
+        query('.item-list', style({ opacity: 0 }), {optional: true}),
+        query('.item-list', stagger('300ms', [
+          animate('1s ease-in', keyframes([
+            style({opacity: 0, transform: 'translate3d(0, 100px, 0)', offset: 0.3}),
             style({opacity: 1, transform: 'translate3d(0, 0, 0)', offset: 1.0}),
           ]))]), {optional: true})
       ])
@@ -27,11 +35,21 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   ]
 })
 export class MainmenuPage {
-
+  animVar = '';
+  paket: String = '';
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-
+    this.paket = "pka";
+    this.animVar = "anim-a";
   }
-
+  pka() {
+    this.animVar = 'anim-a';
+  }
+  pkb() {
+    this.animVar = 'anim-b';
+  }
+  goto(page) {
+    this.navCtrl.push(page);
+  }
   ionViewDidLoad() {
     //this.visibleState = (this.visibleState == 'visible') ? 'visible bouncing' : 'invisible';
   }

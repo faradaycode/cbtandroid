@@ -62,8 +62,7 @@ $colors: (
 
 ion-content {
   background-image: url(../assets/imgs/pattern.png);
-  background-size: cover;
-  background-position: top center;
+  background-repeat: repeat;
 }
 .overlay-w {
   padding: 5px;
