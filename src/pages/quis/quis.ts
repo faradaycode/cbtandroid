@@ -14,9 +14,16 @@ import { Observable } from 'rxjs/Rx';
   templateUrl: 'quis.html',
 })
 export class QuisPage {
+  opVal: number = 1;
+  imgSoal = [];
+  ansVal = {};
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
   private elementRef: ElementRef) {
+    let nSoal = 12;
+    for (var i = 1; i <= 9; i++) {
+      this.imgSoal.push(i);
+    }
   }
 
   ionViewDidLoad() {
@@ -49,4 +56,22 @@ export class QuisPage {
             }
         })
     }
+    nextq(val) {
+      let num = val+1;
+      var divShow = document.getElementById('question-'+num);
+      var divHide = document.getElementById('question-'+val);
+
+      divShow.style.display = 'block';
+      divHide.style.display = 'none';
+    }
+    prevq(val) {
+      let num = val-1;
+      var divShow = document.getElementById('question-'+num);
+      var divHide = document.getElementById('question-'+val);
+      divShow.style.display = 'block';
+      divHide.style.display = 'none';
+    }
+    // getAnswer() {
+    //   console.log(this.ansVal);
+    // }
 }
