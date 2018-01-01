@@ -7,13 +7,14 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title><span id="time" class="text-primary">00:00</span></ion-title>
+    <ion-title><h5 *ngIf="timeInSeconds && timeInSeconds > 0">{{displayTime}}</h5></ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding text-center>
-  <form (ngSubmit)="getAnswer()">
+    <span id="time" class="text-primary"></span>
+  <form>
     <div *ngFor="let item of imgSoal" id="question-{{item}}" [style.display]="(item > 1) ? 'none' : 'block'">
       <div class="div-soal">
         <img src="assets/soal/000{{item}}.png" />
@@ -35,22 +36,16 @@
           </label>
           <label class="wrap-radio">
             <ion-radio value="b"></ion-radio>
-            <span>A</span>
+            <span>B</span>
           </label>
           <label class="wrap-radio">
             <ion-radio value="c"></ion-radio>
-            <span>A</span>
+            <span>C</span>
           </label>
           <label class="wrap-radio">
             <ion-radio value="d"></ion-radio>
-            <span>A</span>
+            <span>D</span>
           </label>
-          <!-- <input type="radio" name="seg-{{item}}" value="b" id="rbb{{item}}">
-          <label for="rbb{{item}}">B</label>
-          <input type="radio" name="seg-{{item}}" value="c" id="rbc{{item}}">
-          <label for="rbc{{item}}">C</label>
-          <input type="radio" name="seg-{{item}}" value="d" id="rbd{{item}}">
-          <label for="rbd{{item}}" class="last">D</label> -->
         </div>
       </div>
     </div>

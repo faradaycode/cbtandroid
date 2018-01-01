@@ -1,6 +1,7 @@
-import { Component, OnInit, ElementRef, AfterViewInit  } from '@angular/core';
+import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
+import {TimerObservable} from "rxjs/observable/TimerObservable";
 /**
  * Generated class for the QuisPage page.
  *
@@ -18,60 +19,84 @@ export class QuisPage {
   imgSoal = [];
   ansVal = {};
 
+  timeInSeconds: number;
+  remainingSeconds: number;
+  hasFinished: boolean;
+  displayTime: string;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
-  private elementRef: ElementRef) {
+    private elementRef: ElementRef) {
     let nSoal = 12;
     for (var i = 1; i <= 9; i++) {
       this.imgSoal.push(i);
     }
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad QuisPage');
-  }
   ngOnInit() {
-        var callDuration = this.elementRef.nativeElement.querySelector('#time');
-        this.startTimer(callDuration);
+    setTimeout(() => {
+      this.startTimer();
+    }, 1000);
+    this.timeInSeconds = 7200;
+    this.initTimer();
+  }
+
+  //timer countdown
+  initTimer() {
+    if (!this.timeInSeconds) { 
+      this.timeInSeconds = 0; 
     }
 
-    startTimer(display) {
-        var timer = 7200;
-        var minutes;
-        var seconds;
-        var hours;
+    this.remainingSeconds = this.timeInSeconds;
+    this.displayTime = this.getSecondsAsDigitalClock(this.remainingSeconds);
+  }
+  startTimer() {
+    this.timerTick();
+  }
 
-        Observable.interval(1000).subscribe(x => {
-            hours = Math.floor(timer / 3600);
-            minutes = Math.floor((timer - (hours * 3600)) / 60); //Math.floor(timer / 60);
-            seconds = timer - (hours * 3600) - (minutes * 60); //Math.floor(timer % 60);
+  timerTick() {
+    setTimeout(() => {
+      this.remainingSeconds--;
+      this.displayTime = this.getSecondsAsDigitalClock(this.remainingSeconds);
 
-            hours = hours < 10 ? '0' + hours : hours;
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
-            display.textContent = hours + ":" + minutes + ":" + seconds;
+      //check wheter remainingSeconds value is not zero then run method 
+      if (this.remainingSeconds > 0) {
+        this.timerTick();
+      }
+    }, 1000);
+  }
 
-            --timer;
-            if (--timer < 0) {
-                 console.log('timeup');
-            }
-        })
-    }
-    nextq(val) {
-      let num = val+1;
-      var divShow = document.getElementById('question-'+num);
-      var divHide = document.getElementById('question-'+val);
+  getSecondsAsDigitalClock(inputSeconds: number) {
+    var sec_num = parseInt(inputSeconds.toString(), 10);
+    var hours = Math.floor(sec_num / 3600);
+    var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    var seconds = sec_num - (hours * 3600) - (minutes * 60);
 
-      divShow.style.display = 'block';
-      divHide.style.display = 'none';
-    }
-    prevq(val) {
-      let num = val-1;
-      var divShow = document.getElementById('question-'+num);
-      var divHide = document.getElementById('question-'+val);
-      divShow.style.display = 'block';
-      divHide.style.display = 'none';
-    }
-    // getAnswer() {
-    //   console.log(this.ansVal);
-    // }
+    var hoursString = '';
+    var minutesString = '';
+    var secondsString = '';
+
+    hoursString = (hours < 10) ? "0" + hours : hours.toString();
+    minutesString = (minutes < 10) ? "0" + minutes : minutes.toString();
+    secondsString = (seconds < 10) ? "0" + seconds : seconds.toString();
+    return hoursString + ':' + minutesString + ':' + secondsString;
+  }
+  // end method
+  
+  //next and previous button 
+  nextq(val) {
+    let num = val + 1;
+    var divShow = document.getElementById('question-' + num);
+    var divHide = document.getElementById('question-' + val);
+
+    divShow.style.display = 'block';
+    divHide.style.display = 'none';
+  }
+  prevq(val) {
+    let num = val - 1;
+    var divShow = document.getElementById('question-' + num);
+    var divHide = document.getElementById('question-' + val);
+    divShow.style.display = 'block';
+    divHide.style.display = 'none';
+  }
+  //end method
 }
