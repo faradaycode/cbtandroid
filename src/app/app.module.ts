@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NativeAudio } from '@ionic-native/native-audio';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,9 @@ import {BrowserAnimationsModule } from '@angular/platform-browser/animations';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    NativeAudio
   ]
 })
 export class AppModule {}
+ 

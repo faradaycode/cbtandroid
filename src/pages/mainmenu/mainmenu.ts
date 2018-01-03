@@ -16,20 +16,20 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   animations: [
     trigger('flyInOut', [
       transition('* => anim-a', [
-        query('.item-list', style({ opacity: 0 }), {optional: true}),
+        query('.item-list', style({ opacity: 0 }), { optional: true }),
         query('.item-list', stagger('300ms', [
           animate('1s ease-in', keyframes([
-            style({opacity: 0, transform: 'translate3d(0, -100px, 0)', offset: 0.3}),
-            style({opacity: 1, transform: 'translate3d(0, 0, 0)', offset: 1.0}),
-          ]))]), {optional: true})
+            style({ opacity: 0, transform: 'translate3d(0, -100px, 0)', offset: 0.3 }),
+            style({ opacity: 1, transform: 'translate3d(0, 0, 0)', offset: 1.0 }),
+          ]))]), { optional: true })
       ]),
       transition('* => anim-b', [
-        query('.item-list', style({ opacity: 0 }), {optional: true}),
+        query('.item-list', style({ opacity: 0 }), { optional: true }),
         query('.item-list', stagger('300ms', [
           animate('1s ease-in', keyframes([
-            style({opacity: 0, transform: 'translate3d(0, 100px, 0)', offset: 0.3}),
-            style({opacity: 1, transform: 'translate3d(0, 0, 0)', offset: 1.0}),
-          ]))]), {optional: true})
+            style({ opacity: 0, transform: 'translate3d(0, 100px, 0)', offset: 0.3 }),
+            style({ opacity: 1, transform: 'translate3d(0, 0, 0)', offset: 1.0 }),
+          ]))]), { optional: true })
       ])
     ])
   ]
@@ -49,12 +49,5 @@ export class MainmenuPage {
   }
   goto(page) {
     this.navCtrl.push(page);
-  }
-  ionViewDidLoad() {
-    //this.visibleState = (this.visibleState == 'visible') ? 'visible bouncing' : 'invisible';
-  }
-
-  getAnswer(val) {
-
   }
 }

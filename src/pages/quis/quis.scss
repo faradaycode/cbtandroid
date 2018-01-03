@@ -5,7 +5,11 @@ page-quis {
     display: none;
   }
   .div-soal  {
-    height: 400px;
+    position: relative;
+    width: 100%;
+  }
+  .div-soal img {
+    width: 100%;
   }
   .div-soal .back-ques {
     position: absolute;

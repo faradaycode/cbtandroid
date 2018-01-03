@@ -1,7 +1,7 @@
-import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from 'rxjs/Rx';
-import {TimerObservable} from "rxjs/observable/TimerObservable";
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { NativeAudio } from '@ionic-native/native-audio';
+
 /**
  * Generated class for the QuisPage page.
  *
@@ -17,33 +17,39 @@ import {TimerObservable} from "rxjs/observable/TimerObservable";
 export class QuisPage {
   opVal: number = 1;
   imgSoal = [];
-  ansVal = {};
+  tabBarElement: any;
 
   timeInSeconds: number;
   remainingSeconds: number;
   hasFinished: boolean;
   displayTime: string;
 
+  trueAns: number = 0;
+  falseAns: number = 0;
+  tCount: number; //to count true answer is checked 
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private elementRef: ElementRef) {
-    let nSoal = 12;
+    private audio: NativeAudio, private alertCtrl: AlertController) {
     for (var i = 1; i <= 9; i++) {
       this.imgSoal.push(i);
     }
+    this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
+    this.tCount = 0; //set to 0 when page selected
+    this.audio.preloadComplex('track1', 'assets/alarm.mp3', 1, 1, 0);
   }
 
   ngOnInit() {
     setTimeout(() => {
       this.startTimer();
     }, 1000);
-    this.timeInSeconds = 7200;
+    this.timeInSeconds = 5400;
     this.initTimer();
   }
 
   //timer countdown
   initTimer() {
-    if (!this.timeInSeconds) { 
-      this.timeInSeconds = 0; 
+    if (!this.timeInSeconds) {
+      this.timeInSeconds = 0;
     }
 
     this.remainingSeconds = this.timeInSeconds;
@@ -61,6 +67,9 @@ export class QuisPage {
       //check wheter remainingSeconds value is not zero then run method 
       if (this.remainingSeconds > 0) {
         this.timerTick();
+      }
+      if (this.remainingSeconds == 0) {
+        this.audio.play('track1', () => this.endAlert());
       }
     }, 1000);
   }
@@ -81,10 +90,11 @@ export class QuisPage {
     return hoursString + ':' + minutesString + ':' + secondsString;
   }
   // end method
-  
+
   //next and previous button 
   nextq(val) {
     let num = val + 1;
+    this.tCount = 0; //set to 0 again for next question
     var divShow = document.getElementById('question-' + num);
     var divHide = document.getElementById('question-' + val);
 
@@ -97,6 +107,41 @@ export class QuisPage {
     var divHide = document.getElementById('question-' + val);
     divShow.style.display = 'block';
     divHide.style.display = 'none';
+    this.tCount = 1; //set to 1 because go to previous page
   }
   //end method
+
+  jawab(trueVal, ansVal) {
+    if (trueVal == ansVal) {
+      this.tCount += 1; //see, if true then counter will + 1
+      if (this.tCount == 1) {
+        this.trueAns += 1;
+      }
+    } else {
+      if(this.tCount == 1) {
+        this.trueAns -= 1; 
+        this.tCount = 0; //if not, reset to 0
+      }
+    }
+    console.log(this.trueAns);
+  }
+
+  endAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Time Up',
+      subTitle: 'Waktu Mengerjakan Habis',
+      buttons: ['OK']
+    });
+    alert.present();
+  }
+
+  //hide tabs when this page shown
+  ionViewWillEnter() {
+    this.tabBarElement.style.display = 'none';
+  }
+ 
+  //show tabs when leave
+  ionViewWillLeave() {
+    this.tabBarElement.style.display = 'flex';
+  }
 }
