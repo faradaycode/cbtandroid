@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar hideBackButton>
     <ion-title end>
       <h5 *ngIf="timeInSeconds && timeInSeconds > 0">{{displayTime}}</h5>
     </ion-title>
@@ -18,6 +18,9 @@
   <span id="time" class="text-primary"></span>
   <div *ngFor="let item of imgSoal" id="question-{{item}}" [style.display]="(item > 1) ? 'none' : 'block'">
     <div class="div-soal">
+      <div class="no-soal" text-left>
+        <span text-capitalize>soal nomor {{nomor_urut}}</span>
+      </div>
       <img src="assets/soal/000{{item}}.png" />
       <button ion-button outline color="secondary" [style.visibility]="(item < 2) ? 'hidden' : 'visible'" class="back-ques" (click)="prevq(item)">
         <ion-icon name="arrow-back"></ion-icon>

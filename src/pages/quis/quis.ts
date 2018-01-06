@@ -15,7 +15,7 @@ import { NativeAudio } from '@ionic-native/native-audio';
   templateUrl: 'quis.html',
 })
 export class QuisPage {
-  opVal: number = 1;
+  nomor_urut: number = 1;
   imgSoal = [];
   tabBarElement: any;
 
@@ -32,6 +32,7 @@ export class QuisPage {
     private audio: NativeAudio, private alertCtrl: AlertController) {
     for (var i = 1; i <= 9; i++) {
       this.imgSoal.push(i);
+
     }
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.tCount = 0; //set to 0 when page selected
@@ -94,6 +95,7 @@ export class QuisPage {
   //next and previous button 
   nextq(val) {
     let num = val + 1;
+    this.nomor_urut = num;
     this.tCount = 0; //set to 0 again for next question
     var divShow = document.getElementById('question-' + num);
     var divHide = document.getElementById('question-' + val);
@@ -103,6 +105,7 @@ export class QuisPage {
   }
   prevq(val) {
     let num = val - 1;
+    this.nomor_urut = num;
     var divShow = document.getElementById('question-' + num);
     var divHide = document.getElementById('question-' + val);
     divShow.style.display = 'block';

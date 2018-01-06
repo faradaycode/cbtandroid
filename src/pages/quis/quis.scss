@@ -1,4 +1,7 @@
 page-quis {
+  ion-content {
+    background: #ffffff;
+  }
   .segmented-button input[type="radio"] {
     width: 0;
     height: 0;
@@ -7,6 +10,7 @@ page-quis {
   .div-soal  {
     position: relative;
     width: 100%;
+    height: 450px;
   }
   .div-soal img {
     width: 100%;
@@ -14,12 +18,12 @@ page-quis {
   .div-soal .back-ques {
     position: absolute;
     left: 5px;
-    top: 270px
+    bottom: 30px;
   }
   .div-soal .forw-ques {
     position: absolute;
     right: 5px;
-    top: 270px
+    bottom: 30px;
   }
   // segmented style radio button
   .segmented-button label {
@@ -40,6 +44,14 @@ page-quis {
   .selected span {
     color: #ffffff; 
   }
+  .no-soal {
+    padding: 10px;
+  }
+  .no-soal span {
+    color: blue;
+    font-weight: bold;
+    font-size: 18px;
+  }
   //tablet only style
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     .div-soal .back-ques {
@@ -56,8 +68,17 @@ page-quis {
       padding: 25px;
       font-size: 25px;
     }
+    .div-soal {
+      height: 700px;
+    }
     .div-choice {
       margin-top: 180px;
+    }
+    .segmented-button .wrap-radio span {
+      font-size: 50px;
+    }
+    .segmented-button .radio-md {
+
     }
   }
 }

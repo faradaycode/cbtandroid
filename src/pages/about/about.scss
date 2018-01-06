@@ -1,3 +1,77 @@
 page-about {
-
+    .logo {
+        background: url(../assets/imgs/cloud1.png) center no-repeat;
+        width: 100%;
+        background-size: contain;
+        padding: 30px;
+    }
+    .overlay-w {
+        padding: 5px;
+        border-radius: 5px;
+        background-color: rgba(0,0,0,.2);
+      }
+      //ribbon side
+      h2 {
+        position: relative;
+        font-size: 1.3em;
+        font-weight: bold;
+        padding: 6px 20px 6px 40px;
+        margin: 30px 10px 10px -70px;
+        color: rgb(255, 255, 255);
+        background-color: rgb(189, 63, 63);
+        text-shadow: 0px 1px 2px #bbb;
+        -webkit-box-shadow: 0px 2px 4px #888;
+        -moz-box-shadow: 0px 2px 4px #888;
+        box-shadow: 0px 2px 4px #888;
+    }
+    h2:after
+    {
+        content: ' ';
+        position: absolute;
+        width: 0;
+        height: 0;
+        left: 35px;
+        top: 100%;
+        border-width: 5px 10px;
+        border-style: solid;
+        border-color: rgb(94, 41, 41) rgb(94, 45, 45) transparent transparent;
+    }
+    // h2:before
+    // {
+    //     content: ' ';
+    //     position: absolute;
+    //     width: 30px;
+    //     height: 0;
+    //     left: -30px;
+    //     top: 12px;
+    //     // border-width: 20px 10px;
+    //     // border-style: solid;
+    //     // border-color: #999 #999 #999 transparent;
+    // }
+    .btn-circle {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        padding: 6px 0;
+        font-size: 12px;
+        line-height: 1.428571429;
+        border-radius: 15px;
+      }
+      .btn-circle.btn-lg {
+        width: 50px;
+        height: 50px;
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.33;
+        border-radius: 25px;
+      }
+      .btn-circle.btn-xl {
+        width: 70px;
+        height: 70px;
+        padding: 10px 16px;
+        font-size: 24px;
+        line-height: 1.33;
+        border-radius: 35px;
+      }
+      
 }
