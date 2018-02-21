@@ -1,0 +1,36 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>####</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div class="panel">
+    <form (ngSubmit)="regForm(formReg.value)" [formGroup]="formReg">
+      <ion-item>
+        <ion-label>Nama</ion-label>
+        <ion-input type="text" formControlName="username">
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Kelas</ion-label>
+        <ion-select formControlName="kelas" [(ngModel)]="kelas">
+          <ion-option value="0" disabled = true>Pilih Kelas</ion-option>
+          <ion-option value="4">Kelas 4</ion-option>
+          <ion-option value="5">Kelas 5</ion-option>
+          <ion-option value="6">Kelas 6</ion-option>
+        </ion-select>
+      </ion-item>
+      <button type="submit" margin-top outline color="light" ion-button block>Register</button>
+    </form>
+  </div>
+</ion-content>

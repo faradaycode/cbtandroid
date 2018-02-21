@@ -1,3 +1,4 @@
+import { MethodeProvider } from './../../providers/methode/methode';
 import { Component } from '@angular/core';
 import { trigger, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
@@ -35,11 +36,18 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   ]
 })
 export class MainmenuPage {
-  animVar = '';
-  paket: String = '';
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.paket = "pka";
-    this.animVar = "anim-a";
+  animVar = 'anim-a';
+  paket: String = 'pka';
+  kls: any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider) {
+    // this.paket = "pka";
+    // this.animVar = "anim-a";
+  }
+  ngOnInit() {
+    this.serv.getKeyVal('kelas').then(data => {
+      this.kls = data;
+    });
   }
   pka() {
     this.animVar = 'anim-a';
@@ -47,7 +55,7 @@ export class MainmenuPage {
   pkb() {
     this.animVar = 'anim-b';
   }
-  goto(page) {
-    this.navCtrl.push(page);
+  goto(page, mapel) {
+    this.navCtrl.push(page, { kelas: this.kls, pel: mapel });
   }
 }

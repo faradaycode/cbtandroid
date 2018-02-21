@@ -9,7 +9,7 @@
   <ion-navbar>
     <ion-title text-capitalize>Paket Soal</ion-title>
   </ion-navbar>
-  <ion-toolbar>
+  <ion-toolbar *ngIf="kls == '6'">
     <ion-segment [(ngModel)]="paket" color="light">
       <ion-segment-button value="pka" (click)="pka()">
         <h5 text-capitalize>paket a</h5>
@@ -24,7 +24,7 @@
 <ion-content padding>
   <div [ngSwitch]="paket">
     <ion-list no-lines *ngSwitchCase="'pka'" [@flyInOut]="animVar">
-      <ion-item class="item-list" (click)="goto('QuisPage')">
+      <ion-item class="item-list" (click)="goto('QuisPage','mtk')">
         <ion-avatar item-start>
           <img src="assets/imgs/mtk.png">
         </ion-avatar>

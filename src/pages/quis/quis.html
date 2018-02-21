@@ -4,11 +4,37 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+
+<!-- sidemenu -->
+<ion-menu [content]="mycontent" persistent="true">
+  <ion-content>
+    <ion-list>
+      <button ion-item>
+        <span></span>
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-nav #mycontent [root]=""></ion-nav>
+<!-- ////// -->
+
 <ion-header>
 
   <ion-navbar hideBackButton>
-    <ion-title end>
-      <h5 *ngIf="timeInSeconds && timeInSeconds > 0">{{displayTime}}</h5>
+    <button ion-button menuToggle icon-only start>
+      <ion-icon name='menu'></ion-icon>
+    </button>
+    <ion-title>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            <h5>Matematika</h5>
+          </ion-col>
+          <ion-col col-6 text-right>
+            <h5 *ngIf="timeInSeconds && timeInSeconds > 0">{{displayTime}}</h5>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -16,41 +42,42 @@
 
 <ion-content text-center>
   <span id="time" class="text-primary"></span>
-  <div *ngFor="let item of imgSoal" id="question-{{item}}" [style.display]="(item > 1) ? 'none' : 'block'">
-    <div class="div-soal">
-      <div class="no-soal" text-left>
-        <span text-capitalize>soal nomor {{nomor_urut}}</span>
-      </div>
-      <img src="assets/soal/000{{item}}.png" />
-      <button ion-button outline color="secondary" [style.visibility]="(item < 2) ? 'hidden' : 'visible'" class="back-ques" (click)="prevq(item)">
-        <ion-icon name="arrow-back"></ion-icon>
-      </button>
-      <button ion-button outline color="secondary" [style.visibility]="(item == 9) ? 'hidden' : 'visible'" class="forw-ques" (click)="nextq(item)">
-        <ion-icon name="arrow-forward"></ion-icon>
-      </button>
-      <button class="forw-ques" ion-button color="primary" [style.visibility]="(item == 9) ? 'visible' : 'hidden'">
-        Selesai
-      </button>
+  <div class="div-soal">
+    <div class="no-soal" text-left>
+      <span text-capitalize>soal nomor {{nomor_urut+1}}</span>
     </div>
-    <div class="div-choice">
-      <div radio-group class="segmented-button" (ionChange)="jawab('a',$event)">
+    <img src="assets/soal/{{klas}}/{{mapel}}/{{datas.soal}}.png" />
+  </div>
+  <div class="div-choice">
+    <form [formGroup]="cbForm">
+      <div radio-group class="segmented-button" formControlName="listRadio" (ionChange)="jawab(nomor_urut,$event)">
         <label class="wrap-radio">
-          <ion-radio value="a"></ion-radio>
+          <ion-radio value="a" formCotrolName="rbAns"></ion-radio>
           <span>A</span>
         </label>
         <label class="wrap-radio">
-          <ion-radio value="b"></ion-radio>
+          <ion-radio value="b" formCotrolName="rbAns"></ion-radio>
           <span>B</span>
         </label>
         <label class="wrap-radio">
-          <ion-radio value="c"></ion-radio>
+          <ion-radio value="c" formCotrolName="rbAns"></ion-radio>
           <span>C</span>
         </label>
         <label class="wrap-radio">
-          <ion-radio value="d"></ion-radio>
+          <ion-radio value="d" formCotrolName="rbAns"></ion-radio>
           <span>D</span>
         </label>
       </div>
-    </div>
+    </form>
+    <button ion-button color="secondary" [style.visibility]="(nomor_urut < 1) ? 'hidden' : 'visible'" class="back-ques" (click)="prevq()">
+      <ion-icon name="arrow-back"></ion-icon>
+    </button>
+    <button ion-button color="secondary" [style.visibility]="(nomor_urut == 9) ? 'hidden' : 'visible'" class="forw-ques" (click)="nextq()">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+    <button class="forw-ques" ion-button color="primary" [style.visibility]="(nomor_urut == 9) ? 'visible' : 'hidden'" (click)="finishing()">
+      <ion-icon name="flag"></ion-icon>
+    </button>
+
   </div>
 </ion-content>

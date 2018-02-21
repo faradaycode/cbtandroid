@@ -2,6 +2,9 @@ page-quis {
   ion-content {
     background: #ffffff;
   }
+  .grid {
+    padding: 0;
+  }
   .segmented-button input[type="radio"] {
     width: 0;
     height: 0;
@@ -10,20 +13,23 @@ page-quis {
   .div-soal  {
     position: relative;
     width: 100%;
+    max-height: 500px;
     height: 450px;
+    padding: 10px;
+    
   }
   .div-soal img {
     width: 100%;
   }
-  .div-soal .back-ques {
+  .div-choice .back-ques {
     position: absolute;
-    left: 5px;
-    bottom: 30px;
+    left: 2px;
+    top: 30px;
   }
-  .div-soal .forw-ques {
+  .div-choice .forw-ques {
     position: absolute;
-    right: 5px;
-    bottom: 30px;
+    right: 2px;
+    top: 30px;
   }
   // segmented style radio button
   .segmented-button label {
@@ -52,33 +58,54 @@ page-quis {
     font-weight: bold;
     font-size: 18px;
   }
+  .div-choice {
+    width: 100%;
+    height: 100px;
+    padding: 25px 0 0 0;
+    position: absolute;
+    bottom: 0;
+    background-color: #e0dede;
+  }
   //tablet only style
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    .div-soal .back-ques {
-      position: absolute;
-      left: 10px;
-      top: 500px;
-      padding: 25px;
+    .div-choice .back-ques {
+      top: 20px;
+      left: 5px;
+      padding: 30px;
       font-size: 25px;
     }
-    .div-soal .forw-ques {
-      position: absolute;
-      right: 10px;
-      top: 500px;
-      padding: 25px;
+    .div-choice .forw-ques {
+      top: 20px;
+      right: 5px;
+      padding: 30px;
       font-size: 25px;
     }
     .div-soal {
       height: 700px;
     }
-    .div-choice {
-      margin-top: 180px;
-    }
     .segmented-button .wrap-radio span {
-      font-size: 50px;
+      font-size: 35px;
     }
-    .segmented-button .radio-md {
-
+    .segmented-button label {
+      margin: 0 35px;
+    }
+    .radio-md .radio-icon {
+      width: 75px;
+      height: 75px;
+      left: -8px;
+      top: -4px;
+    }
+    .radio-md .radio-inner {
+      width: 65px;
+      height: 65px;
+      top: 3px;
+      left: 3px;
+    }
+    .div-choice {
+      padding: 20px 0;
+    }
+    .no-soal span {
+      font-size: 3.5rem;
     }
   }
 }

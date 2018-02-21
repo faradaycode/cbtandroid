@@ -1,3 +1,4 @@
+import { Storage } from '@ionic/storage';
 import { MethodeProvider } from './../providers/methode/methode';
 import { Component } from '@angular/core';
 import { Platform, App } from 'ionic-angular';
@@ -8,11 +9,23 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage: any = 'TabsPage';
+  rootPage: any = '';
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-    app: App, private serv: MethodeProvider) {
+    app: App, private serv: MethodeProvider, private store: Storage) {
     platform.ready().then(() => {
+
+      this.store.ready().then(() => {
+        this.serv.getKeyVal('nama').then(data => {
+          if(data == null || data == undefined) {
+            this.rootPage = 'RegisterPage';
+          } else {
+            this.rootPage = 'TabsPage';
+          }
+        });
+      });
+
+      //back button
       platform.registerBackButtonAction(() => {
         let nav = app.getActiveNavs()[0];
         let activeView = nav.getActive();

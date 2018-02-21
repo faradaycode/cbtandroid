@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { NativeAudio } from '@ionic-native/native-audio';
+import { MethodeProvider } from '../../providers/methode/methode';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 /**
  * Generated class for the QuisPage page.
@@ -15,9 +17,16 @@ import { NativeAudio } from '@ionic-native/native-audio';
   templateUrl: 'quis.html',
 })
 export class QuisPage {
-  nomor_urut: number = 1;
-  imgSoal = [];
+  shuffle: any = [];
+
+  nomor_urut: number = 0;
   tabBarElement: any;
+
+  totalArr: number = 0;
+  nc: number;
+  datas: any = [];
+  klas: number;
+  mapel: any;
 
   timeInSeconds: number;
   remainingSeconds: number;
@@ -25,21 +34,38 @@ export class QuisPage {
   displayTime: string;
 
   trueAns: number = 0;
-  falseAns: number = 0;
-  tCount: number; //to count true answer is checked 
+  saveAns = {};
+  rbchk: any = {};
+  cbForm: FormGroup;
+
+  chA: boolean = false;
+  chB: boolean = false;
+  chC: boolean = false;
+  chD: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private audio: NativeAudio, private alertCtrl: AlertController) {
-    for (var i = 1; i <= 9; i++) {
-      this.imgSoal.push(i);
-
-    }
+    private audio: NativeAudio, private alertCtrl: AlertController, private serv: MethodeProvider,
+    private form: FormBuilder) {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    this.tCount = 0; //set to 0 when page selected
     this.audio.preloadComplex('track1', 'assets/alarm.mp3', 1, 1, 0);
+    this.klas = this.navParams.get('kelas');
+    this.mapel = this.navParams.get('pel');
   }
 
   ngOnInit() {
+    this.nc = 0;
+    this.cbForm = this.form.group({
+      listRadio: ['']
+    });
+
+    this.serv.jsonCall('assets/cbtjson.json').subscribe(data => {
+      this.shuffle = data;
+      this.shuffle.sort((a, b) => { return Math.random() - 0.5; });
+      this.totalArr = this.shuffle.length;
+      this.showQuestion();
+      console.log(this.shuffle);
+    });
+
     setTimeout(() => {
       this.startTimer();
     }, 1000);
@@ -93,40 +119,27 @@ export class QuisPage {
   // end method
 
   //next and previous button 
-  nextq(val) {
-    let num = val + 1;
-    this.nomor_urut = num;
-    this.tCount = 0; //set to 0 again for next question
-    var divShow = document.getElementById('question-' + num);
-    var divHide = document.getElementById('question-' + val);
-
-    divShow.style.display = 'block';
-    divHide.style.display = 'none';
+  nextq() {
+    this.nc++;
+    this.nomor_urut++;
+    // this.reseting();
+    this.answered(this.nomor_urut);
+    this.showQuestion();
+    console.log(this.saveAns);
   }
-  prevq(val) {
-    let num = val - 1;
-    this.nomor_urut = num;
-    var divShow = document.getElementById('question-' + num);
-    var divHide = document.getElementById('question-' + val);
-    divShow.style.display = 'block';
-    divHide.style.display = 'none';
-    this.tCount = 1; //set to 1 because go to previous page
+  prevq() {
+    this.nc--;
+    this.nomor_urut--;
+    this.answered(this.nomor_urut);
+    this.showQuestion();
+    console.log(this.saveAns);
   }
   //end method
 
-  jawab(trueVal, ansVal) {
-    if (trueVal == ansVal) {
-      this.tCount += 1; //see, if true then counter will + 1
-      if (this.tCount == 1) {
-        this.trueAns += 1;
-      }
-    } else {
-      if(this.tCount == 1) {
-        this.trueAns -= 1; 
-        this.tCount = 0; //if not, reset to 0
-      }
-    }
-    console.log(this.trueAns);
+  jawab(numQst, ansVal) {
+    //save user answer into object each time they click the radio button
+    this.saveAns[numQst] = ansVal;
+
   }
 
   endAlert() {
@@ -142,9 +155,62 @@ export class QuisPage {
   ionViewWillEnter() {
     this.tabBarElement.style.display = 'none';
   }
- 
+
   //show tabs when leave
   ionViewWillLeave() {
     this.tabBarElement.style.display = 'flex';
+  }
+
+  //show question one by one
+  showQuestion() {
+    this.totalArr++;
+    let diff = [];
+    for (let i = 0; i < this.shuffle.length; i++) {
+      if (this.klas == this.shuffle[i].kls) {
+        diff.push(this.shuffle[i]);
+        this.totalArr = diff.length;
+      }
+    }
+    if (this.nc < diff.length) {
+      this.datas = diff[this.nc];
+    }
+  }
+  finishing() {
+    let answer: any = [];
+    answer = this.saveAns;
+    for (let i = 0; i < this.shuffle.length; i++) {
+      //if user answer same with the answer key, true answer variable will increase 1pt
+      if (answer[i] === this.shuffle[i].jawaban) {
+        this.trueAns += 1;
+        console.log("M: " + answer[i] + " B: " + this.shuffle[i].jawaban);
+      }
+    }
+    console.log(this.trueAns);
+    console.log(this.shuffle);
+    console.log(answer);
+  }
+  reseting() {
+    this.cbForm.controls.listRadio.reset(); //clear checked ion-radio 
+  }
+
+  //this methode for get previous and next answered question 
+  answered(pos) {
+    if (this.saveAns[pos] !== undefined) {
+      if (this.saveAns[pos] === "a") {
+        this.cbForm.controls.listRadio.setValue(this.saveAns[pos]);
+      }
+      if (this.saveAns[pos] === "b") {
+        this.cbForm.controls.listRadio.setValue(this.saveAns[pos]);
+      }
+      if (this.saveAns[pos] === "c") {
+        this.cbForm.controls.listRadio.setValue(this.saveAns[pos]);
+      }
+      if (this.saveAns[pos] === "d") {
+        this.cbForm.controls.listRadio.setValue(this.saveAns[pos]);
+      }
+    }
+    if (this.saveAns[pos] === undefined || this.saveAns[pos] === null) {
+      this.reseting();
+    }
   }
 }
