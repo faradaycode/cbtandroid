@@ -41,43 +41,44 @@
 
 
 <ion-content text-center>
-  <span id="time" class="text-primary"></span>
-  <div class="div-soal">
-    <div class="no-soal" text-left>
-      <span text-capitalize>soal nomor {{nomor_urut+1}}</span>
-    </div>
-    <img src="assets/soal/{{klas}}/{{mapel}}/{{datas.soal}}.png" />
-  </div>
-  <div class="div-choice">
-    <form [formGroup]="cbForm">
-      <div radio-group class="segmented-button" formControlName="listRadio" (ionChange)="jawab(nomor_urut,$event)">
-        <label class="wrap-radio">
-          <ion-radio value="a" formCotrolName="rbAns"></ion-radio>
-          <span>A</span>
-        </label>
-        <label class="wrap-radio">
-          <ion-radio value="b" formCotrolName="rbAns"></ion-radio>
-          <span>B</span>
-        </label>
-        <label class="wrap-radio">
-          <ion-radio value="c" formCotrolName="rbAns"></ion-radio>
-          <span>C</span>
-        </label>
-        <label class="wrap-radio">
-          <ion-radio value="d" formCotrolName="rbAns"></ion-radio>
-          <span>D</span>
-        </label>
+  <div *ngFor="let item of datas; let i = index" id="soal-{{i}}" [style.display]="(i > 0) ? 'none' : 'block'">
+    <span id="time" class="text-primary"></span>
+    <div class="div-soal">
+      <div class="no-soal" text-left>
+        <span text-capitalize>#{{i+1}}</span>
       </div>
-    </form>
-    <button ion-button color="secondary" [style.visibility]="(nomor_urut < 1) ? 'hidden' : 'visible'" class="back-ques" (click)="prevq()">
-      <ion-icon name="arrow-back"></ion-icon>
-    </button>
-    <button ion-button color="secondary" [style.visibility]="(nomor_urut == 9) ? 'hidden' : 'visible'" class="forw-ques" (click)="nextq()">
-      <ion-icon name="arrow-forward"></ion-icon>
-    </button>
-    <button class="forw-ques" ion-button color="primary" [style.visibility]="(nomor_urut == 9) ? 'visible' : 'hidden'" (click)="finishing()">
-      <ion-icon name="flag"></ion-icon>
-    </button>
-
+      <img src="assets/soal/{{klas}}/{{mapel}}/{{item.soal}}.png" />
+    </div>
+    <div class="div-choice">
+      <form [formGroup]="cbForm">
+        <div radio-group class="segmented-button" formControlName="listRadio" (ionChange)="jawab(i,$event)">
+          <label class="wrap-radio">
+            <ion-radio value="a"></ion-radio>
+            <span>A</span>
+          </label>
+          <label class="wrap-radio">
+            <ion-radio value="b"></ion-radio>
+            <span>B</span>
+          </label>
+          <label class="wrap-radio">
+            <ion-radio value="c"></ion-radio>
+            <span>C</span>
+          </label>
+          <label class="wrap-radio">
+            <ion-radio value="d"></ion-radio>
+            <span>D</span>
+          </label>
+        </div>
+      </form>
+      <button ion-button color="secondary" [style.visibility]="(i < 1) ? 'hidden' : 'visible'" class="back-ques" (click)="prevq(i)">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+      <button ion-button color="secondary" [style.visibility]="(i == 9) ? 'hidden' : 'visible'" class="forw-ques" (click)="nextq(i)">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+      <button class="forw-ques" ion-button color="primary" [style.visibility]="(i == 9) ? 'visible' : 'hidden'" (click)="finishing()">
+        <ion-icon name="flag"></ion-icon>
+      </button>
+    </div>
   </div>
 </ion-content>

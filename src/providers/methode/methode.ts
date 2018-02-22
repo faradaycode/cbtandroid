@@ -11,7 +11,10 @@ import { Storage } from '@ionic/storage';
 */
 @Injectable()
 export class MethodeProvider {
-
+  myAnswer: any = [];
+  theAnswer: any = [];
+  description: any = [];
+  
   constructor(public http: HttpClient, private alertCtrl: AlertController, private toast: ToastController,
     private store: Storage) {
     console.log('Hello MethodeProvider Provider');

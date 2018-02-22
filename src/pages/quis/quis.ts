@@ -25,7 +25,7 @@ export class QuisPage {
   totalArr: number = 0;
   nc: number;
   datas: any = [];
-  klas: number;
+  klas: any;
   mapel: any;
 
   timeInSeconds: number;
@@ -33,15 +33,11 @@ export class QuisPage {
   hasFinished: boolean;
   displayTime: string;
 
+  imageURL: any;
   trueAns: number = 0;
   saveAns = {};
   rbchk: any = {};
   cbForm: FormGroup;
-
-  chA: boolean = false;
-  chB: boolean = false;
-  chC: boolean = false;
-  chD: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private audio: NativeAudio, private alertCtrl: AlertController, private serv: MethodeProvider,
@@ -50,20 +46,21 @@ export class QuisPage {
     this.audio.preloadComplex('track1', 'assets/alarm.mp3', 1, 1, 0);
     this.klas = this.navParams.get('kelas');
     this.mapel = this.navParams.get('pel');
+    this.nc = 0;
   }
 
   ngOnInit() {
-    this.nc = 0;
     this.cbForm = this.form.group({
       listRadio: ['']
     });
 
     this.serv.jsonCall('assets/cbtjson.json').subscribe(data => {
-      this.shuffle = data;
-      this.shuffle.sort((a, b) => { return Math.random() - 0.5; });
-      this.totalArr = this.shuffle.length;
-      this.showQuestion();
-      console.log(this.shuffle);
+      for (let a in data) {
+        if (data[a].kls === this.klas) {
+          this.datas = data;
+        }
+      }
+      //this.showQuestion();
     });
 
     setTimeout(() => {
@@ -71,6 +68,20 @@ export class QuisPage {
     }, 1000);
     this.timeInSeconds = 5400;
     this.initTimer();
+  }
+
+  //show question one by one
+  showQuestion() {
+    let diff = [];
+    for (let i = 0; i < this.shuffle.length; i++) {
+      if (this.klas == this.shuffle[i].kls) {
+        diff.push(this.shuffle[i]);
+        this.totalArr = diff.length;
+      }
+    }
+    if (this.nc < diff.length) {
+      this.datas = diff[this.nc].soal;
+    }
   }
 
   //timer countdown
@@ -119,27 +130,39 @@ export class QuisPage {
   // end method
 
   //next and previous button 
-  nextq() {
-    this.nc++;
-    this.nomor_urut++;
-    // this.reseting();
-    this.answered(this.nomor_urut);
-    this.showQuestion();
-    console.log(this.saveAns);
+  nextq(val) {
+    // this.nc++;
+    // this.nomor_urut++;
+    // this.answered(this.nomor_urut);
+    // this.showQuestion();
+    // console.log(this.saveAns);
+
+    let ups = val + 1;
+    var divShow = document.getElementById('soal-' + ups);
+    var divHide = document.getElementById('soal-' + val);
+
+    divShow.style.display = 'block';
+    divHide.style.display = 'none';
   }
-  prevq() {
-    this.nc--;
-    this.nomor_urut--;
-    this.answered(this.nomor_urut);
-    this.showQuestion();
-    console.log(this.saveAns);
+  prevq(val) {
+    // this.nc--;
+    // this.nomor_urut--;
+    // this.answered(this.nomor_urut);
+    // this.showQuestion();
+    // console.log(this.saveAns);
+
+    let downs = val - 1;
+    var divShow = document.getElementById('soal-' + downs);
+    var divHide = document.getElementById('soal-' + val);
+    divShow.style.display = 'block';
+    divHide.style.display = 'none';
   }
   //end method
 
   jawab(numQst, ansVal) {
     //save user answer into object each time they click the radio button
     this.saveAns[numQst] = ansVal;
-
+    console.log(this.saveAns);
   }
 
   endAlert() {
@@ -161,34 +184,22 @@ export class QuisPage {
     this.tabBarElement.style.display = 'flex';
   }
 
-  //show question one by one
-  showQuestion() {
-    this.totalArr++;
-    let diff = [];
-    for (let i = 0; i < this.shuffle.length; i++) {
-      if (this.klas == this.shuffle[i].kls) {
-        diff.push(this.shuffle[i]);
-        this.totalArr = diff.length;
-      }
-    }
-    if (this.nc < diff.length) {
-      this.datas = diff[this.nc];
-    }
-  }
   finishing() {
     let answer: any = [];
     answer = this.saveAns;
-    for (let i = 0; i < this.shuffle.length; i++) {
+
+    for (let i = 0; i < this.datas.length; i++) {
       //if user answer same with the answer key, true answer variable will increase 1pt
-      if (answer[i] === this.shuffle[i].jawaban) {
+      if (answer[i] === this.datas[i].jawaban) {
         this.trueAns += 1;
-        console.log("M: " + answer[i] + " B: " + this.shuffle[i].jawaban);
       }
+      this.serv.myAnswer.push(answer[i]);
+      this.serv.theAnswer.push(this.datas[i].jawaban);
+      this.serv.description.push(this.datas[i].bahasan);
     }
-    console.log(this.trueAns);
-    console.log(this.shuffle);
-    console.log(answer);
+    this.navCtrl.push('HasilPage', { trueans: this.trueAns });
   }
+
   reseting() {
     this.cbForm.controls.listRadio.reset(); //clear checked ion-radio 
   }

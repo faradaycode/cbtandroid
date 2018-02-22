@@ -39,7 +39,7 @@ export class MyApp {
       });
 
       //statusBar.styleDefault();
-      statusBar.overlaysWebView(true);
+      statusBar.overlaysWebView(false);
       if (platform.is('android')) {
         statusBar.styleLightContent();
         statusBar.backgroundColorByHexString('#c42626');
