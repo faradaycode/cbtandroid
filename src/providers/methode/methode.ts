@@ -2,6 +2,8 @@ import { AlertController, ToastController } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
+import { NativeAudio } from '@ionic-native/native-audio';
+import { BehaviorSubject } from 'rxjs/Rx';
 
 /*
   Generated class for the MethodeProvider provider.
@@ -14,10 +16,14 @@ export class MethodeProvider {
   myAnswer: any = [];
   theAnswer: any = [];
   description: any = [];
-  
+  posi: BehaviorSubject<any>;
+  mapel: BehaviorSubject<any>;;
+
   constructor(public http: HttpClient, private alertCtrl: AlertController, private toast: ToastController,
-    private store: Storage) {
+    private store: Storage, private audio: NativeAudio) {
     console.log('Hello MethodeProvider Provider');
+    this.posi = new BehaviorSubject(null);
+    this.mapel = new BehaviorSubject(null);
   }
   allertMethod(title, text) {
     let alert = this.alertCtrl.create({
@@ -46,5 +52,27 @@ export class MethodeProvider {
 
   jsonCall(jsonfile) {
     return this.http.get(jsonfile);
+  }
+
+  playSound() {
+    this.audio.preloadComplex('alarm', 'assets/alarm.mp3', 1, 1, 0).then(() => {
+      this.audio.play("alarm", () => this.audio.unload("alarm"));
+    });
+  }
+
+  getGo(val) {
+    this.posi.next(val);
+  }
+
+  setGo() {
+    return this.posi.asObservable();
+  }
+  
+  bgset(val) {
+    this.mapel.next(val);
+  }
+
+  bgget() {
+    return this.mapel.asObservable();
   }
 }

@@ -44,6 +44,11 @@ export class MainmenuPage {
     // this.paket = "pka";
     // this.animVar = "anim-a";
   }
+
+  ionViewDidLoad() {
+    console.log(this.navCtrl.getActive().id);
+  }
+
   ngOnInit() {
     this.serv.getKeyVal('kelas').then(data => {
       this.kls = data;
@@ -55,7 +60,12 @@ export class MainmenuPage {
   pkb() {
     this.animVar = 'anim-b';
   }
-  goto(page, mapel) {
-    this.navCtrl.push(page, { kelas: this.kls, pel: mapel });
+  goto(page,mapel) {
+    if (mapel !== undefined || mapel !== null) {
+      this.serv.bgset(mapel);
+      this.navCtrl.push(page, { kelas: this.kls, pel: mapel }).then(mess=> console.log(mess)).catch(err => console.log(err));
+    } else {
+      this.navCtrl.push(page).catch(err => console.log(err));      
+    }
   }
 }

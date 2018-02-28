@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { NativeAudio } from '@ionic-native/native-audio';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { MethodeProvider } from '../../providers/methode/methode';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -16,51 +15,40 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   selector: 'page-quis',
   templateUrl: 'quis.html',
 })
-export class QuisPage {
-  shuffle: any = [];
 
-  nomor_urut: number = 0;
+export class QuisPage {
   tabBarElement: any;
 
-  totalArr: number = 0;
-  nc: number;
   datas: any = [];
+  question: any = [];
+
   klas: any;
   mapel: any;
-
+  totalArr: number;
   timeInSeconds: number;
   remainingSeconds: number;
   hasFinished: boolean;
   displayTime: string;
 
-  imageURL: any;
+  limiter: number = 0;
   trueAns: number = 0;
   saveAns = {};
-  rbchk: any = {};
   cbForm: FormGroup;
+  pos: number = 0;
+  sticky: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
-    private audio: NativeAudio, private alertCtrl: AlertController, private serv: MethodeProvider,
+  constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
     private form: FormBuilder) {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
-    this.audio.preloadComplex('track1', 'assets/alarm.mp3', 1, 1, 0);
     this.klas = this.navParams.get('kelas');
     this.mapel = this.navParams.get('pel');
-    this.nc = 0;
   }
-
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad HasilPage');
+  }
   ngOnInit() {
     this.cbForm = this.form.group({
       listRadio: ['']
-    });
-
-    this.serv.jsonCall('assets/cbtjson.json').subscribe(data => {
-      for (let a in data) {
-        if (data[a].kls === this.klas) {
-          this.datas = data;
-        }
-      }
-      //this.showQuestion();
     });
 
     setTimeout(() => {
@@ -68,22 +56,27 @@ export class QuisPage {
     }, 1000);
     this.timeInSeconds = 5400;
     this.initTimer();
-  }
 
-  //show question one by one
-  showQuestion() {
-    let diff = [];
-    for (let i = 0; i < this.shuffle.length; i++) {
-      if (this.klas == this.shuffle[i].kls) {
-        diff.push(this.shuffle[i]);
-        this.totalArr = diff.length;
+    //call out json quis
+    this.serv.jsonCall('assets/cbtjson.json').subscribe(data => {
+      this.totalArr = Object.keys(data).length;
+      for (let a in data) {
+        if (data[a].kls === this.klas) {
+          this.datas = data;
+          this.datas.sort((a, b) => { return Math.random() - 0.5; });
+        }
       }
-    }
-    if (this.nc < diff.length) {
-      this.datas = diff[this.nc].soal;
-    }
+      this.showQuestion();
+    });
+    this.onGo();
   }
 
+  showQuestion() {
+    if (this.limiter < this.totalArr) {
+      let url = "assets/soal/" + this.klas + "/" + this.mapel + "/";
+      this.question = url + this.datas[this.limiter].soal + ".png";
+    }
+  }
   //timer countdown
   initTimer() {
     if (!this.timeInSeconds) {
@@ -107,7 +100,7 @@ export class QuisPage {
         this.timerTick();
       }
       if (this.remainingSeconds == 0) {
-        this.audio.play('track1', () => this.endAlert());
+        this.serv.playSound()
       }
     }, 1000);
   }
@@ -131,31 +124,18 @@ export class QuisPage {
 
   //next and previous button 
   nextq(val) {
-    // this.nc++;
-    // this.nomor_urut++;
-    // this.answered(this.nomor_urut);
-    // this.showQuestion();
-    // console.log(this.saveAns);
-
-    let ups = val + 1;
-    var divShow = document.getElementById('soal-' + ups);
-    var divHide = document.getElementById('soal-' + val);
-
-    divShow.style.display = 'block';
-    divHide.style.display = 'none';
+    this.pos++;
+    this.limiter++;
+    this.answered(this.pos);
+    console.log(this.saveAns);
+    this.showQuestion();
   }
   prevq(val) {
-    // this.nc--;
-    // this.nomor_urut--;
-    // this.answered(this.nomor_urut);
-    // this.showQuestion();
-    // console.log(this.saveAns);
-
-    let downs = val - 1;
-    var divShow = document.getElementById('soal-' + downs);
-    var divHide = document.getElementById('soal-' + val);
-    divShow.style.display = 'block';
-    divHide.style.display = 'none';
+    this.pos--;
+    this.limiter--;
+    this.answered(this.pos);
+    console.log(this.saveAns);
+    this.showQuestion();
   }
   //end method
 
@@ -163,26 +143,19 @@ export class QuisPage {
     //save user answer into object each time they click the radio button
     this.saveAns[numQst] = ansVal;
     console.log(this.saveAns);
+    var siden = document.getElementById('an-' + numQst);
+    siden.innerHTML = ansVal;
   }
 
-  endAlert() {
-    let alert = this.alertCtrl.create({
-      title: 'Time Up',
-      subTitle: 'Waktu Mengerjakan Habis',
-      buttons: ['OK']
-    });
-    alert.present();
-  }
+  // //hide tabs when this page shown
+  // ionViewWillEnter() {
+  //   this.tabBarElement.style.display = 'none';
+  // }
 
-  //hide tabs when this page shown
-  ionViewWillEnter() {
-    this.tabBarElement.style.display = 'none';
-  }
-
-  //show tabs when leave
-  ionViewWillLeave() {
-    this.tabBarElement.style.display = 'flex';
-  }
+  // //show tabs when leave
+  // ionViewWillLeave() {
+  //   this.tabBarElement.style.display = 'flex';
+  // }
 
   finishing() {
     let answer: any = [];
@@ -197,7 +170,9 @@ export class QuisPage {
       this.serv.theAnswer.push(this.datas[i].jawaban);
       this.serv.description.push(this.datas[i].bahasan);
     }
-    this.navCtrl.push('HasilPage', { trueans: this.trueAns });
+    this.serv.getGo(null);
+
+    this.navCtrl.push('HasilPage', { trueans: this.trueAns, totalar: this.totalArr });
   }
 
   reseting() {
@@ -223,5 +198,17 @@ export class QuisPage {
     if (this.saveAns[pos] === undefined || this.saveAns[pos] === null) {
       this.reseting();
     }
+  }
+  onGo() {
+    this.serv.setGo().subscribe(res => {
+      if(res === null) {
+        console.log(".....");
+      } else {
+        this.pos = res;
+        this.limiter = res;
+        this.answered(this.pos);
+        this.showQuestion();
+      }
+    })
   }
 }

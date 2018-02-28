@@ -75,6 +75,6 @@ export class HomePage {
     },1500);
   }
   goTo(page) {
-    this.navCtrl.push(page);
+    this.navCtrl.push("MainmenuPage");
   }
 }

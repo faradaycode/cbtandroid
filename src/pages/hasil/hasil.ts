@@ -17,10 +17,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class HasilPage {
 
   trueans: any;
+  totalar: any;
   newArr: any = [];
+  tabBarElement: any;
+  divShow: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider) {
     this.trueans = this.navParams.get('trueans');
+    this.totalar = this.navParams.get('totalar');
   }
 
   ionViewDidLoad() {
@@ -36,6 +40,14 @@ export class HasilPage {
         bahas: this.serv.description[i]
       });
     }
-    console.log(this.trueans);
+    let skor = (this.trueans / (this.totalar / 10)) * 10;
+    if (skor)
+      console.log(this.trueans);
+  }
+  bahas(val) {
+    console.log(val);
+  }
+  onShow() {
+    this.divShow = !this.divShow;
   }
 }
