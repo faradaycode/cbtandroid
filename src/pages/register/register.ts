@@ -67,7 +67,7 @@ export class RegisterPage {
 
       setTimeout(() => {
         loader.dismiss();
-        this.navCtrl.push('TabsPage');
+        this.navCtrl.push('HomePage');
       }, 3000);
     }
   }

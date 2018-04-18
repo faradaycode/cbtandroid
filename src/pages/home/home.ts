@@ -45,9 +45,9 @@ import { Component, trigger, state, style, transition, animate, keyframes } from
       })),
       transition('* => bouncing', [
         animate('1000ms ease-in', keyframes([
-          style({transform: 'translate3d(0,-100%,0)', offset: 0}),
-          style({transform: 'translate3d(0,100%,0)', offset: 0.5}),
-          style({transform: 'translate3d(0,0,0)', offset: 1})
+          style({ transform: 'translate3d(0,-100%,0)', offset: 0 }),
+          style({ transform: 'translate3d(0,50%,0)', offset: 0.5 }),
+          style({ transform: 'translate3d(0,0,0)', offset: 1 })
         ]))
       ])
     ])
@@ -58,8 +58,12 @@ export class HomePage {
   flyR: String = 'default';
   b_status: String = 'invisible';
   bounceState: String = 'noBounce';
+  faded: String = '';
 
   constructor(public navCtrl: NavController) {
+
+  }
+  ionViewDidLoad() {
     this.flyL = 'left';
     this.flyR = 'right';
 
@@ -67,14 +71,25 @@ export class HomePage {
       this.flyL = 'default';
       this.flyR = 'default';
     }, 1000);
+
+    this.bounceState = (this.bounceState === 'noBounce') ? 'bouncing' : 'noBounce';
+
+    setTimeout(() => {
+      this.b_status = (this.b_status === 'visible') ? 'invisible' : 'visible';
+    }, 1500);
+
+    this.faded = (this.faded === 'visible') ? 'invisible' : 'visible';
   }
-  ionViewDidLoad() {
-    this.bounceState = (this.bounceState == 'noBounce') ? 'bouncing' : 'noBounce';
-    setTimeout(()=> {
-      this.b_status = (this.b_status == 'visible') ? 'invisible' : 'visible';
-    },1500);
+
+  mulai() {
+    document.getElementById('grade-div').style.display = "block";
+    document.getElementById('home-div').style.display = "none";
+    
+    this.flyL = 'left';
+    this.flyR = 'right';
   }
-  goTo(page) {
-    this.navCtrl.push("MainmenuPage");
+
+  goTo(kelas) {
+    this.navCtrl.push("MainmenuPage",{klas: kelas});
   }
 }

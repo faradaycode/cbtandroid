@@ -41,8 +41,7 @@ export class MainmenuPage {
   kls: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider) {
-    // this.paket = "pka";
-    // this.animVar = "anim-a";
+    this.kls = this.navParams.get("klas");
   }
 
   ionViewDidLoad() {
@@ -50,22 +49,23 @@ export class MainmenuPage {
   }
 
   ngOnInit() {
-    this.serv.getKeyVal('kelas').then(data => {
-      this.kls = data;
-    });
+
   }
+
   pka() {
     this.animVar = 'anim-a';
   }
+
   pkb() {
     this.animVar = 'anim-b';
   }
-  goto(page,mapel) {
+
+  goto(page, mapel) {
     if (mapel !== undefined || mapel !== null) {
       this.serv.bgset(mapel);
-      this.navCtrl.push(page, { kelas: this.kls, pel: mapel }).then(mess=> console.log(mess)).catch(err => console.log(err));
+      this.navCtrl.push(page, { kelas: this.kls, pel: mapel }).then(mess => console.log(mess)).catch(err => console.log(err));
     } else {
-      this.navCtrl.push(page).catch(err => console.log(err));      
+      this.navCtrl.push(page).catch(err => console.log(err));
     }
   }
 }

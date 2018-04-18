@@ -37,6 +37,8 @@ export class QuisPage {
   pos: number = 0;
   sticky: boolean = false;
 
+  limitedVal: number = 40;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
     private form: FormBuilder) {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
@@ -44,7 +46,7 @@ export class QuisPage {
     this.mapel = this.navParams.get('pel');
   }
   ionViewDidLoad() {
-    console.log('ionViewDidLoad HasilPage');
+    console.log(this.klas);
   }
   ngOnInit() {
     this.cbForm = this.form.group({
@@ -61,8 +63,8 @@ export class QuisPage {
     this.serv.jsonCall('assets/cbtjson.json').subscribe(data => {
       this.totalArr = Object.keys(data).length;
       for (let a in data) {
-        if (data[a].kls === this.klas) {
-          this.datas = data;
+        if (data[a].mapel === this.mapel && data[a].kls === this.klas) {
+          this.datas.push(data[a]);
           this.datas.sort((a, b) => { return Math.random() - 0.5; });
         }
       }
@@ -72,9 +74,10 @@ export class QuisPage {
   }
 
   showQuestion() {
-    if (this.limiter < this.totalArr) {
+    if (this.limiter < this.limitedVal) {
       let url = "assets/soal/" + this.klas + "/" + this.mapel + "/";
       this.question = url + this.datas[this.limiter].soal + ".png";
+      console.log(this.datas[this.limiter]);
     }
   }
   //timer countdown
@@ -161,7 +164,7 @@ export class QuisPage {
     let answer: any = [];
     answer = this.saveAns;
 
-    for (let i = 0; i < this.datas.length; i++) {
+    for (let i = 0; i < this.limitedVal; i++) {
       //if user answer same with the answer key, true answer variable will increase 1pt
       if (answer[i] === this.datas[i].jawaban) {
         this.trueAns += 1;
@@ -172,7 +175,7 @@ export class QuisPage {
     }
     this.serv.getGo(null);
 
-    this.navCtrl.push('HasilPage', { trueans: this.trueAns, totalar: this.totalArr });
+    this.navCtrl.push('HasilPage', { trueans: this.trueAns, totalar: this.limitedVal });
   }
 
   reseting() {
@@ -201,7 +204,7 @@ export class QuisPage {
   }
   onGo() {
     this.serv.setGo().subscribe(res => {
-      if(res === null) {
+      if (res === null) {
         console.log(".....");
       } else {
         this.pos = res;

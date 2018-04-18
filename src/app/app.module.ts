@@ -22,7 +22,8 @@ import { ReactiveFormsModule }   from '@angular/forms';
     IonicModule.forRoot(MyApp),
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+  
   ],
   bootstrap: [IonicApp],
   entryComponents: [

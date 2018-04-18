@@ -32,42 +32,45 @@
 
 
 <ion-content text-center>
-  <!-- <div *ngFor="let item of datas; let i = index" id="soal-{{pos}}" [style.display]="(i > 0) ? 'none' : 'block'"> -->
-  <input type="hidden" #hidd value="{{pos}}" />
-  <span id="time" class="text-primary"></span>
-  <div class="div-soal">
-    <img [src]="question" />
+  <div class="container">
+    
+    <div class="div-soal">
+      <zoom-area>
+        <img [src]="question" />
+      </zoom-area>
+    </div>
+
+    <div class="div-choice">
+      <form [formGroup]="cbForm">
+        <div radio-group class="segmented-button" formControlName="listRadio" (ionChange)="jawab(pos,$event)">
+          <label class="wrap-radio">
+            <ion-radio value="a"></ion-radio>
+            <span>A</span>
+          </label>
+          <label class="wrap-radio">
+            <ion-radio value="b"></ion-radio>
+            <span>B</span>
+          </label>
+          <label class="wrap-radio">
+            <ion-radio value="c"></ion-radio>
+            <span>C</span>
+          </label>
+          <label class="wrap-radio">
+            <ion-radio value="d"></ion-radio>
+            <span>D</span>
+          </label>
+        </div>
+      </form>
+      <button ion-button color="secondary" [style.visibility]="(pos < 1) ? 'hidden' : 'visible'" class="back-ques" (click)="prevq(pos)">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+      <button ion-button color="secondary" [style.visibility]="(pos == (limitedVal-1)) ? 'hidden' : 'visible'" class="forw-ques"
+        (click)="nextq(pos)">
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+      <button class="forw-ques" ion-button color="primary" [style.visibility]="(pos == (limitedVal-1)) ? 'visible' : 'hidden'" (click)="finishing()">
+        <ion-icon name="flag"></ion-icon>
+      </button>
+    </div>
   </div>
-  <div class="div-choice">
-    <form [formGroup]="cbForm">
-      <div radio-group class="segmented-button" formControlName="listRadio" (ionChange)="jawab(pos,$event)">
-        <label class="wrap-radio">
-          <ion-radio value="a"></ion-radio>
-          <span>A</span>
-        </label>
-        <label class="wrap-radio">
-          <ion-radio value="b"></ion-radio>
-          <span>B</span>
-        </label>
-        <label class="wrap-radio">
-          <ion-radio value="c"></ion-radio>
-          <span>C</span>
-        </label>
-        <label class="wrap-radio">
-          <ion-radio value="d"></ion-radio>
-          <span>D</span>
-        </label>
-      </div>
-    </form>
-    <button ion-button color="secondary" [style.visibility]="(pos < 1) ? 'hidden' : 'visible'" class="back-ques" (click)="prevq(pos)">
-      <ion-icon name="arrow-back"></ion-icon>
-    </button>
-    <button ion-button color="secondary" [style.visibility]="(pos == (totalArr-1)) ? 'hidden' : 'visible'" class="forw-ques" (click)="nextq(pos)">
-      <ion-icon name="arrow-forward"></ion-icon>
-    </button>
-    <button class="forw-ques" ion-button color="primary" [style.visibility]="(pos == (totalArr-1)) ? 'visible' : 'hidden'" (click)="finishing()">
-      <ion-icon name="flag"></ion-icon>
-    </button>
-  </div>
-  <!-- </div> -->
 </ion-content>

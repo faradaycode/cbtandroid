@@ -5,22 +5,52 @@
 </ion-header>
 
 <ion-content padding>
-  <div class="header-div">
-    <img src="assets/imgs/4547.png" [@bounce]="bounceState" />
-  </div>
-  <ion-grid>
-    <ion-row>
-      <ion-col col-6>
-        <img src="assets/imgs/b01.png" [@flyin]="flyR" />
-      </ion-col>
-      <ion-col col-6>
-        <img src="assets/imgs/b02.png" [@flyin]="flyL" />
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <div class="btn-home" text-center>
-    <button ion-button rounded large color="danger" (click)="goTo()" [@fade]="b_status">
-      Mulai
-    </button>
+  <div class="container">
+    <div id="home-div">
+      <div class="header-div">
+        <div class="upcontent" [@bounce]="bounceState">
+
+        </div>
+      </div>
+      <div class="content-div">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-6>
+              <img src="assets/imgs/b01.png" [@flyin]="flyL" />
+            </ion-col>
+            <ion-col col-6>
+              <img src="assets/imgs/b02.png" [@flyin]="flyR" />
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <div class="btn-home" text-center>
+        <button ion-button rounded large color="danger" (click)="mulai()" [@fade]="b_status">
+          <span>Mulai</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="grade-div" text-center>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-12>
+            <button ion-button clear class="super-large" [@flyin]="flyL" (click)="goTo('4')">
+              <img class="img-responsive" src="assets/imgs/4.png" />
+            </button>
+          </ion-col>
+          <ion-col col-12>
+            <button ion-button clear class="super-large" [@flyin]="flyR" (click)="goTo('5')">
+              <img class="img-responsive" src="assets/imgs/5.png" />
+            </button>
+          </ion-col>
+          <ion-col col-12>
+            <button ion-button clear class="super-large" [@flyin]="flyL" (click)="goTo('6')">
+              <img class="img-responsive" src="assets/imgs/6.png" />
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
   </div>
 </ion-content>

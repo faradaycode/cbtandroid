@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { QuisPage } from './quis';
+import { ZoomAreaModule } from 'ionic2-zoom-area';
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { QuisPage } from './quis';
   ],
   imports: [
     IonicPageModule.forChild(QuisPage),
+    ZoomAreaModule
   ],
 })
 export class QuisPageModule {}
