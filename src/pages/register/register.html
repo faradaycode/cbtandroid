@@ -6,15 +6,14 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>####</ion-title>
-  </ion-navbar>
-
 </ion-header>
 
 
 <ion-content padding>
   <div class="panel">
+    <div class="Mlogo" text-center>
+        <ion-icon class="oversized" name="lock"></ion-icon>
+    </div>
     <form (ngSubmit)="regForm(formReg.value)" [formGroup]="formReg">
       <ion-item>
         <ion-label>Nama</ion-label>
@@ -22,13 +21,9 @@
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-label>Kelas</ion-label>
-        <ion-select formControlName="kelas" [(ngModel)]="kelas">
-          <ion-option value="0" disabled = true>Pilih Kelas</ion-option>
-          <ion-option value="4">Kelas 4</ion-option>
-          <ion-option value="5">Kelas 5</ion-option>
-          <ion-option value="6">Kelas 6</ion-option>
-        </ion-select>
+        <ion-label>Kode Buku</ion-label>
+        <ion-input type="password" formControlName="kodebuku">
+        </ion-input>
       </ion-item>
       <button type="submit" margin-top outline color="light" ion-button block>Register</button>
     </form>

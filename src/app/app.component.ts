@@ -1,7 +1,7 @@
 import { Storage } from '@ionic/storage';
 import { MethodeProvider } from './../providers/methode/methode';
 import { Component } from '@angular/core';
-import { Platform, App, AlertController } from 'ionic-angular';
+import { Platform, App, AlertController, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -13,17 +13,19 @@ export class MyApp {
   mapel: any;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
-    app: App, private serv: MethodeProvider, private store: Storage, alertCtrl: AlertController) {
+    app: App, private serv: MethodeProvider, private store: Storage, alertCtrl: AlertController,
+    private menuctrl: MenuController) {
 
     this.serv.bgget().subscribe(data => {
       if (data !== null) {
         this.mapel = data;
       }
-    })
+    });
+
     platform.ready().then(() => {
 
       this.store.ready().then(() => {
-        this.serv.getKeyVal('nama').then(data => {
+        this.serv.getKeyVal('kode').then(data => {
           if (data == null || data == undefined) {
             this.rootPage = 'RegisterPage';
           } else {
@@ -64,6 +66,9 @@ export class MyApp {
         }
         if (activeView.id === "MainmenuPage" || activeView.id === "HasilPage") {
           nav.popToRoot();
+          this.serv.myAnswer = [];
+          this.serv.theAnswer = [];
+          this.serv.description = [];
         }
       });
 
@@ -79,6 +84,7 @@ export class MyApp {
 
   onGo(val) {
     this.serv.getGo(val);
+    this.menuctrl.close();
   }
 
 }

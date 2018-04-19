@@ -18,12 +18,14 @@ export class MethodeProvider {
   description: any = [];
   posi: BehaviorSubject<any>;
   mapel: BehaviorSubject<any>;;
+  kodes: String;
 
   constructor(public http: HttpClient, private alertCtrl: AlertController, private toast: ToastController,
     private store: Storage, private audio: NativeAudio) {
     console.log('Hello MethodeProvider Provider');
     this.posi = new BehaviorSubject(null);
     this.mapel = new BehaviorSubject(null);
+    this.kodes = "mypassion";
   }
   allertMethod(title, text) {
     let alert = this.alertCtrl.create({

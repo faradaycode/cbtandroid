@@ -172,9 +172,11 @@ export class QuisPage {
       this.serv.myAnswer.push(answer[i]);
       this.serv.theAnswer.push(this.datas[i].jawaban);
       this.serv.description.push(this.datas[i].bahasan);
+
+      var siden = document.getElementById('an-' + i);
+      siden.innerHTML = "";
     }
     this.serv.getGo(null);
-
     this.navCtrl.push('HasilPage', { trueans: this.trueAns, totalar: this.limitedVal });
   }
 

@@ -1,6 +1,6 @@
 import { MethodeProvider } from './../../providers/methode/methode';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 /**
  * Generated class for the HasilPage page.
@@ -21,18 +21,15 @@ export class HasilPage {
   newArr: any = [];
   tabBarElement: any;
   divShow: boolean = false;
+  bahasVal: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
+    private modalCtrl: ModalController) {
     this.trueans = this.navParams.get('trueans');
     this.totalar = this.navParams.get('totalar');
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad HasilPage');
-  }
-
   ngOnInit() {
-
     for (let i = 0; i < this.serv.theAnswer.length; i++) {
       this.newArr.push({
         myans: this.serv.myAnswer[i],
@@ -41,11 +38,10 @@ export class HasilPage {
       });
     }
     let skor = (this.trueans / (this.totalar / 10)) * 10;
-    if (skor)
-      console.log(this.trueans);
   }
   bahas(val) {
-    console.log(val);
+    let myModal = this.modalCtrl.create("ModalsPage");
+    myModal.present();
   }
   onShow() {
     this.divShow = !this.divShow;

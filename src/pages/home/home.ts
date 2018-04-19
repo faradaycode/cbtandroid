@@ -61,9 +61,9 @@ export class HomePage {
   faded: String = '';
 
   constructor(public navCtrl: NavController) {
-
   }
   ionViewDidLoad() {
+
     this.flyL = 'left';
     this.flyR = 'right';
 
@@ -84,12 +84,16 @@ export class HomePage {
   mulai() {
     document.getElementById('grade-div').style.display = "block";
     document.getElementById('home-div').style.display = "none";
-    
+
     this.flyL = 'left';
     this.flyR = 'right';
   }
 
   goTo(kelas) {
-    this.navCtrl.push("MainmenuPage",{klas: kelas});
+    this.navCtrl.push("MainmenuPage", { klas: kelas });
+    setTimeout(() => {
+      document.getElementById('grade-div').style.display = "none";
+      document.getElementById('home-div').style.display = "block";
+    }, 1000);
   }
 }
