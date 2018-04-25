@@ -39,6 +39,7 @@ export class MainmenuPage {
   animVar = 'anim-a';
   paket: String = 'pka';
   kls: any;
+  pk: any = "a";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider) {
     this.kls = this.navParams.get("klas");
@@ -54,16 +55,18 @@ export class MainmenuPage {
 
   pka() {
     this.animVar = 'anim-a';
+    this.pk = 'a';
   }
 
   pkb() {
     this.animVar = 'anim-b';
+    this.pk = 'b';
   }
 
   goto(page, mapel) {
     if (mapel !== undefined || mapel !== null) {
       this.serv.bgset(mapel);
-      this.navCtrl.push(page, { kelas: this.kls, pel: mapel }).then(mess => console.log(mess)).catch(err => console.log(err));
+      this.navCtrl.push(page, { kelas: this.kls, pel: mapel, pkt: this.pk }).then(mess => console.log(mess)).catch(err => console.log(err));
     } else {
       this.navCtrl.push(page).catch(err => console.log(err));
     }

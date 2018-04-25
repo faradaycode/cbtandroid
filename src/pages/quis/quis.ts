@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
 import { MethodeProvider } from '../../providers/methode/methode';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -17,12 +17,16 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 
 export class QuisPage {
+  @ViewChild(Content) content: Content;
+  @ViewChild('zoom') zoom: ElementRef;
+
   tabBarElement: any;
 
   datas: any = [];
   question: any = [];
 
   klas: any;
+  paket: String;
   mapel: any;
   totalArr: number;
   timeInSeconds: number;
@@ -44,9 +48,10 @@ export class QuisPage {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.klas = this.navParams.get('kelas');
     this.mapel = this.navParams.get('pel');
+    this.paket = this.navParams.get('pkt');
   }
-  ionViewDidLoad() {
-    console.log(this.klas);
+  ionViewDidEnter(): void {
+    this.serv._pinchZoom(this.zoom.nativeElement, this.content);
   }
   ngOnInit() {
     this.cbForm = this.form.group({
@@ -74,12 +79,22 @@ export class QuisPage {
   }
 
   showQuestion() {
+    let url;
     if (this.limiter < this.limitedVal) {
-      let url = "assets/soal/" + this.klas + "/" + this.mapel + "/";
+      if (this.klas !== 6) {
+        url = "assets/soal/" + this.klas + "/" + this.mapel + "/";
+      } else {
+        if (this.paket === 'a') {
+          url = "assets/soal/" + this.klas + "/" + "a/" + this.mapel + "/";
+        }
+        if (this.paket === 'b') {
+          url = "assets/soal/" + this.klas + "/" + "b/" + this.mapel + "/";
+        }
+      }
       this.question = url + this.datas[this.limiter].soal + ".png";
-      console.log(this.datas[this.limiter]);
     }
   }
+  
   //timer countdown
   initTimer() {
     if (!this.timeInSeconds) {
