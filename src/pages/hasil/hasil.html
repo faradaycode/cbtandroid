@@ -16,15 +16,19 @@
           </ion-col>
         </ion-row>
         <ion-row text-center margin-top>
-          <ion-col col-4>
+          <ion-col col-3>
             <h5 text-capitalize>soal</h5>
             <h5>{{totalar}}</h5>
           </ion-col>
-          <ion-col col-4>
+          <ion-col col-3>
             <h5 text-capitalize>benar</h5>
             <h5>{{trueans}}</h5>
           </ion-col>
-          <ion-col col-4>
+          <ion-col col-3>
+            <h5 text-capitalize>kosong</h5>
+            <h5>{{empAss}}</h5>
+          </ion-col>
+          <ion-col col-3>
             <h5 text-capitalize>salah</h5>
             <h5>{{totalar-trueans}}</h5>
           </ion-col>
@@ -32,7 +36,8 @@
       </ion-grid>
     </div>
   </div>
-  <button style="padding: 20px;" full ion-button color="dark" (click)="onShow()">Rincian&nbsp;
+
+  <button style="padding: 20px;" full ion-button color="dark" (click)="onShow()">pembahasan&nbsp;
     <ion-icon [name]="(!divShow)?'arrow-up':'arrow-down'"></ion-icon>
   </button>
   <div class="downcontent" [style.display]="(!divShow)?'none':'block'">

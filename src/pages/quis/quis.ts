@@ -37,6 +37,7 @@ export class QuisPage {
   limiter: number = 0;
   trueAns: number = 0;
   saveAns = {};
+  nullAns: number = 0;
   cbForm: FormGroup;
   pos: number = 0;
   sticky: boolean = false;
@@ -80,21 +81,22 @@ export class QuisPage {
 
   showQuestion() {
     let url;
+    let s = "6"
     if (this.limiter < this.limitedVal) {
-      if (this.klas !== 6) {
+      if (this.klas < 6) {
         url = "assets/soal/" + this.klas + "/" + this.mapel + "/";
       } else {
-        if (this.paket === 'a') {
-          url = "assets/soal/" + this.klas + "/" + "a/" + this.mapel + "/";
+        if (this.klas === "6A") {
+          url = "assets/soal/" + s + "/" + "a/" + this.mapel + "/";
         }
-        if (this.paket === 'b') {
-          url = "assets/soal/" + this.klas + "/" + "b/" + this.mapel + "/";
+        if (this.klas === "6B") {
+          url = "assets/soal/" + s + "/" + "b/" + this.mapel + "/";
         }
       }
       this.question = url + this.datas[this.limiter].soal + ".png";
     }
   }
-  
+
   //timer countdown
   initTimer() {
     if (!this.timeInSeconds) {
@@ -145,14 +147,12 @@ export class QuisPage {
     this.pos++;
     this.limiter++;
     this.answered(this.pos);
-    console.log(this.saveAns);
     this.showQuestion();
   }
   prevq(val) {
     this.pos--;
     this.limiter--;
     this.answered(this.pos);
-    console.log(this.saveAns);
     this.showQuestion();
   }
   //end method
@@ -160,20 +160,11 @@ export class QuisPage {
   jawab(numQst, ansVal) {
     //save user answer into object each time they click the radio button
     this.saveAns[numQst] = ansVal;
-    console.log(this.saveAns);
     var siden = document.getElementById('an-' + numQst);
     siden.innerHTML = ansVal;
+
+    console.log(this.saveAns);
   }
-
-  // //hide tabs when this page shown
-  // ionViewWillEnter() {
-  //   this.tabBarElement.style.display = 'none';
-  // }
-
-  // //show tabs when leave
-  // ionViewWillLeave() {
-  //   this.tabBarElement.style.display = 'flex';
-  // }
 
   finishing() {
     let answer: any = [];
@@ -184,15 +175,28 @@ export class QuisPage {
       if (answer[i] === this.datas[i].jawaban) {
         this.trueAns += 1;
       }
+
+      if (answer[i] === null || answer[i] === undefined) {
+        this.nullAns += 1;
+      }
+
       this.serv.myAnswer.push(answer[i]);
       this.serv.theAnswer.push(this.datas[i].jawaban);
       this.serv.description.push(this.datas[i].bahasan);
 
       var siden = document.getElementById('an-' + i);
       siden.innerHTML = "";
+
     }
+
     this.serv.getGo(null);
-    this.navCtrl.push('HasilPage', { trueans: this.trueAns, totalar: this.limitedVal });
+    this.navCtrl.push('HasilPage', {
+      trueans: this.trueAns,
+      totalar: this.limitedVal,
+      kelass: this.klas,
+      mapel: this.mapel,
+      notAns: this.nullAns
+    });
   }
 
   reseting() {

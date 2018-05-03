@@ -11,7 +11,12 @@ import { Component, trigger, state, style, transition, animate, keyframes } from
         transform: 'rotate(180deg)',
         backgroundColor: '#f50e80'
       })),
-      transition('* => flipped', animate('400ms ease'))
+      state('flipY', style({
+        opacity: 1,
+        transform: 'rotateY(360deg)'
+      })),
+      transition('* => flipped', animate('400ms ease')),
+      transition('* => flipY', animate('2s ease'))
     ]),
 
     //right and left flyin
@@ -59,10 +64,12 @@ export class HomePage {
   b_status: String = 'invisible';
   bounceState: String = 'noBounce';
   faded: String = '';
+  flipy: String = '';
 
   constructor(public navCtrl: NavController) {
   }
-  ionViewDidLoad() {
+
+  ngOnInit() {
 
     this.flyL = 'left';
     this.flyR = 'right';
@@ -87,6 +94,7 @@ export class HomePage {
 
     this.flyL = 'left';
     this.flyR = 'right';
+    this.flipy = "flipY";
   }
 
   goTo(kelas) {

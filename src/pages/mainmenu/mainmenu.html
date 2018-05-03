@@ -58,7 +58,7 @@
 
     <!-- list paket B -->
     <ion-list no-lines *ngSwitchCase="'pkb'" class="item-pb" [@flyInOut]="animVar">
-      <ion-item class="item-list">
+      <ion-item class="item-list" (click)="goto('QuisPage','mtk')">
         <ion-avatar item-start>
           <img src="assets/imgs/mtk.png">
         </ion-avatar>
