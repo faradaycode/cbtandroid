@@ -86,6 +86,7 @@ export class HomePage {
     }, 1500);
 
     this.faded = (this.faded === 'visible') ? 'invisible' : 'visible';
+
   }
 
   mulai() {
@@ -98,6 +99,7 @@ export class HomePage {
   }
 
   goTo(kelas) {
+    this.flipy = "";
     this.navCtrl.push("MainmenuPage", { klas: kelas });
     setTimeout(() => {
       document.getElementById('grade-div').style.display = "none";

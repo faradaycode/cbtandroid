@@ -11,12 +11,25 @@
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>modals</ion-title>
+    <ion-title>{{modalTitle}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content padding>
-
+<ion-content>
+  <div class="container">
+    <div class="soal">
+      <div class="bg-div">
+        <span>Soal</span>
+      </div>
+      <img [src]="Isoal" />
+    </div>
+    <div class="pembahasan">
+      <div class="bg-div">
+        <span>Pembahasan</span>
+      </div>
+      <img [src]="Ibhs" />
+    </div>
+  </div>
 </ion-content>

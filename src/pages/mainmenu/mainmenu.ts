@@ -76,7 +76,7 @@ export class MainmenuPage {
       this.serv.bgset(mapel);
       this.navCtrl.push(page, { kelas: x, pel: mapel, pkt: this.pk }).then(mess => console.log(mess)).catch(err => console.log(err));
     } else {
-      this.navCtrl.push(page).catch(err => console.log(err));
+      this.navCtrl.push(page, { kelas: this.kls }).catch(err => console.log(err));
     }
   }
 }

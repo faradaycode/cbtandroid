@@ -6,8 +6,8 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title text-capitalize>Paket Soal</ion-title>
+  <ion-navbar hideBackButton>
+    <ion-title text-capitalize>list mata pelajaran</ion-title>
   </ion-navbar>
   <ion-toolbar *ngIf="kls == '6'">
     <ion-segment [(ngModel)]="paket" color="light">
@@ -90,4 +90,7 @@
       </ion-item>
     </ion-list>
   </div>
+  <ion-fab right bottom>
+    <button ion-fab (click)="goto('RaportPage')"><ion-icon name="list-box"></ion-icon></button>
+  </ion-fab>
 </ion-content>

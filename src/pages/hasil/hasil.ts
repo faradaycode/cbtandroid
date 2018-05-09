@@ -1,5 +1,3 @@
-import { PhotoViewer } from '@ionic-native/photo-viewer';
-import { File } from '@ionic-native/file';
 import { MethodeProvider } from './../../providers/methode/methode';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
@@ -29,7 +27,7 @@ export class HasilPage {
   bahasVal: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
-    private modalCtrl: ModalController, private file: File, private pv: PhotoViewer) {
+    private modalCtrl: ModalController) {
     this.trueans = this.navParams.get('trueans');
     this.totalar = this.navParams.get('totalar');
     this.kl = this.navParams.get('kelass');
@@ -45,21 +43,25 @@ export class HasilPage {
         bahas: this.serv.description[i]
       });
     }
-    let skor = (this.trueans / (this.totalar / 10)) * 10;
   }
   bahas(val) {
-    let url;
+    let urlA;
+    let urlB;
     if (this.kl === '6A') {
-      url = "www/assets/bahas/6/a/" + this.mapel + "/";
+      urlA = "assets/bahas/6/a/" + this.mapel + "/" + val;
+      urlB = "assets/soal/6/a/" + this.mapel + "/" + val;
     }
     if (this.kl === "6B") {
-      url = "www/assets/bahas/6/b/" + this.mapel + "/";
+      urlA = "assets/bahas/6/b/" + this.mapel + "/" + val;
+      urlB = "assets/soal/6/b/" + this.mapel + "/" + val;
     }
     if (this.kl !== "6A" && this.kl !== "6B") {
-      url = "www/assets/bahas/" + this.kl + "/" + this.mapel + "/";
+      urlA = "assets/bahas/" + this.kl + "/" + this.mapel + "/" + val;
+      urlB = "assets/soal/" + this.kl + "/" + this.mapel + "/" + val;
     }
-    this.pv.show(this.file.applicationDirectory + url + val + ".png", '', { share: false });
-    
+
+    let profileModal = this.modalCtrl.create("ModalsPage", { soal: urlB, bahas: urlA });
+    profileModal.present();
   }
   onShow() {
     this.divShow = !this.divShow;

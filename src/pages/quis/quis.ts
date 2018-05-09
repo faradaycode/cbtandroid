@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams, Content } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Content, AlertController } from 'ionic-angular';
 import { MethodeProvider } from '../../providers/methode/methode';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -40,12 +40,11 @@ export class QuisPage {
   nullAns: number = 0;
   cbForm: FormGroup;
   pos: number = 0;
-  sticky: boolean = false;
 
-  limitedVal: number = 40;
+  limitedVal: number = 40; //become dynamic with navparams
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
-    private form: FormBuilder) {
+    private form: FormBuilder, private alertCtrl: AlertController) {
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.klas = this.navParams.get('kelas');
     this.mapel = this.navParams.get('pel');
@@ -162,10 +161,43 @@ export class QuisPage {
     this.saveAns[numQst] = ansVal;
     var siden = document.getElementById('an-' + numQst);
     siden.innerHTML = ansVal;
-
-    console.log(this.saveAns);
   }
 
+  finishAlt() {
+    for (let i = 0; i < this.limitedVal; i++) {
+      if (this.saveAns[i] === null || this.saveAns[i] === undefined) {
+        this.nullAns += 1;
+      }
+    }
+    
+    let alert = this.alertCtrl.create({
+      title: "Peringatan",
+      message: "Masih Ada " + this.nullAns + " Soal Yang Kosong",
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          handler: () => {
+            this.nullAns = 0;
+          }
+        },
+        {
+          text: 'Yes',
+          handler: () => {
+            this.finishing();
+          }
+        }
+      ]
+    });
+
+    if (this.nullAns > 0) {
+      alert.present();
+    } else {
+      this.finishing();
+    }
+  }
+
+  //methode if you reach 40 and click flag
   finishing() {
     let answer: any = [];
     answer = this.saveAns;
@@ -176,20 +208,22 @@ export class QuisPage {
         this.trueAns += 1;
       }
 
-      if (answer[i] === null || answer[i] === undefined) {
-        this.nullAns += 1;
-      }
-
       this.serv.myAnswer.push(answer[i]);
       this.serv.theAnswer.push(this.datas[i].jawaban);
       this.serv.description.push(this.datas[i].bahasan);
 
       var siden = document.getElementById('an-' + i);
       siden.innerHTML = "";
-
     }
+    this._processN();
+  }
 
+  private _processN() {
     this.serv.getGo(null);
+
+    // database
+    this.serv.updateNilai(this.mapel, this.klas, (this.trueAns / (this.limitedVal / 10)) * 10);
+
     this.navCtrl.push('HasilPage', {
       trueans: this.trueAns,
       totalar: this.limitedVal,
@@ -223,6 +257,7 @@ export class QuisPage {
       this.reseting();
     }
   }
+
   onGo() {
     this.serv.setGo().subscribe(res => {
       if (res === null) {

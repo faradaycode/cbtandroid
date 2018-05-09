@@ -1,0 +1,39 @@
+page-raport {
+    .col {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .panel-heading {
+        background-color: wheat;
+        min-height: 50px;
+        padding: 10px;
+        color: slategrey;
+        span {
+            font-size: 2rem;
+        }
+    }
+    .panel-body {
+        background-color: yellow;
+        min-height: 100px;
+        padding: 5px;
+        span {
+            font-weight: 500;
+            font-size: 1.7rem;
+            line-height: 30px;
+        }
+        .row {
+            border-bottom: 2px dotted #000;
+        }
+    }
+    .panel-footer {
+        background-color: teal;
+        min-height: 40px;
+        padding: 5px;
+        span {
+            font-weight: 500;
+            font-size: 1.7rem;
+            line-height: 30px;
+            color: aliceblue;
+        }
+    }
+}

@@ -39,32 +39,45 @@ export class MyApp {
         let nav = app.getActiveNavs()[0];
         let activeView = nav.getActive();
         if (activeView.id === "HomePage" || activeView.id === "RegisterPage") {
-          let alert = alertCtrl.create({
-            title: "Peringatan",
-            message: "Keluar Aplikasi?",
-            buttons: [
-              {
-                text: 'No',
-                role: 'cancel',
-                handler: () => {
-                  console.log('Cancel clicked');
+          if (document.getElementById('home-div').style.display !== "none") {
+            let alert = alertCtrl.create({
+              title: "Peringatan",
+              message: "Keluar Aplikasi?",
+              buttons: [
+                {
+                  text: 'No',
+                  role: 'cancel',
+                  handler: () => {
+                    console.log('Cancel clicked');
+                  }
+                },
+                {
+                  text: 'Yes',
+                  handler: () => {
+                    platform.exitApp();
+                  }
                 }
-              },
-              {
-                text: 'Yes',
-                handler: () => {
-                  platform.exitApp();
-                }
-              }
-            ]
-          });
-          alert.present();
+              ]
+            });
+            alert.present();
+          } else {
+            document.getElementById('home-div').style.display = 'block';
+            document.getElementById('grade-div').style.display = 'none';
+          }
         }
-
         if (activeView.id === "QuisPage") {
           this.serv.allertMethod('Informasi', 'Tidak Bisa Kembali Saat Sedang Ujian');
         }
+
+        if (activeView.id === "RaportPage") {
+          nav.pop();
+        }
+
         if (activeView.id === "MainmenuPage" || activeView.id === "HasilPage") {
+          if (document.getElementById('home-div').style.display === 'block') {
+            document.getElementById('home-div').style.display = 'none';
+            document.getElementById('grade-div').style.display = 'block';
+          }
           nav.popToRoot();
           this.serv.myAnswer = [];
           this.serv.theAnswer = [];

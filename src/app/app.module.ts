@@ -11,6 +11,7 @@ import { MethodeProvider } from '../providers/methode/methode';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { ReactiveFormsModule }   from '@angular/forms';
+import { SQLite } from '@ionic-native/sqlite';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ReactiveFormsModule }   from '@angular/forms';
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     NativeAudio,
-    MethodeProvider
+    MethodeProvider,
+    SQLite
   ]
 })
 export class AppModule { }

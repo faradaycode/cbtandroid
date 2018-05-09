@@ -1,9 +1,10 @@
-import { AlertController, ToastController, Gesture, Content } from 'ionic-angular';
+import { AlertController, ToastController, Gesture, Content, Platform } from 'ionic-angular';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { BehaviorSubject } from 'rxjs/Rx';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 /*
   Generated class for the MethodeProvider provider.
@@ -20,13 +21,33 @@ export class MethodeProvider {
   mapel: BehaviorSubject<any>;;
   kodes: String;
 
+  arrN = [];
+  private dbState: BehaviorSubject<boolean>;
+
   constructor(public http: HttpClient, private alertCtrl: AlertController, private toast: ToastController,
-    private store: Storage, private audio: NativeAudio) {
-    console.log('Hello MethodeProvider Provider');
+    private store: Storage, private audio: NativeAudio, private sqlite: SQLite, platform: Platform) {
     this.posi = new BehaviorSubject(null);
     this.mapel = new BehaviorSubject(null);
     this.kodes = "mypassion";
+
+    this.dbState = new BehaviorSubject(false);
+
+    platform.ready().then(() => {
+      this.sqlite.create({
+        name: 'cbt.db',
+        location: 'default'
+      }).then((db: SQLiteObject) => {
+        this.getKeyVal('dbCr').then(val => {
+          if (val) {
+            this.dbState.next(true);
+          } else {
+            this.crtDB();
+          }
+        })
+      })
+    })
   }
+  
   allertMethod(title, text) {
     let alert = this.alertCtrl.create({
       title: title,
@@ -35,6 +56,7 @@ export class MethodeProvider {
     });
     alert.present();
   }
+  
   onToast(msg) {
     let tos = this.toast.create({
       message: msg,
@@ -69,7 +91,7 @@ export class MethodeProvider {
   setGo() {
     return this.posi.asObservable();
   }
-  
+
   bgset(val) {
     this.mapel.next(val);
   }
@@ -77,6 +99,112 @@ export class MethodeProvider {
   bgget() {
     return this.mapel.asObservable();
   }
+
+  crtDB() {
+    this.sqlite.create({
+      name: 'cbt.db',
+      location: 'default'
+    }).then((db: SQLiteObject) => {
+      db.executeSql('CREATE TABLE IF NOT EXISTS penilaian(id_n INTEGER PRIMARY KEY, mapel TEXT, kelas TEXT, nilai INTEGER)', {})
+        .then(res => {
+          this.dumping();
+          this.dbState.next(true);
+          this.setKey('dbCr', true);
+          this.onToast(JSON.stringify(res));
+        }).catch(e => this.onToast("DB created error: " + e));
+    }).catch(e => this.onToast(e));
+  }
+
+  dumping() {
+    this.sqlite.create({
+      name: 'cbt.db',
+      location: 'default'
+    }).then((db: SQLiteObject) => {
+      //dump data
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['mtk', '4', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ipa', '4', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ips', '4', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['bindo', '4', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['pkn', '4', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      //
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['mtk', '5', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ipa', '5', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ips', '5', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['bindo', '5', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['pkn', '5', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      //
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['mtk', '6', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ipa', '6', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ips', '6', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['bindo', '6', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['pkn', '6', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+    }).catch(e => this.onToast(e));
+  }
+
+  updateNilai(mapel, kelas, value) {
+    this.sqlite.create({
+      name: 'cbt.db',
+      location: 'default'
+    }).then((db: SQLiteObject) => {
+      db.executeSql('UPDATE penilaian SET nilai=? WHERE mapel = ? AND kelas = ?', [value, mapel, kelas])
+        .then(res => {
+          console.log("Updated " + res);
+        }).catch(e => {
+          this.onToast("execute failed " + JSON.stringify(e));
+        });
+    }).catch(e => {
+      this.onToast("SQLITE ERR" + JSON.stringify(e));
+    });
+  }
+
+  getDatabaseState() {
+    return this.dbState.asObservable();
+  }
+
 
   public _pinchZoom(elm: HTMLElement, content: Content): void {
     const _gesture = new Gesture(elm);
@@ -102,7 +230,7 @@ export class MethodeProvider {
     let last_y = 0;
     let scale = 1;
     let base = scale;
-    
+
     _gesture.listen();
     _gesture.on('pan', onPan);
     _gesture.on('panend', onPanend);
@@ -112,7 +240,7 @@ export class MethodeProvider {
     _gesture.on('pinchend', onPinchend);
     _gesture.on('pinchcancel', onPinchend);
 
-    function onPan(ev) {   
+    function onPan(ev) {
       setCoor(ev.deltaX, ev.deltaY);
       transform();
     }
@@ -130,12 +258,12 @@ export class MethodeProvider {
           reset = true;
         }
         setBounds();
-        reset ? transform(max_x/2, max_y/2) : transform();
+        reset ? transform(max_x / 2, max_y / 2) : transform();
       }
     }
     function onPinch(ev) {
       // formula to append scale to new scale
-      scale = base + (ev.scale * scale - scale)/scale
+      scale = base + (ev.scale * scale - scale) / scale
 
       setBounds();
       transform();
@@ -162,7 +290,7 @@ export class MethodeProvider {
       // for max_x && max_y; adds the value relevant to their overflowed size
       let overflow_x = Math.ceil(original_x * scale - original_x); // returns negative
       let overflow_y = Math.ceil(oh * scale - oh);
-      
+
       max_x = original_x - scaled_x + overflow_x;
       min_x = 0 + scaled_x;
       // remove added height from container
