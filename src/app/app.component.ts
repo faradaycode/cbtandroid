@@ -23,7 +23,6 @@ export class MyApp {
     });
 
     platform.ready().then(() => {
-
       this.store.ready().then(() => {
         this.serv.getKeyVal('kode').then(data => {
           if (data == null || data == undefined) {
@@ -73,11 +72,15 @@ export class MyApp {
           nav.pop();
         }
 
-        if (activeView.id === "MainmenuPage" || activeView.id === "HasilPage") {
+        if (activeView.id === "MainmenuPage") {
           if (document.getElementById('home-div').style.display === 'block') {
             document.getElementById('home-div').style.display = 'none';
             document.getElementById('grade-div').style.display = 'block';
+            nav.pop();
           }
+        }
+
+        if (activeView.id === "HasilPage") {
           nav.popToRoot();
           this.serv.myAnswer = [];
           this.serv.theAnswer = [];

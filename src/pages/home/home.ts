@@ -83,7 +83,7 @@ export class HomePage {
 
     setTimeout(() => {
       this.b_status = (this.b_status === 'visible') ? 'invisible' : 'visible';
-    }, 1500);
+    }, 1000);
 
     this.faded = (this.faded === 'visible') ? 'invisible' : 'visible';
 

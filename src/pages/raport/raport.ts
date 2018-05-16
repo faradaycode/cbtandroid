@@ -17,7 +17,6 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 })
 export class RaportPage {
   public arrN: any = [];
-  private mapel: any = ['mtk', 'ipa', 'ips', 'bindo', 'pkn'];
   kls;
   totalN: number = 0;
 
@@ -37,6 +36,7 @@ export class RaportPage {
   getData() {
     const jumapel = 5;
     let total = 0;
+    let mp;
 
     this.sqlite.create({
       name: 'cbt.db',
@@ -45,7 +45,17 @@ export class RaportPage {
       db.executeSql('SELECT mapel,nilai FROM penilaian WHERE kelas = ' + this.kls + ' ORDER BY kelas ASC', {})
         .then(res => {
           for (var i = 0; i < res.rows.length; i++) {
-            this.arrN.push({ mapels: res.rows.item(i).mapel, nilais: res.rows.item(i).nilai })
+            if(res.rows.item(i).mapel === "mtk") {
+              mp = "matematika";
+            }
+            if(res.rows.item(i).mapel === "bindo") {
+              mp = "bahasa indonesia";
+            }
+            if(res.rows.item(i).mapel !== "mtk" && res.rows.item(i).mapel !== "bindo") {
+              mp = res.rows.item(i).mapel;
+            }
+            
+            this.arrN.push({ mapels: mp, nilais: res.rows.item(i).nilai })
           }
           console.log(res.rows.length);
         }).catch(e => console.log(e));

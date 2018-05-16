@@ -47,7 +47,7 @@ export class MethodeProvider {
       })
     })
   }
-  
+
   allertMethod(title, text) {
     let alert = this.alertCtrl.create({
       title: title,
@@ -56,7 +56,7 @@ export class MethodeProvider {
     });
     alert.present();
   }
-  
+
   onToast(msg) {
     let tos = this.toast.create({
       message: msg,
@@ -163,23 +163,44 @@ export class MethodeProvider {
         .catch(e => this.onToast("SQL created error: " + e));
 
       //
-      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['mtk', '6', 0])
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['mtk', '6a', 0])
         .then(res => console.log('Executed SQL INSERT'))
         .catch(e => this.onToast("SQL created error: " + e));
 
-      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ipa', '6', 0])
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ipa', '6a', 0])
         .then(res => console.log('Executed SQL INSERT'))
         .catch(e => this.onToast("SQL created error: " + e));
 
-      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ips', '6', 0])
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ips', '6a', 0])
         .then(res => console.log('Executed SQL INSERT'))
         .catch(e => this.onToast("SQL created error: " + e));
 
-      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['bindo', '6', 0])
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['bindo', '6a', 0])
         .then(res => console.log('Executed SQL INSERT'))
         .catch(e => this.onToast("SQL created error: " + e));
 
-      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['pkn', '6', 0])
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['pkn', '6a', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      //
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['mtk', '6b', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ipa', '6b', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['ips', '6b', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['bindo', '6b', 0])
+        .then(res => console.log('Executed SQL INSERT'))
+        .catch(e => this.onToast("SQL created error: " + e));
+
+      db.executeSql('INSERT INTO penilaian VALUES(NULL,?,?,?)', ['pkn', '6b', 0])
         .then(res => console.log('Executed SQL INSERT'))
         .catch(e => this.onToast("SQL created error: " + e));
     }).catch(e => this.onToast(e));
