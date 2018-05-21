@@ -18,7 +18,10 @@ page-raport {
         min-height: 50px;
         padding: 10px;
         span {
+            display: block;
+            font-family: cursive;
             font-size: 2rem;
+            font-weight: bold;
         }
         .head-pinned {
             position: absolute;

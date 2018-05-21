@@ -14,15 +14,19 @@
 
 <ion-content padding>
   <div class="panel">
-    <div class="panel-heading">
+    <div class="panel-heading" text-capitalize>
       <div class="head-pinned"></div>
-      <span>Kelas {{kls}}</span>
+      <span id="namae">{{nama}}</span>
+      <span>{{txkls}}</span>
     </div>
     <div class="panel-body" text-capitalize>
       <ion-grid *ngFor="let item of arrN">
         <ion-row>
           <ion-col col-9>
-            <span>{{item.mapels}}</span>
+            <span *ngIf="item.mapels.length < 4">
+              <div text-uppercase>{{item.mapels}}</div>
+            </span>
+            <span *ngIf="item.mapels.length > 4">{{item.mapels}}</span>
           </ion-col>
           <ion-col col-3 text-right>
             <span>{{item.nilais}}</span>

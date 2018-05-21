@@ -25,7 +25,7 @@ export class QuisPage {
   datas: any = [];
   question: any = [];
 
-  klas: any;
+  klas: String;
   paket: String;
   mapel: any;
   totalArr: number;
@@ -82,7 +82,7 @@ export class QuisPage {
     let url;
     let s = "6"
     if (this.limiter < this.limitedVal) {
-      if (this.klas < 6) {
+      if (this.klas !== "6" && this.klas !== "6A" && this.klas !== "6B") {
         url = "assets/soal/" + this.klas + "/" + this.mapel + "/";
       } else {
         if (this.klas === "6A") {
@@ -147,12 +147,14 @@ export class QuisPage {
     this.limiter++;
     this.answered(this.pos);
     this.showQuestion();
+    this.serv.unZoom('dSoal');
   }
   prevq(val) {
     this.pos--;
     this.limiter--;
     this.answered(this.pos);
     this.showQuestion();
+    this.serv.unZoom('dSoal');
   }
   //end method
 
@@ -161,6 +163,10 @@ export class QuisPage {
     this.saveAns[numQst] = ansVal;
     var siden = document.getElementById('an-' + numQst);
     siden.innerHTML = ansVal;
+
+    var sc = document.getElementById('bsc-' + numQst);
+
+    sc.style.backgroundColor = "#01a1ff";
   }
 
   finishAlt() {
@@ -169,7 +175,7 @@ export class QuisPage {
         this.nullAns += 1;
       }
     }
-    
+
     let alert = this.alertCtrl.create({
       title: "Peringatan",
       message: "Masih Ada " + this.nullAns + " Soal Yang Kosong",
@@ -213,7 +219,10 @@ export class QuisPage {
       this.serv.description.push(this.datas[i].bahasan);
 
       var siden = document.getElementById('an-' + i);
+      var sc = document.getElementById('bsc-' + i);
+
       siden.innerHTML = "";
+      sc.style.backgroundColor = "";
     }
     this._processN();
   }
@@ -222,7 +231,7 @@ export class QuisPage {
     this.serv.getGo(null);
 
     // database
-    this.serv.updateNilai(this.mapel, this.klas, (this.trueAns / (this.limitedVal / 10)) * 10);
+    this.serv.updateNilai(this.mapel, this.klas.toLowerCase(), (this.trueAns / (this.limitedVal / 10)) * 10);
 
     this.navCtrl.push('HasilPage', {
       trueans: this.trueAns,

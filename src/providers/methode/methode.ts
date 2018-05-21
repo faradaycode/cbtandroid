@@ -28,7 +28,7 @@ export class MethodeProvider {
     private store: Storage, private audio: NativeAudio, private sqlite: SQLite, platform: Platform) {
     this.posi = new BehaviorSubject(null);
     this.mapel = new BehaviorSubject(null);
-    this.kodes = "mypassion";
+    this.kodes = "redaksitampan";
 
     this.dbState = new BehaviorSubject(false);
 
@@ -226,7 +226,10 @@ export class MethodeProvider {
     return this.dbState.asObservable();
   }
 
-
+  unZoom(elementId) {
+    let eid = document.getElementById(elementId);
+    eid.style.webkitTransform = `translate3d(0,0,0) scale3d(1,1,1)`;
+  }
   public _pinchZoom(elm: HTMLElement, content: Content): void {
     const _gesture = new Gesture(elm);
 
@@ -279,7 +282,8 @@ export class MethodeProvider {
           reset = true;
         }
         setBounds();
-        reset ? transform(max_x / 2, max_y / 2) : transform();
+        // reset ? transform(max_x / 2, max_y / 2) : transform();
+        reset ? transform(0 / 2, 0 / 2) : transform();
       }
     }
     function onPinch(ev) {

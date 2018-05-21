@@ -17,18 +17,34 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 })
 export class RaportPage {
   public arrN: any = [];
-  kls;
+  kls: String;
+  nama: String;
   totalN: number = 0;
+  txkls;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
     private sqlite: SQLite) {
     this.kls = this.navParams.get('kelas');
+
+    if (this.kls === '6A') {
+      this.txkls = "kelas 6 paket a";
+    }
+    if (this.kls === '6B') {
+      this.txkls = "kelas 6 paket b";
+    }
+    if (this.kls !== '6A' && this.kls !== '6B') {
+      this.txkls = "kelas " + this.kls;
+    }
   }
 
   ngOnInit() {
     this.serv.getDatabaseState().subscribe(rdy => {
       if (rdy) {
         this.getData();
+        this.serv.getKeyVal('nama').then(val => {
+          this.nama = val;
+          console.log(val);
+        })
       }
     })
   }
@@ -36,31 +52,31 @@ export class RaportPage {
   getData() {
     const jumapel = 5;
     let total = 0;
-    let mp;
+    let mp: String;
 
     this.sqlite.create({
       name: 'cbt.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('SELECT mapel,nilai FROM penilaian WHERE kelas = ' + this.kls + ' ORDER BY kelas ASC', {})
+      db.executeSql('SELECT mapel,nilai FROM penilaian WHERE kelas = "' + this.kls.toLowerCase() + '" ORDER BY kelas ASC', {})
         .then(res => {
           for (var i = 0; i < res.rows.length; i++) {
-            if(res.rows.item(i).mapel === "mtk") {
+            if (res.rows.item(i).mapel === "mtk") {
               mp = "matematika";
             }
-            if(res.rows.item(i).mapel === "bindo") {
+            if (res.rows.item(i).mapel === "bindo") {
               mp = "bahasa indonesia";
             }
-            if(res.rows.item(i).mapel !== "mtk" && res.rows.item(i).mapel !== "bindo") {
+            if (res.rows.item(i).mapel !== "mtk" && res.rows.item(i).mapel !== "bindo") {
               mp = res.rows.item(i).mapel;
             }
-            
+
             this.arrN.push({ mapels: mp, nilais: res.rows.item(i).nilai })
           }
           console.log(res.rows.length);
-        }).catch(e => console.log(e));
+        }).catch(e => this.serv.onToast(JSON.stringify(e)));
 
-      db.executeSql('SELECT SUM(nilai) AS totaln FROM penilaian WHERE kelas= "' + this.kls + '"', {})
+      db.executeSql('SELECT SUM(nilai) AS totaln FROM penilaian WHERE kelas= "' + this.kls.toLowerCase() + '"', {})
         .then(res => {
           if (res.rows.length > 0) {
             total = parseInt(res.rows.item(0).totaln);

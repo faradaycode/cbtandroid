@@ -7,7 +7,7 @@
     <ion-grid>
       <ion-row>
         <ion-col *ngFor="let ig of ' '.repeat(40).split(''), let x = index" col-3>
-          <button ion-button color="secondary" full (click)="onGo(x)">
+          <button ion-button id="bsc-{{x}}" color="dark" full (click)="onGo(x)">
             <h5>{{x+1}}</h5>
             <h5 id="an-{{x}}"></h5>
           </button>

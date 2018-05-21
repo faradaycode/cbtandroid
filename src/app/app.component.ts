@@ -4,6 +4,7 @@ import { Component } from '@angular/core';
 import { Platform, App, AlertController, MenuController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 @Component({
   templateUrl: 'app.html'
@@ -11,10 +12,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class MyApp {
   rootPage: any = '';
   mapel: any;
+  counter: number = 0;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
     app: App, private serv: MethodeProvider, private store: Storage, alertCtrl: AlertController,
-    private menuctrl: MenuController) {
+    private menuctrl: MenuController, private screenOrientation: ScreenOrientation) {
 
     this.serv.bgget().subscribe(data => {
       if (data !== null) {
@@ -37,6 +39,8 @@ export class MyApp {
       platform.registerBackButtonAction(() => {
         let nav = app.getActiveNavs()[0];
         let activeView = nav.getActive();
+        this.counter++;
+        
         if (activeView.id === "HomePage" || activeView.id === "RegisterPage") {
           if (document.getElementById('home-div').style.display !== "none") {
             let alert = alertCtrl.create({
@@ -65,7 +69,8 @@ export class MyApp {
           }
         }
         if (activeView.id === "QuisPage") {
-          this.serv.allertMethod('Informasi', 'Tidak Bisa Kembali Saat Sedang Ujian');
+          this.serv.allertMethod('Informasi', 'Tidak Bisa Kembali Saat Sedang Ujian '+this.counter);
+
         }
 
         if (activeView.id === "RaportPage") {
@@ -94,6 +99,7 @@ export class MyApp {
         statusBar.styleLightContent();
         statusBar.backgroundColorByHexString('#c42626');
       }
+      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
       splashScreen.hide();
     });
   }

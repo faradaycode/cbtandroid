@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { ReactiveFormsModule }   from '@angular/forms';
 import { SQLite } from '@ionic-native/sqlite';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SQLite } from '@ionic-native/sqlite';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     NativeAudio,
     MethodeProvider,
-    SQLite
+    SQLite,
+    ScreenOrientation
   ]
 })
 export class AppModule { }

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.magentamedia.mbtusbn" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>todolist</name>
+    <name>USBN SD 456</name>
     <description>Apliaksi simulasi usbn tingkat sd.</description>
     <author email="ferdireza96@Gmail.com" href="https://www.linkedin.com/in/ferdi-reza-b877a313b/">Ferdi -faraday-</author>
     <content src="index.html" />
@@ -90,4 +90,5 @@
     <plugin name="uk.co.workingedge.cordova.plugin.sqliteporter" spec="^1.0.2" />
     <plugin name="cordova-sqlite-storage" spec="^2.3.0" />
     <engine name="android" spec="6.3.0" />
+    <plugin name="cordova-plugin-screen-orientation" spec="^3.0.1" />
 </widget>
