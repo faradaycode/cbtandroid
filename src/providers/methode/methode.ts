@@ -18,7 +18,7 @@ export class MethodeProvider {
   theAnswer: any = [];
   description: any = [];
   posi: BehaviorSubject<any>;
-  mapel: BehaviorSubject<any>;;
+  mapel: BehaviorSubject<any>;
   kodes: String;
 
   arrN = [];
@@ -110,7 +110,6 @@ export class MethodeProvider {
           this.dumping();
           this.dbState.next(true);
           this.setKey('dbCr', true);
-          this.onToast(JSON.stringify(res));
         }).catch(e => this.onToast("DB created error: " + e));
     }).catch(e => this.onToast(e));
   }

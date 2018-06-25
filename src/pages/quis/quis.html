@@ -12,30 +12,29 @@
 <ion-header>
 
   <ion-navbar hideBackButton>
-    <button ion-button menuToggle icon-only start>
-      <ion-icon name='menu'></ion-icon>
-    </button>
-    <ion-title>
-      <ion-grid>
-        <ion-row>
-          <ion-col col-6>
-            <h5>No. {{pos+1}}</h5>
-          </ion-col>
-          <ion-col col-6 text-right>
-            <h5 *ngIf="timeInSeconds && timeInSeconds > 0">{{displayTime}}</h5>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+    <ion-buttons left>
+      <button ion-button menuToggle icon-only>
+        <ion-icon name='menu'></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons class="warning" end>
+      <button ion-button (click)="ragu(pos)">
+        ragu
+      </button>
+    </ion-buttons>
+    <ion-title text-center>
+      <h5 *ngIf="timeInSeconds && timeInSeconds > 0">{{displayTime}}</h5>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-
 <ion-content text-center>
   <div class="container">
-    
-    <div #zoom class="div-soal" id="dSoal">
-        <img [src]="question" />
+    <div class="namba">
+      <span style="font-size: 3rem; font-weight: bold;">{{pos+1}}</span>
+    </div>
+    <div #zoom class="div-soal" id="dSoal" scrollY="true">
+      <img [src]="question" />
     </div>
 
     <div class="div-choice">
@@ -59,14 +58,15 @@
           </label>
         </div>
       </form>
-      <button ion-button color="secondary" [style.visibility]="(pos < 1) ? 'hidden' : 'visible'" class="back-ques" (click)="prevq(pos)">
+      <button ion-button outline color="secondary" [style.visibility]="(pos < 1) ? 'hidden' : 'visible'" class="back-ques" (click)="prevq(pos)">
         <ion-icon name="arrow-back"></ion-icon>
       </button>
-      <button ion-button color="secondary" [style.visibility]="(pos == (limitedVal-1)) ? 'hidden' : 'visible'" class="forw-ques"
+      <button ion-button outline color="secondary" [style.visibility]="(pos == (limitedVal-1)) ? 'hidden' : 'visible'" class="forw-ques"
         (click)="nextq(pos)">
         <ion-icon name="arrow-forward"></ion-icon>
       </button>
-      <button class="forw-ques" ion-button color="primary" [style.visibility]="(pos == (limitedVal-1)) ? 'visible' : 'hidden'" (click)="finishAlt()">
+      <button class="forw-ques" ion-button outline color="primary" [style.visibility]="(pos == (limitedVal-1)) ? 'visible' : 'hidden'"
+        (click)="finishAlt()">
         <ion-icon name="flag"></ion-icon>
       </button>
     </div>

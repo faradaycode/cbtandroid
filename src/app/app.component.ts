@@ -12,7 +12,6 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
 export class MyApp {
   rootPage: any = '';
   mapel: any;
-  counter: number = 0;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
     app: App, private serv: MethodeProvider, private store: Storage, alertCtrl: AlertController,
@@ -39,9 +38,8 @@ export class MyApp {
       platform.registerBackButtonAction(() => {
         let nav = app.getActiveNavs()[0];
         let activeView = nav.getActive();
-        this.counter++;
-        
-        if (activeView.id === "HomePage" || activeView.id === "RegisterPage") {
+
+        if (activeView.id === "HomePage") {
           if (document.getElementById('home-div').style.display !== "none") {
             let alert = alertCtrl.create({
               title: "Peringatan",
@@ -68,9 +66,11 @@ export class MyApp {
             document.getElementById('grade-div').style.display = 'none';
           }
         }
+        if(activeView.id === "RegisterPage") {
+          platform.exitApp();
+        }
         if (activeView.id === "QuisPage") {
-          this.serv.allertMethod('Informasi', 'Tidak Bisa Kembali Saat Sedang Ujian '+this.counter);
-
+          this.serv.allertMethod('Informasi', 'Tidak Bisa Kembali Saat Sedang Ujian');
         }
 
         if (activeView.id === "RaportPage") {

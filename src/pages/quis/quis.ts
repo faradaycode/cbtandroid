@@ -40,7 +40,9 @@ export class QuisPage {
   nullAns: number = 0;
   cbForm: FormGroup;
   pos: number = 0;
+  ragu_nt: number = 0;
 
+  _ragu: boolean = false;
   limitedVal: number = 40; //become dynamic with navparams
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
@@ -148,6 +150,8 @@ export class QuisPage {
     this.answered(this.pos);
     this.showQuestion();
     this.serv.unZoom('dSoal');
+    this._ragu = (this._ragu) ? !this._ragu : this._ragu;
+    console.log(this._ragu);
   }
   prevq(val) {
     this.pos--;
@@ -155,6 +159,8 @@ export class QuisPage {
     this.answered(this.pos);
     this.showQuestion();
     this.serv.unZoom('dSoal');
+    this._ragu = (this._ragu) ? !this._ragu : this._ragu;
+    console.log(this._ragu);
   }
   //end method
 
@@ -163,10 +169,6 @@ export class QuisPage {
     this.saveAns[numQst] = ansVal;
     var siden = document.getElementById('an-' + numQst);
     siden.innerHTML = ansVal;
-
-    var sc = document.getElementById('bsc-' + numQst);
-
-    sc.style.backgroundColor = "#01a1ff";
   }
 
   finishAlt() {
@@ -176,9 +178,19 @@ export class QuisPage {
       }
     }
 
+    let ms = "";
+    if (this.ragu_nt > 0) {
+      ms = "Ada" + this.ragu_nt + " Jawaban yang Masih Kamu Ragukan, Tetap Selesai?";
+    } else {
+      ms = "Masih Ada " + this.nullAns + " Soal Yang Kosong, Tetap Selesai?";
+    }
+
+    if (this.ragu_nt > 0 && this.nullAns > 0) {
+      ms = "Masih Ada " + this.nullAns + " Soal Yang Kosong dan " + this.ragu_nt + " Jawaban yang Masih Kamu Ragukan, Tetap Selesai?";
+    }
     let alert = this.alertCtrl.create({
       title: "Peringatan",
-      message: "Masih Ada " + this.nullAns + " Soal Yang Kosong",
+      message: ms,
       buttons: [
         {
           text: 'No',
@@ -219,10 +231,8 @@ export class QuisPage {
       this.serv.description.push(this.datas[i].bahasan);
 
       var siden = document.getElementById('an-' + i);
-      var sc = document.getElementById('bsc-' + i);
 
       siden.innerHTML = "";
-      sc.style.backgroundColor = "";
     }
     this._processN();
   }
@@ -262,6 +272,7 @@ export class QuisPage {
         this.cbForm.controls.listRadio.setValue(this.saveAns[pos]);
       }
     }
+
     if (this.saveAns[pos] === undefined || this.saveAns[pos] === null) {
       this.reseting();
     }
@@ -276,7 +287,28 @@ export class QuisPage {
         this.limiter = res;
         this.answered(this.pos);
         this.showQuestion();
+        this._ragu = (this._ragu) ? !this._ragu : this._ragu;
       }
     })
+  }
+
+  ragu(numQst) {
+    let rsc = document.getElementById('bsc-' + numQst);
+
+    if (!this._ragu) {
+      if (rsc.style.backgroundColor === "orange") {
+        rsc.style.backgroundColor = "";
+        this.ragu_nt--;
+      } else {
+        this._ragu = !this._ragu;
+        rsc.style.backgroundColor = "orange";
+        this.ragu_nt++;
+      }
+    } else {
+      this._ragu = !this._ragu;
+      rsc.style.backgroundColor = "";
+      this.ragu_nt--;
+    }
+    console.log(this.ragu_nt + " " + this._ragu);
   }
 }

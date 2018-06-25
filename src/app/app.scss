@@ -19,5 +19,33 @@
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: auto;
+}
+
+.answered-text {
+    color: #40ff78;
+}
+
+.warning {
+    background-color: orange;
+    color: #fff;
+}
+.pos-abs {
+    position: absolute;
+}
+
+.right-bottom {
+    right: 5px;
+    bottom: 5px;
+}
+
+.right {
+    right: 5px;
+}
+
+.flat {
+    box-shadow: none;
+}
+
+.header-md::after {
+    display: none;
 }

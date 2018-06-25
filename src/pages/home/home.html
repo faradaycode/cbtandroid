@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>ABT</ion-title>
+    <ion-title>USBN SD 456</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -8,28 +8,23 @@
   <div class="container">
     <div id="home-div">
       <div class="header-div" text-center>
-        <div class="upcontent" text-center [@bounce]="bounceState">
-          <div class="name1">USBN</div>
-          <div class="name2">SD</div>
-          <div class="name3">
-            <span class="gr4">4</span>
-            <span class="gr5">5</span>
-            <span class="gr6">6</span>
+        <div class="upcontent" text-center>
+          <div id="simu" [@flip]="flipx">
+            <h1>USBN</h1>
+          </div>
+
+          <div id="usbn" [@bounce]="bounceState">
+            <h1>SD</h1>
+          </div>
+
+          <div class="subname-app" [@flyInOut]="shown">
+            <h1>4</h1>
+            <h1>5</h1>
+            <h1>6</h1>
           </div>
         </div>
       </div>
-      <div class="content-div">
-        <!-- <ion-grid>
-          <ion-row>
-            <ion-col col-6>
-              <img src="assets/imgs/b01.png" [@flyin]="flyL" />
-            </ion-col>
-            <ion-col col-6>
-              <img src="assets/imgs/b02.png" [@flyin]="flyR" />
-            </ion-col>
-          </ion-row>
-        </ion-grid> -->
-      </div>
+
       <div class="btn-home" text-center>
         <button ion-button rounded large color="danger" (click)="mulai()" [@fade]="b_status">
           <span>Mulai</span>
@@ -45,20 +40,17 @@
         <ion-row>
           <ion-col col-12>
             <button ion-button class="super-large" [@flyin]="flyL" (click)="goTo('4')">
-              <span class="outer-text">4<sup ion-text>th</sup>
-              </span>
+              <span class="outer-text">4<sup ion-text>th</sup></span>
             </button>
           </ion-col>
           <ion-col col-12>
             <button ion-button class="super-large" [@flyin]="flyR" (click)="goTo('5')">
-              <span class="outer-text">5<sup ion-text>th</sup>
-              </span>
+              <span class="outer-text">5<sup ion-text>th</sup></span>
             </button>
           </ion-col>
           <ion-col col-12>
             <button ion-button class="super-large" [@flyin]="flyL" (click)="goTo('6')">
-              <span class="outer-text">6<sup ion-text>th</sup>
-              </span>
+              <span class="outer-text">6<sup ion-text>th</sup></span>
             </button>
           </ion-col>
         </ion-row>

@@ -1,5 +1,6 @@
 import { NavController, IonicPage } from 'ionic-angular';
-import { Component, trigger, state, style, transition, animate, keyframes } from '@angular/core';
+import { Component } from '@angular/core';
+import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
 
 @IonicPage()
 @Component({
@@ -7,16 +8,27 @@ import { Component, trigger, state, style, transition, animate, keyframes } from
   templateUrl: 'home.html',
   animations: [
     trigger('flip', [
-      state('flipped', style({
-        transform: 'rotate(180deg)',
-        backgroundColor: '#f50e80'
+      state('flipX', style({
+        transform: 'rotateX(360deg)',
       })),
       state('flipY', style({
         opacity: 1,
         transform: 'rotateY(360deg)'
       })),
-      transition('* => flipped', animate('400ms ease')),
+      transition('* => flipX', animate('800ms ease')),
       transition('* => flipY', animate('2s ease'))
+    ]),
+
+    trigger('flyInOut', [
+      transition('* => showing', [
+        query('h1', style({ opacity: 0 }), { optional: true }),
+        query('h1', stagger('300ms', [
+          animate('1s ease-in', keyframes([
+            style({ opacity: 0, transform: 'translate3d(100%, 0, 0)', offset: 0 }),
+            style({ opacity: 1, transform: 'translate3d(-100%, -200%, 0)', offset: 0.5 }),
+            style({ opacity: 1, transform: 'translate3d(0, 0, 0)', offset: 1.0 }),
+          ]))]), { optional: true })
+      ])
     ]),
 
     //right and left flyin
@@ -36,7 +48,8 @@ import { Component, trigger, state, style, transition, animate, keyframes } from
 
     trigger('fade', [
       state('visible', style({
-        opacity: 1
+        opacity: 1,
+        transform: 'rotateX(360deg)'
       })),
       state('invisible', style({
         opacity: 0
@@ -45,13 +58,13 @@ import { Component, trigger, state, style, transition, animate, keyframes } from
     ]),
 
     trigger('bounce', [
-      state('bouncing', style({
-        transform: 'translate3d(0,0,0)'
-      })),
+      //   state('bouncing', style({
+      //     opacity: 0
+      //   })),
       transition('* => bouncing', [
         animate('1000ms ease-in', keyframes([
-          style({ transform: 'translate3d(0,-100%,0)', offset: 0 }),
-          style({ transform: 'translate3d(0,50%,0)', offset: 0.5 }),
+          style({ transform: 'translate3d(0,-100%,0)', opacity: 0, offset: 0 }),
+          style({ transform: 'translate3d(0,100%,0)', opacity: 1, offset: 0.5 }),
           style({ transform: 'translate3d(0,0,0)', offset: 1 })
         ]))
       ])
@@ -65,6 +78,10 @@ export class HomePage {
   bounceState: String = 'noBounce';
   faded: String = '';
   flipy: String = '';
+  flipx: String = '';
+  apper: String = '';
+  shown: String = '';
+  flyL2: String = 'left';
 
   constructor(public navCtrl: NavController) {
   }
@@ -73,6 +90,8 @@ export class HomePage {
 
     this.flyL = 'left';
     this.flyR = 'right';
+    this.shown = 'showing';
+    this.flipx = 'flipX';
 
     setInterval(() => {
       this.flyL = 'default';
@@ -85,7 +104,11 @@ export class HomePage {
       this.b_status = (this.b_status === 'visible') ? 'invisible' : 'visible';
     }, 1000);
 
-    this.faded = (this.faded === 'visible') ? 'invisible' : 'visible';
+    setTimeout(() => {
+      this.flyL2 = (this.flyL2 === 'left') ? 'default' : 'left';
+    }, 200);
+
+
 
   }
 

@@ -2,21 +2,15 @@ page-quis {
     ion-content {
         background: #ffffff;
     }
-    .container {
-        width: 100%;
-        height: 100%;
-    }
     .div-soal {
-        touch-action: none !important;
-        position: fixed;
         width: 100%;
-        height: 90%;
+        height: 100vh;
     }
     .div-choice {
         z-index: 2;
         width: 100%;
-        height: 10%;
-        padding: 7px 0 0 0;
+        height: 7%;
+        padding: 5px 0 0 0;
         position: fixed;
         bottom: 0;
         background-color: #e0dede;
@@ -31,23 +25,44 @@ page-quis {
     }
     .div-soal img {
         max-width: 100%;
-        max-height: 100%;
+        // max-height: 100%;
         touch-action: none !important;
     }
     .div-choice .back-ques {
         position: absolute;
         left: 2px;
-        top: 10px;
+        top: 1px;
+        height: 35px;
     }
     .div-choice .forw-ques {
         position: absolute;
         right: 2px;
-        top: 10px;
+        top: 1px;
+        height: 35px;
     } 
+    .div-ragu {
+        position: absolute;
+        bottom: 8%;
+        .button-md {
+            box-shadow: none;
+            border: none;
+            height: 100%;
+        }
+    }
     // segmented style radio button
+    .segmented-button {
+        .radio-icon {
+            height: 35px;
+            border-radius: 0;
+        }
+        .radio-inner {
+            height: 27px;
+            border-radius: 0;
+        }
+    }
     .segmented-button label {
         display: -moz-inline-box;
-        -moz-box-orient: vertical;
+        box-orient: vertical;
         display: inline-block;
         position: relative;
         margin: 0 5px;
@@ -57,7 +72,7 @@ page-quis {
         font-size: 20px;
         font-weight: bold;
         color: #000000;
-        top: 12px;
+        top: 5px;
         left: 19px;
     }
     .selected span {
@@ -73,40 +88,70 @@ page-quis {
         font-weight: bold;
         font-size: 14px;
     } 
+    .namba {
+        width: 40px;
+        height: 35px;
+        background-color: #000;
+        z-index: 1;
+        color: #ffffff;
+        h5 {
+            font-weight: bold;
+            margin-top: 8px;
+        }
+    }
+    @media only screen and (max-height : 567px) {
+        .segmented-button {
+            .radio-icon {
+                height: 30px;
+                border-radius: 0;
+            }
+            .wrap-radio span {
+                font-size: 18px
+            }
+        }
+        .div-choice .back-ques {
+            height: 30px;
+        }
+        .div-choice .forw-ques {
+            height: 30px;
+        } 
+    }
     //tablet only style
     @media screen and (min-width: 768px) and (max-width: 1023px) {
         .div-choice .back-ques {
-            top: 20px;
+            top: 6px;
             left: 5px;
-            padding: 30px;
+            padding: 27px;
             font-size: 25px;
         }
         .div-choice .forw-ques {
-            top: 20px;
+            top: 6px;
             right: 5px;
-            padding: 30px;
+            padding: 27px;
             font-size: 25px;
         }
         .segmented-button .wrap-radio span {
-            font-size: 35px;
+            font-size: 28px;
+            top: 6px;
+            left: 20px;
         }
         .segmented-button label {
             margin: 0 35px;
         }
         .radio-md .radio-icon {
             width: 75px;
-            height: 75px;
+            height: 55px;
             left: -8px;
             top: -4px;
         }
         .radio-md .radio-inner {
             width: 65px;
-            height: 65px;
+            height: 45px;
             top: 3px;
             left: 3px;
         }
         .div-choice {
-            padding: 20px 0;
+            padding: 15px;
         }
         .no-soal span {
             font-size: 3.5rem;
