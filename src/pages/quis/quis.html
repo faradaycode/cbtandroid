@@ -28,14 +28,27 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content text-center>
+<ion-content text-center style="overflow-y: hidden;">
   <div class="container">
     <div class="namba">
-      <span style="font-size: 3rem; font-weight: bold;">{{pos+1}}</span>
+      <div class="bg-text">
+        <span style="font-size: 3rem; font-weight: bold;">{{pos+1}}</span>
+      </div>
+
+      <ion-range min="10" max="20" color="primary" [(ngModel)]="scales" (ionChange)="slideNzoom()">
+        <ion-label range-left style="color:#2ec95c;">
+          <ion-icon name="remove"></ion-icon>
+        </ion-label>
+        <ion-label range-right style="color:#f53d3d;">
+          <ion-icon name="add"></ion-icon>
+        </ion-label>
+      </ion-range>
     </div>
-    <div #zoom class="div-soal" id="dSoal" scrollY="true">
-      <img [src]="question" />
-    </div>
+
+      <div class="div-soal" id="dSoal" scrollY="true" scrollX="true">
+        <img #zoom [src]="question" />
+      </div>
+
 
     <div class="div-choice">
       <form [formGroup]="cbForm">

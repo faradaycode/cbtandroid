@@ -44,6 +44,7 @@ export class QuisPage {
 
   _ragu: boolean = false;
   limitedVal: number = 40; //become dynamic with navparams
+  scales:number = 10;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
     private form: FormBuilder, private alertCtrl: AlertController) {
@@ -52,9 +53,7 @@ export class QuisPage {
     this.mapel = this.navParams.get('pel');
     this.paket = this.navParams.get('pkt');
   }
-  ionViewDidEnter(): void {
-    this.serv._pinchZoom(this.zoom.nativeElement, this.content);
-  }
+  
   ngOnInit() {
     this.cbForm = this.form.group({
       listRadio: ['']
@@ -310,5 +309,10 @@ export class QuisPage {
       this.ragu_nt--;
     }
     console.log(this.ragu_nt + " " + this._ragu);
+  }
+
+  slideNzoom() {
+    let scala = this.scales / 10;
+    this.serv.nZoom(scala, this.zoom.nativeElement, this.content);
   }
 }
