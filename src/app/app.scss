@@ -49,3 +49,23 @@
 .header-md::after {
     display: none;
 }
+
+.posAbs {
+    position: absolute;
+}
+
+.to-left {
+    left: 5px;
+}
+
+.to-right {
+    right: 5px;
+}
+
+.to-top {
+    top: 5px;
+}
+
+.to-bottom {
+    bottom: 0;
+}

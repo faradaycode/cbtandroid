@@ -76,8 +76,13 @@ $colors: (
 // Windows only Sass variables can go here
 
 ion-content {
-  background-image: url(../assets/imgs/pattern.jpg);
-  background-repeat: repeat;
+  background-image: url(../assets/imgs/bgs.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @media screen and (min-width: 768px) and (min-height: 1024px) {
+    background-image: url(../assets/imgs/bgs-tablet.png);
+  }
 }
 
 $toolbar-background: #f53d3d;
@@ -109,3 +114,4 @@ $toolbar-background: #f53d3d;
 $radio-md-icon-width: 50px;
 $radio-md-icon-height: 50px;
 $text-input-placeholder-color: #fafafa;
+
