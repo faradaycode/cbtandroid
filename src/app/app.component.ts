@@ -96,10 +96,11 @@ export class MyApp {
       //statusBar.styleDefault();
       statusBar.overlaysWebView(false);
       if (platform.is('android')) {
-        statusBar.styleLightContent();
-        statusBar.backgroundColorByHexString('#c42626');
+        statusBar.hide();
+        // statusBar.styleLightContent();
+        // statusBar.backgroundColorByHexString('#c42626');
       }
-      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+      // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
       splashScreen.hide();
     });
   }

@@ -148,7 +148,7 @@ export class QuisPage {
     this.limiter++;
     this.answered(this.pos);
     this.showQuestion();
-    this.serv.unZoom('dSoal');
+    this.unZoom();
     this._ragu = (this._ragu) ? !this._ragu : this._ragu;
     console.log(this._ragu);
   }
@@ -157,7 +157,7 @@ export class QuisPage {
     this.limiter--;
     this.answered(this.pos);
     this.showQuestion();
-    this.serv.unZoom('dSoal');
+    this.unZoom();
     this._ragu = (this._ragu) ? !this._ragu : this._ragu;
     console.log(this._ragu);
   }
@@ -284,6 +284,7 @@ export class QuisPage {
       } else {
         this.pos = res;
         this.limiter = res;
+        this.unZoom();
         this.answered(this.pos);
         this.showQuestion();
         this._ragu = (this._ragu) ? !this._ragu : this._ragu;
@@ -314,5 +315,9 @@ export class QuisPage {
   slideNzoom() {
     let scala = this.scales / 10;
     this.serv.nZoom(scala, this.zoom.nativeElement, this.content);
+  }
+
+  unZoom() {
+    this.scales = 10;
   }
 }

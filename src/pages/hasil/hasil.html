@@ -49,10 +49,7 @@
         <ion-col>
           Jawaban Saya
         </ion-col>
-        <ion-col *ngIf="newArr[0].bahas !== null">
-          Kunci Jawaban
-        </ion-col>
-        <ion-col *ngIf="newArr[0].bahas === null">
+        <ion-col>
           Kunci Jawaban
         </ion-col>
         <ion-col *ngIf="newArr[0].bahas !== null">
@@ -63,14 +60,11 @@
         <ion-col class="pad20">
           {{i+1}}
         </ion-col>
-        <ion-col class="pad20">
+        <ion-col class="pad20" [style.color]="item.myans === item.answ ? '#32db64':'#ff0000'">
           <span *ngIf="item.myans === undefined || item.myans === null ">-</span>
           <span *ngIf="item.myans !== undefined ">{{item.myans}}</span>
         </ion-col>
-        <ion-col class="pad20" *ngIf="newArr[0].bahas !== null">
-          <span>{{item.answ}}</span>
-        </ion-col>
-        <ion-col class="pad20" *ngIf="newArr[0].bahas === null">
+        <ion-col class="pad20" style="color: #32db64;">
           <span>{{item.answ}}</span>
         </ion-col>
         <ion-col *ngIf="newArr[0].bahas !== null">

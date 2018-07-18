@@ -24,30 +24,36 @@ page-quis {
         bottom: 0;
         background-color: #e0dede;
     }
+
     .grid {
         padding: 0;
     }
+
     .segmented-button input[type="radio"] {
         width: 0;
         height: 0;
         display: none;
     }
+
     .div-soal img {
         max-width: 100%;
         max-height: 100%;
     }
+
     .div-choice .back-ques {
         position: absolute;
         left: 2px;
         top: 1px;
         height: 35px;
     }
+
     .div-choice .forw-ques {
         position: absolute;
         right: 2px;
         top: 1px;
         height: 35px;
     } 
+
     .div-ragu {
         position: absolute;
         bottom: 8%;
@@ -57,6 +63,7 @@ page-quis {
             height: 100%;
         }
     }
+
     // segmented style radio button
     .segmented-button {
         .radio-icon {
@@ -68,6 +75,7 @@ page-quis {
             border-radius: 0;
         }
     }
+
     .segmented-button label {
         display: -moz-inline-box;
         box-orient: vertical;
@@ -75,6 +83,7 @@ page-quis {
         position: relative;
         margin: 0 5px;
     }
+
     .segmented-button .wrap-radio span {
         position: absolute;
         font-size: 20px;
@@ -83,26 +92,29 @@ page-quis {
         top: 5px;
         left: 19px;
     }
+    
     .selected span {
         color: #ffffff;
     }
+
     .no-soal {
         padding: 10px;
         position: absolute;
         top: 33px;
         left: 2px;
     }
+
     .no-soal span {
         font-weight: bold;
         font-size: 14px;
     } 
+
     .namba {
         width: 100%;
         height: 35px;
         z-index: 1;
         color: #ffffff;
         position: relative;
-        border-bottom: 2px solid #000000;
 
         h5 {
             font-weight: bold;
@@ -125,19 +137,23 @@ page-quis {
             padding: 0 8px 0 8px;
         }
     }
+
     @media only screen and (max-height : 567px) {
         .segmented-button {
             .radio-icon {
                 height: 30px;
                 border-radius: 0;
             }
+
             .wrap-radio span {
                 font-size: 18px
             }
         }
+
         .div-choice .back-ques {
             height: 30px;
         }
+
         .div-choice .forw-ques {
             height: 30px;
         } 
@@ -150,35 +166,42 @@ page-quis {
             padding: 27px;
             font-size: 25px;
         }
+
         .div-choice .forw-ques {
             top: 6px;
             right: 5px;
             padding: 27px;
             font-size: 25px;
         }
+
         .segmented-button .wrap-radio span {
             font-size: 28px;
             top: 6px;
             left: 20px;
         }
+
         .segmented-button label {
             margin: 0 35px;
         }
+
         .radio-md .radio-icon {
             width: 75px;
             height: 55px;
             left: -8px;
             top: -4px;
         }
+
         .radio-md .radio-inner {
             width: 65px;
             height: 45px;
             top: 3px;
             left: 3px;
         }
+
         .div-choice {
             padding: 15px;
         }
+
         .no-soal span {
             font-size: 3.5rem;
         }
@@ -187,38 +210,46 @@ page-quis {
         .scroll-content {
             overflow-y: hidden;
         }
+
         .div-choice .back-ques {
             top: 35px;
             left: 5px;
             padding: 30px;
             font-size: 25px;
         }
+
         .div-choice .forw-ques {
             top: 35px;
             right: 5px;
             padding: 30px;
             font-size: 25px;
         }
+
         .segmented-button .wrap-radio span {
             font-size: 60px;
             left: 30px;
         }
+
         .segmented-button label {
             margin: 0 50px;
         }
+
         .radio-md .radio-icon {
             width: 100px;
             height: 100px;
         }
+
         .radio-md .radio-inner {
             width: 90px;
             height: 90px;
             top: 3px;
             left: 3px;
         }
+
         .div-choice {
             padding: 20px 0;
         }
+
         .no-soal span {
             font-size: 3.5rem;
         }
@@ -227,12 +258,15 @@ page-quis {
         .scroll-content {
             overflow-y: hidden;
         }
+
         .div-choice {
             padding: 20px 0 0 0;
         }
+
         .div-choice .back-ques {
             top: 20px;
         }
+        
         .div-choice .forw-ques {
             top: 20px;
         }

@@ -56,11 +56,13 @@ export class MainmenuPage {
   pka() {
     this.animVar = 'anim-a';
     this.pk = "A";
+    this.paket = 'pka';
   }
 
   pkb() {
     this.animVar = 'anim-b';
     this.pk = "B";
+    this.paket = 'pkb';
   }
 
   goto(page, mapel) {

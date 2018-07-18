@@ -1,4 +1,6 @@
 page-home {
+    font-family: "EraserRegular";
+
     $cyan: #0eb7da;
     #home-div {
         position: relative;
@@ -9,8 +11,7 @@ page-home {
         min-height: 250px;
         width: 100%;
     }
-    .upcontent {
-        font-family: "EraserRegular";
+    .upcontent {    
         background: #2e2e2e;
         color: #fff;
         max-width: 100%;
@@ -19,9 +20,10 @@ page-home {
         border: 10px #c19b6c solid;
         position: relative;
         h1 {
-            font-size: 5em;
+            font-size: 3.5em;
             display: inline-block;
             line-height: 1;
+            margin: 0;
         }
     }
     .mid-content {
@@ -110,8 +112,8 @@ page-home {
         height: 10em;
         padding: 1em;
         width: 100%;
-        background-color: rgba(0, 0, 255, .5);
-        border: none;
+        background-color: #2e2e2e;
+        border: 5px solid #c19b6c;
         box-shadow: none;
     }
     .txt-head span {
@@ -129,7 +131,7 @@ page-home {
         text-transform: lowercase;
         font-weight: bold;
         color: #fff;
-        text-shadow: 3px 0 0 #ff0000, -3px 0 0 #ff0000, 0 3px 0 #ff0000, 0 -3px 0 #ff0000, 2px 2px #ff0000, -2px -2px 0 #ff0000, 2px -2px 0 #ff0000, -2px 2px 0 #ff0000;
+        //text-shadow: 3px 0 0 #ff0000, -3px 0 0 #ff0000, 0 3px 0 #ff0000, 0 -3px 0 #ff0000, 2px 2px #ff0000, -2px -2px 0 #ff0000, 2px -2px 0 #ff0000, -2px 2px 0 #ff0000;
         sup {
             font-size: 50%;
             top: -1.2em;

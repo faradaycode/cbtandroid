@@ -4,7 +4,7 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<!-- <ion-header>
 
   <ion-navbar hideBackButton>
     <ion-title text-capitalize>list mata pelajaran</ion-title>
@@ -19,11 +19,29 @@
       </ion-segment-button>
     </ion-segment>
   </ion-toolbar>
-</ion-header>
+</ion-header> -->
 
 <ion-content padding>
-  <div [ngSwitch]="paket">
-    <ion-list no-lines *ngSwitchCase="'pka'" [@flyInOut]="animVar">
+  <div *ngIf="kls == '6'" class="switch-wrapper" text-capitalize>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button ion-button class="switcher a" (click)="pka()">
+            <span class="subtitle">paket</span>
+            <span class="title">A</span>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button class="switcher b" (click)="pkb()">
+            <span class="subtitle">paket</span>
+            <span class="title">B</span>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <div [ngSwitch]="paket" margin-top>
+    <ion-list *ngSwitchCase="'pka'" [@flyInOut]="animVar">
       <ion-item class="item-list" (click)="goto('QuisPage','mtk')">
         <ion-avatar item-start>
           <img src="assets/imgs/mtk.png">
@@ -57,7 +75,7 @@
     </ion-list>
 
     <!-- list paket B -->
-    <ion-list no-lines *ngSwitchCase="'pkb'" class="item-pb" [@flyInOut]="animVar">
+    <ion-list *ngSwitchCase="'pkb'" class="item-pb" [@flyInOut]="animVar">
       <ion-item class="item-list" (click)="goto('QuisPage','mtk')">
         <ion-avatar item-start>
           <img src="assets/imgs/mtk.png">
@@ -91,6 +109,6 @@
     </ion-list>
   </div>
   <ion-fab right bottom>
-    <button ion-button color="dark" text-capitalize (click)="goto('RaportPage')">nilaiku</button>
+    <button ion-button class="switcher a" text-capitalize (click)="goto('RaportPage')">nilaiku</button>
   </ion-fab>
 </ion-content>
