@@ -100,7 +100,7 @@ export class MyApp {
         // statusBar.styleLightContent();
         // statusBar.backgroundColorByHexString('#c42626');
       }
-      // this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
+      this.screenOrientation.lock(this.screenOrientation.ORIENTATIONS.PORTRAIT);
       splashScreen.hide();
     });
   }

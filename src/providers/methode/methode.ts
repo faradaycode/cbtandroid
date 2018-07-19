@@ -32,20 +32,20 @@ export class MethodeProvider {
 
     this.dbState = new BehaviorSubject(false);
 
-    // platform.ready().then(() => {
-    //   this.sqlite.create({
-    //     name: 'cbt.db',
-    //     location: 'default'
-    //   }).then((db: SQLiteObject) => {
-    //     this.getKeyVal('dbCr').then(val => {
-    //       if (val) {
-    //         this.dbState.next(true);
-    //       } else {
-    //         this.crtDB();
-    //       }
-    //     })
-    //   })
-    // })
+    platform.ready().then(() => {
+      this.sqlite.create({
+        name: 'cbt.db',
+        location: 'default'
+      }).then((db: SQLiteObject) => {
+        this.getKeyVal('dbCr').then(val => {
+          if (val) {
+            this.dbState.next(true);
+          } else {
+            this.crtDB();
+          }
+        })
+      })
+    })
   }
 
   allertMethod(title, text) {

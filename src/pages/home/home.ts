@@ -34,12 +34,15 @@ import { trigger, state, style, transition, animate, keyframes, query, stagger }
     //right and left flyin
     trigger('flyin', [
       state('default', style({
+        opacity: 1,
         transform: 'translate3d(0, 0, 0)'
       })),
       state('right', style({
+        opacity: 0,
         transform: 'translate3d(250%, 0, 0)'
       })),
       state('left', style({
+        opacity: 0,
         transform: 'translate3d(-250%, 0, 0)'
       })),
       transition('right => default', animate('800ms ease-out')),
@@ -103,13 +106,6 @@ export class HomePage {
     setTimeout(() => {
       this.b_status = (this.b_status === 'visible') ? 'invisible' : 'visible';
     }, 1000);
-
-    setTimeout(() => {
-      this.flyL2 = (this.flyL2 === 'left') ? 'default' : 'left';
-    }, 200);
-
-
-
   }
 
   mulai() {
