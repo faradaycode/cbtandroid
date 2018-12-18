@@ -1,0 +1,37 @@
+<!--
+  Generated template for the KelasmenuPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<ion-content padding-top>
+  <div id="grade-div" text-center>
+    <div class="txt-head" [@flip]="flipy">
+      <span>Pilih Kelasnya</span>
+    </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-12>
+          <button ion-button class="super-large" [@flyin]="flyL" (click)="goTo('4')">
+            <span class="outer-text">4</span>
+          </button>
+        </ion-col>
+        <ion-col col-12>
+          <button ion-button class="super-large" [@flyin]="flyR" (click)="goTo('5')">
+            <span class="outer-text">5</span>
+          </button>
+        </ion-col>
+        <ion-col col-12>
+          <button ion-button class="super-large" [@flyin]="flyL" (click)="goTo('6')">
+            <span class="outer-text">6</span>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+  <div id="image-holder">
+    <img src="assets/imgs/kid2.png" class="img-responsive" />
+  </div>
+</ion-content>

@@ -1,0 +1,30 @@
+page-kelasmenu {
+  font-family: "EraserRegular";
+
+  .button {
+    box-shadow: none;
+    height: 9rem;
+    width: 100px;
+    color: #ffffff;
+    background-color: #2e2e2e;
+    border: 5px solid #c19b6c;
+    font-size: 1.3rem;
+    font-weight: bolder;
+  }
+
+  .outer-text {
+    font-size: 4em;
+  }
+
+  #image-holder {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .txt-head span {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 0 0 #ff0000, -2px 0 0 #ff0000, 0 2px 0 #ff0000, 0 -2px 0 #ff0000, 1px 1px #ff0000, -1px -1px 0 #ff0000, 1px -1px 0 #ff0000, -1px 1px 0 #ff0000;
+  }
+}
