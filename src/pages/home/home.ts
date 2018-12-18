@@ -1,4 +1,4 @@
-import { NavController, IonicPage } from 'ionic-angular';
+import { NavController, IonicPage, ModalController } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
 
@@ -86,7 +86,7 @@ export class HomePage {
   shown: String = '';
   flyL2: String = 'left';
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController) {
   }
 
   ngOnInit() {
@@ -109,20 +109,13 @@ export class HomePage {
   }
 
   mulai() {
-    document.getElementById('grade-div').style.display = "block";
-    document.getElementById('home-div').style.display = "none";
-
-    this.flyL = 'left';
-    this.flyR = 'right';
-    this.flipy = "flipY";
+    this.navCtrl.push("KelasmenuPage");
   }
 
-  goTo(kelas) {
-    this.flipy = "";
-    this.navCtrl.push("MainmenuPage", { klas: kelas });
-    setTimeout(() => {
-      document.getElementById('grade-div').style.display = "none";
-      document.getElementById('home-div').style.display = "block";
-    }, 1000);
+  about() {
+    let myModal = this.modalCtrl.create("AboutPage");
+
+    myModal.present();
   }
+
 }

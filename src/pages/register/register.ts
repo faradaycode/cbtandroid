@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController, App } from 'ionic-angular';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { MethodeProvider } from '../../providers/methode/methode';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 
 /**
  * Generated class for the RegisterPage page.
@@ -22,7 +23,8 @@ export class RegisterPage {
   submitState: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private form: FormBuilder, private serv: MethodeProvider, private loading: LoadingController, private app: App) {
+    private form: FormBuilder, private serv: MethodeProvider,
+    private loading: LoadingController, private app: App, private sqlite: SQLite) {
     this.formReg = this.form.group({
       username: this.form.control('', Validators.compose([Validators.minLength(1), Validators.maxLength(25), Validators.pattern('[a-zA-Z ]*'), Validators.required])),
       kodebuku: this.form.control('', Validators.required)
@@ -54,7 +56,7 @@ export class RegisterPage {
       if (this.formReg.controls.kodebuku.hasError('required')) {
         errNo.push('Kode Buku Tidak Boleh Kosong.');
       }
-      if(this.formReg.controls.kodebuku.value !== this.serv.kodes && !this.formReg.controls.kodebuku.hasError('required')) {
+      if (this.formReg.controls.kodebuku.value !== this.serv.kodes && !this.formReg.controls.kodebuku.hasError('required')) {
         errNo.push("Kode Buku Salah");
       }
     }
@@ -65,9 +67,9 @@ export class RegisterPage {
       this.serv.setKey('nama', val.username);
       this.serv.setKey('kode', val.kodebuku);
 
-      let loader = this.loading.create({
-        content: 'Please wait...'
-      });
+      let loader = this.loading.create();
+
+      this.serv.crtDB();
 
       loader.present();
 

@@ -1,7 +1,8 @@
 import { MethodeProvider } from './../../providers/methode/methode';
 import { Component } from '@angular/core';
-import { trigger, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { trigger, style, transition, animate, keyframes, query, stagger, group, state } from '@angular/animations';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { timestamp } from 'rxjs/operator/timestamp';
 
 /**
  * Generated class for the MainmenuPage page.
@@ -15,70 +16,125 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   selector: 'page-mainmenu',
   templateUrl: 'mainmenu.html',
   animations: [
+    trigger('fade', [
+      state('visible', style({
+        opacity: 1
+      })),
+      state('invisible', style({
+        opacity: 0
+      })),
+      transition('invisible <=> visible', animate('800ms ease-out'))
+    ]),
+
     trigger('flyInOut', [
+
       transition('* => anim-a', [
-        query('.item-list', style({ opacity: 0 }), { optional: true }),
-        query('.item-list', stagger('300ms', [
+        query('.col', style({ opacity: 0 }), { optional: true }),
+        query('.col', stagger('300ms', [
           animate('1s ease-in', keyframes([
-            style({ opacity: 0, transform: 'translate3d(0, -100px, 0)', offset: 0.3 }),
+            style({ opacity: 0, transform: 'translate3d(100%, 0, 0)', offset: 0.3 }),
             style({ opacity: 1, transform: 'translate3d(0, 0, 0)', offset: 1.0 }),
           ]))]), { optional: true })
       ]),
+
       transition('* => anim-b', [
-        query('.item-list', style({ opacity: 0 }), { optional: true }),
-        query('.item-list', stagger('300ms', [
+        query('.col', style({ opacity: 0 }), { optional: true }),
+        query('.col', stagger('300ms', [
           animate('1s ease-in', keyframes([
-            style({ opacity: 0, transform: 'translate3d(0, 100px, 0)', offset: 0.3 }),
+            style({ opacity: 0, transform: 'translate3d(-100%, 0, 0)', offset: 0.3 }),
+            style({ opacity: 1, transform: 'translate3d(0, 0, 0)', offset: 1.0 }),
+          ]))]), { optional: true })
+      ]),
+
+      transition('* => anim-c', [
+        query('.col', style({ opacity: 0 }), { optional: true }),
+        query('.col', stagger('300ms', [
+          animate('1s ease-in', keyframes([
+            style({ opacity: 0, transform: 'translate3d(0, 100%, 0)', offset: 0.3 }),
             style({ opacity: 1, transform: 'translate3d(0, 0, 0)', offset: 1.0 }),
           ]))]), { optional: true })
       ])
     ])
   ]
 })
+
 export class MainmenuPage {
-  animVar = 'anim-a';
+
+  leftOut = '';
+  rightOut = '';
+  bottomOut = '';
+  faded = 'invisible';
   paket: String = 'pka';
-  kls: any;
+  kls: number;
   pk: any = "A";
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
+    public modalCtrl: ModalController) {
     this.kls = this.navParams.get("klas");
   }
 
   ionViewDidLoad() {
-    console.log(this.navCtrl.getActive().id);
+
   }
 
   ngOnInit() {
+    this.leftOut = 'anim-a';
+    this.rightOut = 'anim-b';
+    this.bottomOut = 'anim-c';
 
+    setTimeout(() => {
+      this.faded = (this.faded === 'invisible') ? 'visible' : 'invisible';
+    }, 1000);
   }
 
-  pka() {
-    this.animVar = 'anim-a';
-    this.pk = "A";
-    this.paket = 'pka';
-  }
+  clickMapel(mapel) {
 
-  pkb() {
-    this.animVar = 'anim-b';
-    this.pk = "B";
-    this.paket = 'pkb';
-  }
+    if (this.kls > 5) {
+      let myModal = this.modalCtrl.create("ModalpaketPage",
+        {
+          kelas: this.kls,
+          mapel: mapel
+        },
+        {
+          cssClass: "paket-modal"
+        });
 
-  goto(page, mapel) {
-    var x;
-    if (this.kls === "6") {
-      if (this.pk !== null || this.pk !== undefined) {
-        x = this.kls + this.pk
-      }
+      myModal.present();
+
     } else {
-      x = this.kls;
+      this.toQuis(mapel);
     }
-    if (mapel !== undefined || mapel !== null) {
-      this.serv.bgset(mapel);
-      this.navCtrl.push(page, { kelas: x, pel: mapel, pkt: this.pk }).then(mess => console.log(mess)).catch(err => console.log(err));
+  }
+
+  private toQuis(mapel) {
+
+    this.navCtrl.push("QuisPage",
+      {
+        kelas: this.kls,
+        mapel: mapel
+      }).catch(err => console.log(err));
+
+    this.serv.bgset(mapel);
+  }
+
+  private toRaport() {
+
+    if (this.kls > 5) {
+      let myModal = this.modalCtrl.create("ModalpaketPage",
+        {
+          kelas: this.kls,
+          mapel: 'raport'
+        },
+        {
+          cssClass: "paket-modal"
+        });
+
+      myModal.present();
+
     } else {
-      this.navCtrl.push(page, { kelas: this.kls }).catch(err => console.log(err));
+      this.navCtrl.push("RaportPage", {
+        kelas: this.kls
+      });
     }
   }
 }

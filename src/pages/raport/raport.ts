@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { MethodeProvider } from '../../providers/methode/methode';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { Screenshot } from '@ionic-native/screenshot';
+import { SocialSharing } from '@ionic-native/social-sharing';
 
 /**
  * Generated class for the RaportPage page.
@@ -17,35 +19,50 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 })
 export class RaportPage {
   public arrN: any = [];
-  kls: String;
+  kls: number;
   nama: String;
   totalN: number = 0;
   txkls;
+  paket: String;
+  whereis: String;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
-    private sqlite: SQLite) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private serv: MethodeProvider, private sqlite: SQLite,
+    private screenshot: Screenshot, private socialShare: SocialSharing,
+    private loadingCtrl: LoadingController) {
+
     this.kls = this.navParams.get('kelas');
+    this.paket = this.navParams.get('paket');
 
-    if (this.kls === '6A') {
-      this.txkls = "kelas 6 paket a";
+    if (this.paket != null) {
+
+      if (this.kls == 6) {
+
+        if (this.paket == "a") {
+          this.txkls = "kelas 6 paket a";
+          this.whereis = "" + this.kls + this.paket;
+        }
+
+        if (this.paket == "b") {
+          this.txkls = "kelas 6 paket b";
+          this.whereis = "" + this.kls + this.paket;
+        }
+
+      }
     }
-    if (this.kls === '6B') {
-      this.txkls = "kelas 6 paket b";
-    }
-    if (this.kls !== '6A' && this.kls !== '6B') {
+
+    if (this.kls < 6) {
       this.txkls = "kelas " + this.kls;
+      this.whereis = "" + this.kls;
     }
   }
 
   ngOnInit() {
-    this.serv.getDatabaseState().subscribe(rdy => {
-      if (rdy) {
-        this.getData();
-        this.serv.getKeyVal('nama').then(val => {
-          this.nama = val;
-          console.log(val);
-        })
-      }
+    
+    this.getData();
+
+    this.serv.getKeyVal('nama').then(val => {
+      this.nama = val;
     })
   }
 
@@ -58,7 +75,7 @@ export class RaportPage {
       name: 'cbt.db',
       location: 'default'
     }).then((db: SQLiteObject) => {
-      db.executeSql('SELECT mapel,nilai FROM penilaian WHERE kelas = "' + this.kls.toLowerCase() + '" ORDER BY kelas ASC', {})
+      db.executeSql('SELECT mapel,nilai FROM penilaian WHERE kelas = "' + this.whereis + '" ORDER BY kelas ASC', {})
         .then(res => {
           for (var i = 0; i < res.rows.length; i++) {
             if (res.rows.item(i).mapel === "mtk") {
@@ -76,7 +93,7 @@ export class RaportPage {
           console.log(res.rows.length);
         }).catch(e => this.serv.onToast(JSON.stringify(e)));
 
-      db.executeSql('SELECT SUM(nilai) AS totaln FROM penilaian WHERE kelas= "' + this.kls.toLowerCase() + '"', {})
+      db.executeSql('SELECT SUM(nilai) AS totaln FROM penilaian WHERE kelas= "' + this.whereis + '"', {})
         .then(res => {
           if (res.rows.length > 0) {
             total = parseInt(res.rows.item(0).totaln);
@@ -84,5 +101,47 @@ export class RaportPage {
           }
         })
     }).catch(e => console.log(e));
+  }
+
+  socialSharing() {
+
+    let link: string = "https://play.google.com/store/apps/details?id=com.magentamedia.uasplususbn456";
+    let subj = "Nilai USBN Saya";
+    let btn = document.getElementById("btn-share");
+
+    btn.style.visibility = "hidden";
+
+    let loader = this.loadingCtrl.create();
+
+    loader.present();
+
+    setTimeout(() => {
+
+      loader.dismiss();
+
+    }, 3000);
+
+    setTimeout(() => {
+
+      this.screenshot.URI(80).then((data) => {
+
+        this.socialShare.share(null, subj, data.URI, link)
+          .then((res) => {
+            btn.style.visibility = "visible";
+          }).catch((err) => {
+            this.serv.allertMethod("error", err);
+          })
+      });
+
+    }, 4000);
+
+  }
+
+  private onCompleteSS() {
+    console.log("sukses ss");
+  }
+
+  private onFailedSS() {
+    console.log("gagal ss");
   }
 }

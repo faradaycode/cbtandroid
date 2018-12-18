@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams, Content, AlertController } from 'ionic-angular';
 import { MethodeProvider } from '../../providers/methode/methode';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { NativeAudio } from '@ionic-native/native-audio';
 
 /**
  * Generated class for the QuisPage page.
@@ -25,7 +26,7 @@ export class QuisPage {
   datas: any = [];
   question: any = [];
 
-  klas: String;
+  klas: number;
   paket: String;
   mapel: any;
   totalArr: number;
@@ -37,6 +38,7 @@ export class QuisPage {
   limiter: number = 0;
   trueAns: number = 0;
   saveAns = {};
+  savedRagu = {};
   nullAns: number = 0;
   cbForm: FormGroup;
   pos: number = 0;
@@ -44,16 +46,18 @@ export class QuisPage {
 
   _ragu: boolean = false;
   limitedVal: number = 40; //become dynamic with navparams
-  scales:number = 10;
+  scales: number = 10;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
-    private form: FormBuilder, private alertCtrl: AlertController) {
+    private form: FormBuilder, private alertCtrl: AlertController,
+    private audio: NativeAudio) {
+
     this.tabBarElement = document.querySelector('.tabbar.show-tabbar');
     this.klas = this.navParams.get('kelas');
-    this.mapel = this.navParams.get('pel');
-    this.paket = this.navParams.get('pkt');
+    this.mapel = this.navParams.get('mapel');
+    this.paket = this.navParams.get('paket');
   }
-  
+
   ngOnInit() {
     this.cbForm = this.form.group({
       listRadio: ['']
@@ -62,39 +66,62 @@ export class QuisPage {
     setTimeout(() => {
       this.startTimer();
     }, 1000);
-    this.timeInSeconds = 5400;
+    // this.timeInSeconds = 5400;
+    this.timeInSeconds = 15;
     this.initTimer();
 
     //call out json quis
     this.serv.jsonCall('assets/cbtjson.json').subscribe(data => {
       this.totalArr = Object.keys(data).length;
       for (let a in data) {
-        if (data[a].mapel === this.mapel && data[a].kls === this.klas) {
-          this.datas.push(data[a]);
-          this.datas.sort((a, b) => { return Math.random() - 0.5; });
+
+        if (this.klas < 6) {
+
+          if (data[a].mapel === this.mapel && data[a].kls === this.klas) {
+            this.datas.push(data[a]);
+            this.datas.sort((a, b) => { return Math.random() - 0.5; });
+          }
+
+        } else {
+
+          let kp: String = "" + this.klas + this.paket;
+
+          if (data[a].mapel === this.mapel && data[a].kls === kp) {
+            this.datas.push(data[a]);
+            this.datas.sort((a, b) => { return Math.random() - 0.5; });
+          }
         }
       }
       this.showQuestion();
     });
+
     this.onGo();
+
+    for (let z = 0; z < this.limitedVal; z++) {
+      this.saveAns[z] = null;
+      this.savedRagu[z] = 0;
+    }
   }
 
   showQuestion() {
+
     let url;
-    let s = "6"
+    let s: String = "" + this.klas + this.paket;
+
     if (this.limiter < this.limitedVal) {
-      if (this.klas !== "6" && this.klas !== "6A" && this.klas !== "6B") {
+      if (this.klas < 6) {
         url = "assets/soal/" + this.klas + "/" + this.mapel + "/";
       } else {
-        if (this.klas === "6A") {
-          url = "assets/soal/" + s + "/" + "a/" + this.mapel + "/";
+        if (s === "6a") {
+          url = "assets/soal/" + this.klas + "/" + "a/" + this.mapel + "/";
         }
-        if (this.klas === "6B") {
-          url = "assets/soal/" + s + "/" + "b/" + this.mapel + "/";
+        if (s === "6b") {
+          url = "assets/soal/" + this.klas + "/" + "b/" + this.mapel + "/";
         }
       }
       this.question = url + this.datas[this.limiter].soal + ".png";
     }
+
   }
 
   //timer countdown
@@ -111,6 +138,7 @@ export class QuisPage {
   }
 
   timerTick() {
+
     setTimeout(() => {
       this.remainingSeconds--;
       this.displayTime = this.getSecondsAsDigitalClock(this.remainingSeconds);
@@ -118,10 +146,23 @@ export class QuisPage {
       //check wheter remainingSeconds value is not zero then run method 
       if (this.remainingSeconds > 0) {
         this.timerTick();
+
+        if (this.remainingSeconds < 11 && this.remainingSeconds > 1) {
+
+          let intervales = setInterval(() => {
+            this.playBeep();
+
+            if (this.remainingSeconds == 1) {
+              clearInterval(intervales);
+            }
+          }, 1000);
+        }
       }
+
       if (this.remainingSeconds == 0) {
-        this.serv.playSound()
+        this.playSound()
       }
+
     }, 1000);
   }
 
@@ -147,19 +188,17 @@ export class QuisPage {
     this.pos++;
     this.limiter++;
     this.answered(this.pos);
+    this.raguHandler(this.pos);
     this.showQuestion();
     this.unZoom();
-    this._ragu = (this._ragu) ? !this._ragu : this._ragu;
-    console.log(this._ragu);
   }
   prevq(val) {
     this.pos--;
     this.limiter--;
     this.answered(this.pos);
+    this.raguHandler(this.pos);
     this.showQuestion();
     this.unZoom();
-    this._ragu = (this._ragu) ? !this._ragu : this._ragu;
-    console.log(this._ragu);
   }
   //end method
 
@@ -168,25 +207,40 @@ export class QuisPage {
     this.saveAns[numQst] = ansVal;
     var siden = document.getElementById('an-' + numQst);
     siden.innerHTML = ansVal;
+
   }
 
   finishAlt() {
+
+    let notanswer = new Array();
+    let ragu = new Array();
+
     for (let i = 0; i < this.limitedVal; i++) {
-      if (this.saveAns[i] === null || this.saveAns[i] === undefined) {
-        this.nullAns += 1;
+
+      if (this.saveAns[i] == null) {
+        notanswer.push(parseInt(Object.keys(this.saveAns)[i], 10) + 1);
       }
+
+      if (this.savedRagu[i] == 1) {
+        ragu.push(parseInt(Object.keys(this.savedRagu)[i], 10) + 1);
+      }
+
     }
 
     let ms = "";
-    if (this.ragu_nt > 0) {
-      ms = "Ada" + this.ragu_nt + " Jawaban yang Masih Kamu Ragukan, Tetap Selesai?";
-    } else {
-      ms = "Masih Ada " + this.nullAns + " Soal Yang Kosong, Tetap Selesai?";
+
+    if (ragu.length > 0) {
+      ms += "<p text-capitalize>ada jawaban yang kamu ragukan di soal nomor: " + ragu.join(", ") + "</p>";
     }
 
-    if (this.ragu_nt > 0 && this.nullAns > 0) {
-      ms = "Masih Ada " + this.nullAns + " Soal Yang Kosong dan " + this.ragu_nt + " Jawaban yang Masih Kamu Ragukan, Tetap Selesai?";
+    if (notanswer.length > 0) {
+      ms += "<p text-capitalize>ada soal yang belum dikerjakan di nomor: " + notanswer.join(", ") + "</p>";
     }
+
+    if (ragu.length < 1 && notanswer.length < 1) {
+      ms += "<p text-capitalize>sudah yakin dengan semua jawaban kamu ?</p>";
+    }
+
     let alert = this.alertCtrl.create({
       title: "Peringatan",
       message: ms,
@@ -207,15 +261,12 @@ export class QuisPage {
       ]
     });
 
-    if (this.nullAns > 0) {
-      alert.present();
-    } else {
-      this.finishing();
-    }
+    alert.present();
   }
 
   //methode if you reach 40 and click flag
   finishing() {
+
     let answer: any = [];
     answer = this.saveAns;
 
@@ -233,6 +284,7 @@ export class QuisPage {
 
       siden.innerHTML = "";
     }
+
     this._processN();
   }
 
@@ -240,7 +292,12 @@ export class QuisPage {
     this.serv.getGo(null);
 
     // database
-    this.serv.updateNilai(this.mapel, this.klas.toLowerCase(), (this.trueAns / (this.limitedVal / 10)) * 10);
+
+    if (this.klas < 6) {
+      this.serv.updateNilai(this.mapel, this.klas, (this.trueAns / (this.limitedVal / 10)) * 10);
+    } else {
+      this.serv.updateNilai(this.mapel, "" + this.klas + this.paket, (this.trueAns / (this.limitedVal / 10)) * 10);
+    }
 
     this.navCtrl.push('HasilPage', {
       trueans: this.trueAns,
@@ -293,23 +350,47 @@ export class QuisPage {
   }
 
   ragu(numQst) {
-    let rsc = document.getElementById('bsc-' + numQst);
 
-    if (!this._ragu) {
-      if (rsc.style.backgroundColor === "orange") {
-        rsc.style.backgroundColor = "";
-        this.ragu_nt--;
-      } else {
-        this._ragu = !this._ragu;
-        rsc.style.backgroundColor = "orange";
-        this.ragu_nt++;
-      }
+    let rsc = document.getElementById('bsc-' + numQst);
+    let el_toolbar = document.getElementsByClassName('toolbar-background-md');
+    let ragu = document.getElementById("ragu-btn");
+
+    if (this.savedRagu[numQst] == 0 || this.savedRagu[numQst] == null) {
+      this.savedRagu[numQst] = 1;
+      rsc.classList.add("warning");
+      el_toolbar.item(0).classList.add("warning");
+      ragu.classList.remove("warning");
+      ragu.classList.add("light");
+
     } else {
-      this._ragu = !this._ragu;
-      rsc.style.backgroundColor = "";
-      this.ragu_nt--;
+      this.savedRagu[numQst] = 0;
+      rsc.classList.remove("warning");
+      el_toolbar.item(0).classList.remove("warning");
+      ragu.classList.add("warning");
+      ragu.classList.remove("light");
+
     }
-    console.log(this.ragu_nt + " " + this._ragu);
+
+    console.log(this.savedRagu);
+  }
+
+  private raguHandler(numQst) {
+
+    let rsc = document.getElementById('bsc-' + numQst);
+    let el_toolbar = document.getElementsByClassName('toolbar-background-md');
+    let ragu = document.getElementById("ragu-btn");
+
+    if (this.savedRagu[numQst] == null || this.savedRagu[numQst] == 0) {
+      rsc.classList.remove("warning");
+      el_toolbar.item(0).classList.remove("warning");
+      ragu.classList.add("warning");
+      ragu.classList.remove("light");
+    } else {
+      rsc.classList.add("warning");
+      el_toolbar.item(0).classList.add("warning");
+      ragu.classList.remove("warning");
+      ragu.classList.add("light");
+    }
   }
 
   slideNzoom() {
@@ -317,7 +398,44 @@ export class QuisPage {
     this.serv.nZoom(scala, this.zoom.nativeElement, this.content);
   }
 
+  private zoomIn() {
+    this.scales = this.scales + 2.5;
+  }
+
+  private zoomOut() {
+
+    if (this.scales > 10) {
+      this.scales = this.scales - 2.5;
+    }
+  }
+
   unZoom() {
     this.scales = 10;
+  }
+
+  //sound
+  playSound() {
+    this.audio.preloadComplex('alarm', 'assets/old_clock_alert.mp3', 1, 1, 0).then(() => {
+      this.audio.play("alarm", () => this.audio.unload("alarm"));
+
+      let alert = this.alertCtrl.create({
+        title: "Time Up....!",
+        subTitle: "Waktu Habis",
+        buttons: ["OK"]
+      });
+      
+      alert.present();
+
+      setTimeout(() => {
+        this.finishing();
+      }, 1000);
+
+    });
+  }
+
+  playBeep() {
+    this.audio.preloadComplex('beep', 'assets/timer.mp3', 1, 1, 0).then(() => {
+      this.audio.play("beep", () => this.audio.unload("beep"));
+    });
   }
 }

@@ -22,7 +22,7 @@ export class MethodeProvider {
   kodes: String;
 
   arrN = [];
-  private dbState: BehaviorSubject<boolean>;
+  // dbState: BehaviorSubject<boolean>;
 
   constructor(public http: HttpClient, private alertCtrl: AlertController, private toast: ToastController,
     private store: Storage, private audio: NativeAudio, private sqlite: SQLite, platform: Platform) {
@@ -30,22 +30,8 @@ export class MethodeProvider {
     this.mapel = new BehaviorSubject(null);
     this.kodes = "redaksitampan";
 
-    this.dbState = new BehaviorSubject(false);
+    // this.dbState = new BehaviorSubject(false);
 
-    platform.ready().then(() => {
-      this.sqlite.create({
-        name: 'cbt.db',
-        location: 'default'
-      }).then((db: SQLiteObject) => {
-        this.getKeyVal('dbCr').then(val => {
-          if (val) {
-            this.dbState.next(true);
-          } else {
-            this.crtDB();
-          }
-        })
-      })
-    })
   }
 
   allertMethod(title, text) {
@@ -78,12 +64,6 @@ export class MethodeProvider {
     return this.http.get(jsonfile);
   }
 
-  playSound() {
-    this.audio.preloadComplex('alarm', 'assets/alarm.mp3', 1, 1, 0).then(() => {
-      this.audio.play("alarm", () => this.audio.unload("alarm"));
-    });
-  }
-
   getGo(val) {
     this.posi.next(val);
   }
@@ -108,8 +88,8 @@ export class MethodeProvider {
       db.executeSql('CREATE TABLE IF NOT EXISTS penilaian(id_n INTEGER PRIMARY KEY, mapel TEXT, kelas TEXT, nilai INTEGER)', {})
         .then(res => {
           this.dumping();
-          this.dbState.next(true);
-          this.setKey('dbCr', true);
+          // this.dbState.next(true);
+          // this.setKey('dbCr', true);
         }).catch(e => this.onToast("DB created error: " + e));
     }).catch(e => this.onToast(e));
   }
@@ -221,9 +201,9 @@ export class MethodeProvider {
     });
   }
 
-  getDatabaseState() {
-    return this.dbState.asObservable();
-  }
+  // getDatabaseState() {
+  //   return this.dbState.asObservable();
+  // }
 
   unZoom(elementId) {
     let eid = document.getElementById(elementId);
