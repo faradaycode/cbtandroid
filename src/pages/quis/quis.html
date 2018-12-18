@@ -17,71 +17,90 @@
         <ion-icon name='menu'></ion-icon>
       </button>
     </ion-buttons>
-    <ion-buttons class="warning" end>
-      <button ion-button (click)="ragu(pos)">
-        ragu
+
+    <ion-title>
+      <span>{{pos+1}}</span>
+      <span *ngIf="timeInSeconds && timeInSeconds > 0">{{displayTime}}</span>
+      <div></div>
+    </ion-title>
+
+    <ion-buttons end>
+      <button id="ragu-btn" ion-button class="warning" (click)="ragu(pos)">
+        <span>ragu</span>
       </button>
     </ion-buttons>
-    <ion-title text-center>
-      <h5 *ngIf="timeInSeconds && timeInSeconds > 0">{{displayTime}}</h5>
-    </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content text-center style="overflow-y: hidden;">
   <div class="container">
-    <div class="namba">
-      <div class="bg-text">
-        <span style="font-size: 3rem; font-weight: bold;">{{pos+1}}</span>
-      </div>
 
-      <ion-range min="10" max="20" color="primary" [(ngModel)]="scales" (ionChange)="slideNzoom()">
-        <ion-label range-left style="color:#2ec95c;">
-          <ion-icon name="remove"></ion-icon>
+    <div class="div-soal" id="dSoal" scrollY="true" scrollX="true">
+      <img #zoom [src]="question" />
+    </div>
+
+    <div class="zoomer-div">
+      <ion-range min="10" max="20" value="15" color="primary" [(ngModel)]="scales" (ionChange)="slideNzoom()">
+        <ion-label range-left>
+          <button ion-button clear color="secondary" (click)="zoomOut()">
+            <ion-icon name="remove"></ion-icon>
+          </button>
         </ion-label>
-        <ion-label range-right style="color:#f53d3d;">
-          <ion-icon name="add"></ion-icon>
+        <ion-label range-right>
+          <button ion-button clear color="danger" (click)="zoomIn()">
+            <ion-icon name="add"></ion-icon>
+          </button>
         </ion-label>
       </ion-range>
     </div>
 
-      <div class="div-soal" id="dSoal" scrollY="true" scrollX="true">
-        <img #zoom [src]="question" />
-      </div>
+  </div>
+</ion-content>
 
+<ion-footer>
+  <ion-toolbar>
 
-    <div class="div-choice">
+    <div class="left-column">
+      <button ion-button no-margin no-shadow color="secondary" [style.visibility]="(pos < 1) ? 'hidden' : 'visible'" class="back-ques"
+        (click)="prevq(pos)">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </div>
+
+    <div class="center-column">
       <form [formGroup]="cbForm">
         <div radio-group class="segmented-button" formControlName="listRadio" (ionChange)="jawab(pos,$event)">
           <label class="wrap-radio">
             <ion-radio value="a"></ion-radio>
-            <span>A</span>
+            <span class="option-value">A</span>
           </label>
           <label class="wrap-radio">
             <ion-radio value="b"></ion-radio>
-            <span>B</span>
+            <span class="option-value">B</span>
           </label>
           <label class="wrap-radio">
             <ion-radio value="c"></ion-radio>
-            <span>C</span>
+            <span class="option-value">C</span>
           </label>
           <label class="wrap-radio">
             <ion-radio value="d"></ion-radio>
-            <span>D</span>
+            <span class="option-value">D</span>
           </label>
         </div>
       </form>
-      <button ion-button outline color="secondary" [style.visibility]="(pos < 1) ? 'hidden' : 'visible'" class="back-ques" (click)="prevq(pos)">
-        <ion-icon name="arrow-back"></ion-icon>
-      </button>
-      <button ion-button outline color="secondary" [style.visibility]="(pos == (limitedVal-1)) ? 'hidden' : 'visible'" class="forw-ques"
+    </div>
+
+    <div class="right-column">
+      <button ion-button color="secondary" no-margin no-shadow [style.display]="(pos == (limitedVal-1)) ? 'none' : 'block'" class="forw-ques"
         (click)="nextq(pos)">
         <ion-icon name="arrow-forward"></ion-icon>
       </button>
-      <button class="forw-ques" ion-button outline color="primary" [style.visibility]="(pos == (limitedVal-1)) ? 'visible' : 'hidden'"
+
+      <button class="forw-ques" no-margin no-shadow ion-button color="primary" [style.display]="(pos == (limitedVal-1)) ? 'block' : 'none'"
         (click)="finishAlt()">
         <ion-icon name="flag"></ion-icon>
       </button>
     </div>
-  </div>
-</ion-content>
+
+  </ion-toolbar>
+</ion-footer>

@@ -4,111 +4,63 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<!-- <ion-header>
-
-  <ion-navbar hideBackButton>
-    <ion-title text-capitalize>list mata pelajaran</ion-title>
-  </ion-navbar>
-  <ion-toolbar *ngIf="kls == '6'">
-    <ion-segment [(ngModel)]="paket" color="light">
-      <ion-segment-button value="pka" (click)="pka()">
-        <h5 text-capitalize>paket a</h5>
-      </ion-segment-button>
-      <ion-segment-button value="pkb" (click)="pkb()">
-        <h5 text-capitalize>paket b</h5>
-      </ion-segment-button>
-    </ion-segment>
-  </ion-toolbar>
-</ion-header> -->
 
 <ion-content padding>
-  <div *ngIf="kls == '6'" class="switch-wrapper" text-capitalize>
+  <div class="container">
     <ion-grid>
-      <ion-row>
+      <ion-row [@flyInOut]="leftOut">
         <ion-col>
-          <button ion-button class="switcher a" (click)="pka()">
-            <span class="subtitle">paket</span>
-            <span class="title">A</span>
+          <button ion-button full (click)="clickMapel('mtk')">
+            <div class="btn-content">
+              <ion-img width="46" height="46" src="assets/imgs/mtk.png"></ion-img>
+              <span>matematika</span>
+            </div>
           </button>
         </ion-col>
         <ion-col>
-          <button ion-button class="switcher b" (click)="pkb()">
-            <span class="subtitle">paket</span>
-            <span class="title">B</span>
+          <button ion-button full (click)="clickMapel('ipa')"> 
+            <div class="btn-content">
+              <ion-img width="46" height="46" src="assets/imgs/chemistry.png"></ion-img>
+              <span>ipa</span>
+            </div>
+          </button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row [@flyInOut]="rightOut">
+        <ion-col>
+          <button ion-button full (click)="clickMapel('ips')">
+            <div class="btn-content">
+              <ion-img width="46" height="46" src="assets/imgs/ips.png"></ion-img>
+              <span>ips</span>
+            </div>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button ion-button full (click)="clickMapel('pkn')">
+            <div class="btn-content">
+              <ion-img width="46" height="46" src="assets/imgs/pkn.png"></ion-img>
+              <span>pkn</span>
+            </div>
+          </button>
+        </ion-col>
+      </ion-row>
+
+      <ion-row [@flyInOut]="bottomOut">
+        <ion-col>
+          <button ion-button full (click)="clickMapel('bindo')">
+            <div class="btn-content">
+              <ion-img width="46" height="46" src="assets/imgs/bindo.png"></ion-img>
+              <span>bahasa indonesia</span>
+            </div>
           </button>
         </ion-col>
       </ion-row>
     </ion-grid>
-  </div>
-  <div [ngSwitch]="paket" margin-top>
-    <ion-list *ngSwitchCase="'pka'" [@flyInOut]="animVar">
-      <ion-item class="item-list" (click)="goto('QuisPage','mtk')">
-        <ion-avatar item-start>
-          <img src="assets/imgs/mtk.png">
-        </ion-avatar>
-        <span>Matematika</span>
-      </ion-item>
-      <ion-item class="item-list" (click)="goto('QuisPage','ipa')">
-        <ion-avatar item-start>
-          <img src="assets/imgs/chemistry.png">
-        </ion-avatar>
-        <span>IPA</span>
-      </ion-item>
-      <ion-item class="item-list" (click)="goto('QuisPage','ips')">
-        <ion-avatar item-start>
-          <img src="assets/imgs/ips.png">
-        </ion-avatar>
-        <span>IPS</span>
-      </ion-item>
-      <ion-item class="item-list" (click)="goto('QuisPage','bindo')">
-        <ion-avatar item-start>
-          <img src="assets/imgs/bindo.png">
-        </ion-avatar>
-        <span text-capitalize>bahasa indonesia</span>
-      </ion-item>
-      <ion-item class="item-list" (click)="goto('QuisPage','pkn')">
-        <ion-avatar item-start>
-          <img src="assets/imgs/pkn.png">
-        </ion-avatar>
-        <span>PPKN</span>
-      </ion-item>
-    </ion-list>
 
-    <!-- list paket B -->
-    <ion-list *ngSwitchCase="'pkb'" class="item-pb" [@flyInOut]="animVar">
-      <ion-item class="item-list" (click)="goto('QuisPage','mtk')">
-        <ion-avatar item-start>
-          <img src="assets/imgs/mtk.png">
-        </ion-avatar>
-        <span>Matematika</span>
-      </ion-item>
-      <ion-item class="item-list" (click)="goto('QuisPage','ipa')">
-        <ion-avatar item-start>
-          <img src="assets/imgs/chemistry.png">
-        </ion-avatar>
-        <span>IPA</span>
-      </ion-item>
-      <ion-item class="item-list" (click)="goto('QuisPage','ips')">
-        <ion-avatar item-start>
-          <img src="assets/imgs/ips.png">
-        </ion-avatar>
-        <span>IPS</span>
-      </ion-item>
-      <ion-item class="item-list" (click)="goto('QuisPage','bindo')">
-        <ion-avatar item-start>
-          <img src="assets/imgs/bindo.png">
-        </ion-avatar>
-        <span text-capitalize>bahasa indonesia</span>
-      </ion-item>
-      <ion-item class="item-list" (click)="goto('QuisPage','pkn')">
-        <ion-avatar item-start>
-          <img src="assets/imgs/pkn.png">
-        </ion-avatar>
-        <span>PPKN</span>
-      </ion-item>
-    </ion-list>
+    <button ion-button class="btn-nilai" [@fade]="faded" (click)="toRaport()">
+      <div class="red-dot"></div>
+      <span>nilaiku</span>
+    </button>
   </div>
-  <ion-fab right bottom>
-    <button ion-button class="switcher a" text-capitalize (click)="goto('RaportPage')">nilaiku</button>
-  </ion-fab>
 </ion-content>

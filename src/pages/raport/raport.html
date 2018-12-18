@@ -38,7 +38,7 @@
       <ion-grid>
         <ion-row>
           <ion-col col-9>
-            <span>Total</span>
+            <span>Rata-Rata Nilai</span>
           </ion-col>
           <ion-col col-3 text-right>
             <span>{{totalN}}</span>
@@ -47,4 +47,10 @@
       </ion-grid>
     </div>
   </div>
+
+  <ion-fab bottom right id="btn-share">
+    <button ion-fab (click)="socialSharing()">
+      <ion-icon name="share"></ion-icon>
+    </button>
+  </ion-fab>
 </ion-content>

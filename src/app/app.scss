@@ -16,56 +16,80 @@
 // automatically applied to the <body> element in the app.
 
 .container {
-    position: relative;
-    width: 100%;
-    height: 100%;
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .answered-text {
-    color: #40ff78;
+  color: #40ff78;
+}
+
+.alert-md .alert-message {
+  text-transform: capitalize;
 }
 
 .warning {
-    background-color: orange;
-    color: #fff;
+  background-color: #ffa500;
+  color: #fff;
 }
+
+.light {
+  background-color: #fff;
+  color: #ffa500;
+}
+
 .pos-abs {
-    position: absolute;
+  position: absolute;
 }
 
 .right-bottom {
-    right: 5px;
-    bottom: 5px;
+  right: 5px;
+  bottom: 5px;
 }
 
 .right {
-    right: 5px;
+  right: 5px;
 }
 
 .flat {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 .header-md::after {
-    display: none;
+  display: none;
 }
 
 .posAbs {
-    position: absolute;
+  position: absolute;
 }
 
 .to-left {
-    left: 5px;
+  left: 5px;
 }
 
 .to-right {
-    right: 5px;
+  right: 5px;
 }
 
 .to-top {
-    top: 5px;
+  top: 5px;
 }
 
 .to-bottom {
+  bottom: 0;
+}
+
+@media screen and (min-width: 300px) and (max-width: 767px) {
+  .paket-modal {
+    height: 25%;
+    top: auto;
     bottom: 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  page-modalpaket {
+    height: 50% !important;
+  }
 }
