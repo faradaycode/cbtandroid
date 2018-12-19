@@ -66,8 +66,8 @@ export class QuisPage {
     setTimeout(() => {
       this.startTimer();
     }, 1000);
-    // this.timeInSeconds = 5400;
-    this.timeInSeconds = 15;
+    this.timeInSeconds = 5400;
+    // this.timeInSeconds = 15;
     this.initTimer();
 
     //call out json quis

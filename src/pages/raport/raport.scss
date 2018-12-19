@@ -1,58 +1,132 @@
 page-raport {
 
-    .col {
-        padding-left: 0;
-        padding-right: 0;
+  .col {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .panel {
+    position: relative;
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #ffc;
+    color: #000;
+    margin-top: 20px;
+    transform: rotate(-4deg);
+    box-shadow: -5px 5px 7px rgba(33, 33, 33, .7);
+  }
+
+  .panel-heading {
+    min-height: 50px;
+    padding: 10px;
+
+    span {
+      display: block;
+      font-size: 2rem;
+      font-weight: bold;
     }
+
+    .head-pinned {
+      position: absolute;
+      width: 25px;
+      height: 25px;
+      background-color: #f00;
+      right: 5px;
+      border-radius: 50%;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, .3), inset 0 -1px 2px -1px rgba(0, 0, 0, .5), inset 0 1px 2px 1px rgba(255, 255, 255, .3);
+      border-color: #B30000;
+    }
+  }
+
+  .panel-body {
+    min-height: 100px;
+    padding: 5px;
+
+    span {
+      font-weight: 500;
+      font-size: 1.7rem;
+      line-height: 30px;
+    }
+
+    .row {
+      border-bottom: 1px solid rgba(0, 0, 0, .2);
+    }
+  }
+
+  .panel-footer {
+    min-height: 40px;
+    padding: 5px;
+
+    span {
+      font-size: 1.7rem;
+      line-height: 30px;
+    }
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
     .panel {
-        position: relative;
-        width: 250px;
-        margin-left: auto;
-        margin-right: auto;
-        background-color: #ffc;
-        color: #000;
-        margin-top: 20px;
-        transform: rotate(-4deg);
-        box-shadow: -5px 5px 7px rgba(33, 33, 33, .7);
+      width: 400px;
+      margin-top: 60px;
     }
-    .panel-heading {
-        min-height: 50px;
-        padding: 10px;
-        span {
-            display: block;
-            font-size: 2rem;
-            font-weight: bold;
-        }
-        .head-pinned {
-            position: absolute;
-            width: 25px;
-            height: 25px;
-            background-color: #f00;
-            right: 5px;
-            border-radius: 50%;
-            box-shadow: 1px 1px 3px rgba(0,0,0,.3),inset 0 -1px 2px -1px rgba(0,0,0,.5), inset 0 1px 2px 1px rgba(255,255,255,.3);
-            border-color: #B30000;
-        }
+
+    .panel-heading span {
+      font-size: 3.5rem;
     }
-    .panel-body {
-        min-height: 100px;
-        padding: 5px;
-        span {
-            font-weight: 500;
-            font-size: 1.7rem;
-            line-height: 30px;
-        }
-        .row {
-            border-bottom: 1px solid rgba(0,0,0,.2);
+
+    .panel-body span {
+      font-size: 3rem;
+    }
+
+    .panel-footer span {
+      font-size: 3rem;
+    }
+
+    .panel-heading .head-pinned {
+      width: 40px;
+      height: 40px;
+    }
+
+    .fab {
+        height: 86px;
+        width: 86px;
+
+        ion-icon {
+            font-size: 4.4rem;
         }
     }
-    .panel-footer {
-        min-height: 40px;
-        padding: 5px;
-        span {
-            font-weight: 500;
-            font-size: 1.7rem;
-            line-height: 30px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .panel {
+        width: 550px;
+        margin-top: 60px;
+      }
+  
+      .panel-heading span {
+        font-size: 3.5rem;
+      }
+  
+      .panel-body span {
+        font-size: 3rem;
+      }
+  
+      .panel-footer span {
+        font-size: 3rem;
+      }
+  
+      .panel-heading .head-pinned {
+        width: 40px;
+        height: 40px;
+      }
+
+      .fab {
+        height: 116px;
+        width: 116px;
+
+        ion-icon {
+            font-size: 6.4rem;
         }
     }
+  }
 }

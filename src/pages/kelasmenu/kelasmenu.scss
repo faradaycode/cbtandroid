@@ -19,6 +19,7 @@ page-kelasmenu {
   #image-holder {
     position: absolute;
     bottom: 0;
+    height: 250px;
   }
 
   .txt-head span {
@@ -26,5 +27,33 @@ page-kelasmenu {
     font-weight: bold;
     color: #fff;
     text-shadow: 2px 0 0 #ff0000, -2px 0 0 #ff0000, 0 2px 0 #ff0000, 0 -2px 0 #ff0000, 1px 1px #ff0000, -1px -1px 0 #ff0000, 1px -1px 0 #ff0000, -1px 1px 0 #ff0000;
+  }
+
+  @media screen and (min-width: 768px) and (max-width: 1023px) {
+    .button {
+      height: 15rem;
+      width: 165px;
+      font-size: 2rem;
+    }
+    .txt-head span {
+      font-size: 4em;
+    }
+    #image-holder {
+      height: 500px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .button {
+      height: 18rem;
+      width: 185px;
+      font-size: 2rem;
+    }
+    .txt-head span {
+      font-size: 5.5em;
+    }
+    #image-holder {
+      height: 550px;
+    }
   }
 }

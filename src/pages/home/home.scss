@@ -194,8 +194,12 @@ page-home {
       top: 150px;
     }
 
-    .button-large {
-      font-size: 3rem;
+    .btn-home .button-large-md {
+      font-size: 3.5rem;
+    }
+
+    .mid-content {
+      height: 450px;
     }
   }
 
@@ -212,8 +216,12 @@ page-home {
       top: 200px;
     }
 
-    .button-large {
-      font-size: 2.5rem;
+    .btn-home .button-large-md {
+      font-size: 5.5rem;
+    }
+
+    .mid-content {
+      height: 590px;
     }
   }
 }
