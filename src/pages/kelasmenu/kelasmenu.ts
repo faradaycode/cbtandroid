@@ -35,14 +35,19 @@ import { trigger, state, style, transition, animate, keyframes, query, stagger }
       })),
       state('right', style({
         opacity: 0,
-        transform: 'translate3d(250%, 0, 0)'
+        transform: 'translate3d(100%, 0, 0)'
       })),
       state('left', style({
         opacity: 0,
-        transform: 'translate3d(-250%, 0, 0)'
+        transform: 'translate3d(-100%, 0, 0)'
+      })),
+      state('bottom', style({
+        opacity: 0,
+        transform: 'translate3d(0, 100%, 0)'
       })),
       transition('right => default', animate('800ms ease-out')),
-      transition('left => default', animate('800ms ease-out'))
+      transition('left => default', animate('800ms ease-out')),
+      transition('bottom => default', animate('800ms ease-out'))
     ]),
 
   ]
@@ -51,8 +56,9 @@ export class KelasmenuPage {
 
   flyL = 'left';
   flyR = 'right';
+  flyB = 'bottom';
   flipy: String = '';
-  
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
@@ -63,10 +69,11 @@ export class KelasmenuPage {
   ngOnInit() {
 
     this.flipy = "flipY";
-  
+
     setInterval(() => {
       this.flyL = 'default';
       this.flyR = 'default';
+      this.flyB = 'default';
     }, 1000);
 
   }

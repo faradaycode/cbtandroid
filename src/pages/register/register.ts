@@ -36,7 +36,10 @@ export class RegisterPage {
 
   }
   regForm(val) {
+
     let errNo = [];
+    let loader = this.loading.create();
+
     if (this.formReg.controls.username.touched) {
       if (this.formReg.controls.username.hasError('pattern')) {
         console.log('pattern');
@@ -50,6 +53,8 @@ export class RegisterPage {
         console.log('null');
         errNo.push('Nama Tidak Boleh Kosong.');
       }
+    } else {
+      errNo.push('Nama Tidak Boleh Kosong.');
     }
 
     if (this.formReg.controls.kodebuku.touched) {
@@ -59,13 +64,67 @@ export class RegisterPage {
       if (this.formReg.controls.kodebuku.value !== this.serv.kodes && !this.formReg.controls.kodebuku.hasError('required')) {
         errNo.push("Kode Buku Salah");
       }
+    } else {
+      errNo.push('Kode Buku Tidak Boleh Kosong.');
     }
 
     if (errNo.length > 0) {
-      this.serv.allertMethod('Error', errNo.join("<br>"));
+
+      loader.present();
+
+      setTimeout(() => {
+        loader.dismiss();
+        this.serv.allertMethod('Error', errNo.join("<br>"));
+      }, 3000);
+
     } else {
       this.serv.setKey('nama', val.username);
-      this.serv.setKey('kode', val.kodebuku);
+      this.serv.setKey('trial_app', false);
+  
+      this.serv.crtDB();
+
+      loader.present();
+
+      setTimeout(() => {
+        loader.dismiss();
+        this.app.getRootNav().setRoot("HomePage");
+      }, 3000);
+    }
+  }
+
+  tryIt(values) {
+    let errNo = [];
+
+    if (this.formReg.controls.username.touched) {
+      if (this.formReg.controls.username.hasError('pattern')) {
+        console.log('pattern');
+        errNo.push("Hanya Huruf Saja Untuk Isi Nama.");
+      }
+      if (this.formReg.controls.username.hasError('maxlength')) {
+        console.log('too long');
+        errNo.push('Teks Nama Terlalu Panjang (Max 25 Karakter).');
+      }
+      if (this.formReg.controls.username.hasError('required')) {
+        console.log('null');
+        errNo.push('Nama Tidak Boleh Kosong.');
+      }
+    } else {
+      errNo.push('Nama Tidak Boleh Kosong.');
+    }
+
+    if (errNo.length > 0) {
+
+      let loader = this.loading.create();
+      loader.present();
+
+      setTimeout(() => {
+        loader.dismiss();
+        this.serv.allertMethod('Error', errNo.join("<br>"));
+      }, 3000);
+
+    } else {
+      this.serv.setKey('nama', values.username);
+      // this.serv.setKey('trial_app', true);
 
       let loader = this.loading.create();
 

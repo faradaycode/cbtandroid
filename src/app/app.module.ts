@@ -25,7 +25,6 @@ import { ScreenOrientation } from '@ionic-native/screen-orientation';
     HttpClientModule,
     IonicStorageModule.forRoot(),
     ReactiveFormsModule,
-  
   ],
   bootstrap: [IonicApp],
   entryComponents: [

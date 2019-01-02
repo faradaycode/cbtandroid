@@ -68,7 +68,9 @@
           <span>{{item.answ}}</span>
         </ion-col>
         <ion-col *ngIf="newArr[0].bahas !== null">
-          <button ion-button color="light" outline (click)="bahas(item.bahas)">Click</button>
+          <button ion-button color="light" outline (click)="bahas(item.bahas, i)">
+            Click
+          </button>
         </ion-col>
       </ion-row>
     </ion-grid>

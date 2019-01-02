@@ -166,26 +166,44 @@ page-quis {
     }
   }
 
-  @media only screen and (max-height : 567px) {
+  @media screen and (min-width : 285px) and (max-width: 340px) {
     .segmented-button {
       .radio-icon {
-        height: 30px;
-        border-radius: 0;
+        width: 35px;
       }
 
-      .wrap-radio span {
-        font-size: 18px
+      .radio-inner {
+        width: 27px;
       }
-    }
 
-    .div-choice .back-ques {
-      height: 30px;
-    }
-
-    .div-choice .forw-ques {
-      height: 30px;
+      .wrap-radio span.option-value {
+        font-size: 16px;
+        top: 8px;
+        left: 13px;
+      }
     }
   }
+
+  // @media only screen and (max-height : 567px) {
+  //   .segmented-button {
+  //     .radio-icon {
+  //       height: 30px;
+  //       border-radius: 0;
+  //     }
+  //
+  //     .wrap-radio span.option-value {
+  //       font-size: 18px
+  //     }
+  //   }
+  //
+  //   .div-choice .back-ques {
+  //     height: 30px;
+  //   }
+  //
+  //   .div-choice .forw-ques {
+  //     height: 30px;
+  //   }
+  // }
 
   //tablet only style
   @media screen and (min-width: 768px) and (max-width: 1023px) {

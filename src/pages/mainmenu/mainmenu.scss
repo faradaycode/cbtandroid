@@ -114,6 +114,46 @@ page-mainmenu {
     border-color: #B30000;
   }
 
+  #bottom-accordion {
+    position: absolute;
+    height: auto;
+    max-height: 0;
+    overflow: hidden;
+    width: 100%;
+    background: rgba(0, 0, 0, .9);
+    top: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    transition: max-height 0.2s ease-out;
+
+    .fab {
+      background-color: rgba(255, 255, 255, 0);
+      border: 2px solid #fff;
+    }
+  }
+
+  .paket-content {
+    height: 100px;
+    width: 100%;
+
+    .grid,
+    row {
+      height: 100%;
+    }
+
+    span {
+      font-size: 3rem;
+    }
+  }
+
+  .close-overlay-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
   @media screen and (min-width: 768px) and (max-width: 1023px) {
     .btn-content {
       ion-img {

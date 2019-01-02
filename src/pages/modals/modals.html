@@ -11,7 +11,7 @@
         <ion-icon name="md-close" showWhen="android,windows"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-title>{{modalTitle}}</ion-title>
+    <ion-title text-capitalize>{{modalTitle}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -19,17 +19,49 @@
 
 <ion-content>
   <div class="container">
+    <div class="separator"></div>
     <div class="soal">
       <div class="bg-div">
         <span>Soal</span>
+        <!-- <ion-range min="10" max="20" value="15" color="primary" [(ngModel)]="scales"
+        (ionChange)="slideNzoom('soal')">
+          <ion-label range-left>
+            <button ion-button clear color="secondary" (click)="zoomOut()">
+              <ion-icon name="remove"></ion-icon>
+            </button>
+          </ion-label>
+          <ion-label range-right>
+            <button ion-button clear color="danger" (click)="zoomIn()">
+              <ion-icon name="add"></ion-icon>
+            </button>
+          </ion-label>
+        </ion-range> -->
       </div>
-      <img [src]="Isoal" />
+      <div class="img-holder">
+        <img #zoomSoal class="img-responsive" [src]="Isoal" />
+      </div>
     </div>
+    <div class="separator"></div>
     <div class="pembahasan">
       <div class="bg-div">
         <span>Pembahasan</span>
+        <!-- <ion-range min="10" max="20" value="15" color="primary" [(ngModel)]="scales"
+        (ionChange)="slideNzoom('bahas')">
+          <ion-label range-left>
+            <button ion-button clear color="secondary" (click)="zoomOut()">
+              <ion-icon name="remove"></ion-icon>
+            </button>
+          </ion-label>
+          <ion-label range-right>
+            <button ion-button clear color="danger" (click)="zoomIn()">
+              <ion-icon name="add"></ion-icon>
+            </button>
+          </ion-label>
+        </ion-range> -->
       </div>
-      <img [src]="Ibhs" />
+      <div class="img-holder">
+        <img #zoomBahas class="img-responsive" [src]="Ibhs" />
+      </div>
     </div>
   </div>
 </ion-content>

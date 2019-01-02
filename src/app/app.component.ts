@@ -24,15 +24,20 @@ export class MyApp {
     });
 
     platform.ready().then(() => {
-      
+
       this.store.ready().then(() => {
-        this.serv.getKeyVal('kode').then(data => {
-          if (data == null || data == undefined) {
+
+        this.serv.getKeyVal('trial_app').then((result) => {
+
+          if (result == undefined || result == null) {
             this.rootPage = 'RegisterPage';
           } else {
             this.rootPage = 'HomePage';
           }
+
+          console.log(result);
         });
+
       });
 
       //back button
@@ -67,7 +72,7 @@ export class MyApp {
             document.getElementById('grade-div').style.display = 'none';
           }
         }
-        if(activeView.id === "RegisterPage") {
+        if (activeView.id === "RegisterPage") {
           platform.exitApp();
         }
         if (activeView.id === "QuisPage") {
@@ -91,6 +96,18 @@ export class MyApp {
           this.serv.myAnswer = [];
           this.serv.theAnswer = [];
           this.serv.description = [];
+
+          this.serv.getKeyVal("trial_app").then((res) => {
+            if (res === 0 || res === undefined || res === null) {
+              this.serv.allertMethod("Informasi",
+                "Ini merupakan aplikasi versi trial. " +
+                "Untuk mendapatkan aplikasi versi full, " +
+                "silahkan masukkan password yang ada di dalam Buku "+
+                "Super Complete SD yang kamu beli");
+
+              this.serv.setKey("trial_app", 0);
+            }
+          })
         }
       });
 

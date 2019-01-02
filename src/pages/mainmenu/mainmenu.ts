@@ -1,7 +1,7 @@
 import { MethodeProvider } from './../../providers/methode/methode';
 import { Component } from '@angular/core';
 import { trigger, style, transition, animate, keyframes, query, stagger, group, state } from '@angular/animations';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { timestamp } from 'rxjs/operator/timestamp';
 
 /**
@@ -66,15 +66,16 @@ export class MainmenuPage {
   faded = 'invisible';
   paket: String = 'pka';
   kls: number;
+  private mapel: String;
   pk: any = "A";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
-    public modalCtrl: ModalController) {
+    public modalCtrl: ModalController, private alertCtrl: AlertController) {
     this.kls = this.navParams.get("klas");
   }
 
-  ionViewDidLoad() {
-
+  ionViewWillLeave() {
+    this.closeOverlay()
   }
 
   ngOnInit() {
@@ -89,52 +90,149 @@ export class MainmenuPage {
 
   clickMapel(mapel) {
 
-    if (this.kls > 5) {
-      let myModal = this.modalCtrl.create("ModalpaketPage",
-        {
-          kelas: this.kls,
-          mapel: mapel
-        },
-        {
-          cssClass: "paket-modal"
-        });
+    this.mapel = mapel;
 
-      myModal.present();
+    this.serv.getKeyVal("trial_app").then((res) => {
+      if (res === 1) {
+        if (this.kls > 5) {
 
-    } else {
-      this.toQuis(mapel);
-    }
+          this.accordionic();
+
+        } else {
+          this.toQuis();
+        }
+      } else {
+        if (res === undefined || res === null) {
+          if (this.kls > 5) {
+
+            this.accordionic();
+
+          } else {
+            this.toQuis();
+          }
+        } else {
+          this.promptRegister();
+        }
+      }
+    })
+
+
   }
 
-  private toQuis(mapel) {
+  private toQuis(paket = null) {
 
     this.navCtrl.push("QuisPage",
       {
         kelas: this.kls,
-        mapel: mapel
+        mapel: this.mapel,
+        paket: paket
       }).catch(err => console.log(err));
 
-    this.serv.bgset(mapel);
+    this.serv.bgset(this.mapel);
   }
 
   private toRaport() {
 
     if (this.kls > 5) {
-      let myModal = this.modalCtrl.create("ModalpaketPage",
-        {
-          kelas: this.kls,
-          mapel: 'raport'
-        },
-        {
-          cssClass: "paket-modal"
-        });
 
-      myModal.present();
+      this.mapel = "raport";
+      this.accordionic();
 
     } else {
       this.navCtrl.push("RaportPage", {
         kelas: this.kls
       });
     }
+  }
+
+  private clkEvt(paket = null) {
+
+    if (this.mapel == "raport") {
+      this.navCtrl.push("RaportPage",
+        {
+          kelas: this.kls,
+          paket: (paket != null) ? paket : null
+        });
+    } else {
+
+      this.toQuis(paket);
+    }
+  }
+
+  private accordionic() {
+
+    let panels = document.getElementById("bottom-accordion");
+
+    if (panels.style.maxHeight) {
+      panels.style.maxHeight = null;
+    } else {
+      panels.style.maxHeight = 100 + "%";
+      panels.style.height = 100 + "%";
+    }
+  }
+
+  private closeOverlay() {
+    let panels = document.getElementById("bottom-accordion");
+
+    panels.style.maxHeight = null;
+  }
+
+  private presentPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Registrasi',
+      inputs: [
+        {
+          name: 'password',
+          placeholder: 'Password',
+          type: 'password'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Registrasi',
+          handler: data => {
+            if (data.password === this.serv.kodes) {
+              this.serv.setKey("trial_app", 1);
+              this.serv.setKey('kode', data);
+
+              let pesan = "Selamat, Aplikasi ini sudah aktif";
+              let alr = this.serv.allertMethod("Registrasi Sukses", pesan);
+            } else {
+              let pesan = "Password Salah";
+              let alr = this.serv.allertMethod("Registrasi Gagal", pesan);
+            }
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
+  promptRegister() {
+
+    let tex =  "Untuk mengerjakan soal lainnya harap mengisi password yang "+
+    "tertulis di Buku Super Complete SD";
+
+    let alert = this.alertCtrl.create({
+      title: "Informasi",
+      subTitle: tex,
+      buttons: [{
+
+        text: 'OK',
+        handler: data => {
+          this.presentPrompt();
+        }
+      }],
+    });
+
+    alert.present();
+
   }
 }

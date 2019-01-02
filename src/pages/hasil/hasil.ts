@@ -18,19 +18,21 @@ export class HasilPage {
 
   trueans: any;
   totalar: any;
-  kl: String;
+  kl: number;
   mapel: any;
   newArr: any = [];
   empAss: number;
   tabBarElement: any;
   divShow: boolean = false;
   bahasVal: any;
+  paket: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private serv: MethodeProvider,
-    private modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private serv: MethodeProvider, private modalCtrl: ModalController) {
     this.trueans = this.navParams.get('trueans');
     this.totalar = this.navParams.get('totalar');
     this.kl = this.navParams.get('kelass');
+    this.paket = this.navParams.get('paket');
     this.mapel = this.navParams.get('mapel');
     this.empAss = this.navParams.get('notAns');
   }
@@ -44,25 +46,47 @@ export class HasilPage {
       });
     }
   }
-  bahas(val) {
+
+  bahas(val, position:number) {
     let urlA;
     let urlB;
-    if (this.kl === '6A') {
+    let pelajaran;
+
+    if (this.mapel === "mtk") {
+      pelajaran = "matematika";
+    }
+
+    if (this.mapel === "bindo") {
+      pelajaran = "bahasa indonesia";
+    }
+
+    if (this.mapel === "bindo" && this.mapel === "mtk") {
+      pelajaran = this.mapel;
+    }
+
+    if (this.kl > 5 && this.paket === 'a') {
       urlA = "assets/bahas/6/a/" + this.mapel + "/" + val;
       urlB = "assets/soal/6/a/" + this.mapel + "/" + val;
     }
-    if (this.kl === "6B") {
+    if (this.kl > 5 && this.paket === 'b') {
       urlA = "assets/bahas/6/b/" + this.mapel + "/" + val;
       urlB = "assets/soal/6/b/" + this.mapel + "/" + val;
     }
-    if (this.kl !== "6A" && this.kl !== "6B") {
+    if (this.kl < 6) {
       urlA = "assets/bahas/" + this.kl + "/" + this.mapel + "/" + val;
       urlB = "assets/soal/" + this.kl + "/" + this.mapel + "/" + val;
     }
 
-    let profileModal = this.modalCtrl.create("ModalsPage", { soal: urlB, bahas: urlA });
+    position+=1;
+
+    let profileModal = this.modalCtrl.create("ModalsPage", {
+      soal: urlB,
+      bahas: urlA,
+      title: pelajaran + " nomor " + position,
+    });
     profileModal.present();
   }
+
   onShow() {
     this.divShow = !this.divShow;
   }

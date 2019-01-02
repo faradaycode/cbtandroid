@@ -1,29 +1,62 @@
 page-modals {
-    color: red;
-    
+
+    ion-header {
+      ion-icon {
+        font-size: 2em;
+        font-weight: bold;
+      }
+    }
+
+    ion-content {
+      background: #f4f4f4;
+    }
+
+    .toolbar-title {
+      font-size: 1.7rem;
+    }
+
+    .img-holder {
+      position: relative;
+      overflow: auto;
+    }
+
     .soal {
-        img {
-            border: 3px dashed red;
-        }
         position: relative;
+        border: 2px solid #ff0000;
+        width: 100%;
         span {
             color: red;
-            font-size: 2em;
+            font-size: 1.4em;
         }
     }
+
+    .separator {
+      margin-bottom: 5px;
+    }
+
     .pembahasan {
-        img {
-            border: 3px dashed green;
-        }
+        border: 2px solid green;
         position: relative;
+        width: 100%;
         span {
             color: green;
-            font-size: 2em;
+            font-size: 1.4em;
         }
     }
+
     .bg-div {
-        min-height: 40px;
-        background-color: #f5f5f5;
+        position: relative;
+        display: flex;
+        max-height: 35px;
         padding: 5px;
+        justify-content: space-between;
+
+        .range {
+          padding: 0;
+        }
+
+        ion-range {
+          width: 200px;
+        }
     }
 }

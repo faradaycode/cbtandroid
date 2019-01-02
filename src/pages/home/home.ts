@@ -1,6 +1,7 @@
-import { NavController, IonicPage, ModalController } from 'ionic-angular';
+import { NavController, IonicPage, ModalController, Platform } from 'ionic-angular';
 import { Component } from '@angular/core';
 import { trigger, state, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
+import { AppRate } from '@ionic-native/app-rate';
 
 @IonicPage()
 @Component({
@@ -74,6 +75,7 @@ import { trigger, state, style, transition, animate, keyframes, query, stagger }
     ])
   ]
 })
+
 export class HomePage {
   flyL: String = 'default';
   flyR: String = 'default';
@@ -86,7 +88,39 @@ export class HomePage {
   shown: String = '';
   flyL2: String = 'left';
 
-  constructor(public navCtrl: NavController, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public modalCtrl: ModalController,
+  private platform: Platform, private rating: AppRate) {
+  }
+
+  ionViewDidLoad() {
+    this.platform.ready().then(() => {
+      //playstore rating
+      this.rating.preferences = {
+        displayAppName: 'UAS + USBN SD 456',
+        usesUntilPrompt: 2,
+        promptAgainForEachNewVersion: false,
+        simpleMode: true,
+        storeAppURL: {
+          android: 'market://details?id=com.magentamedia.uasplususbn456'
+        },
+        customLocale: {
+          title: 'Do you enjoy %@?',
+          message: 'If you enjoy using %@, would you mind taking a moment to rate it? Thanks so much!',
+          cancelButtonLabel: 'No, Thanks',
+          laterButtonLabel: 'Remind Me Later',
+          rateButtonLabel: 'Rate It Now'
+        },
+        callbacks: {
+          onRateDialogShow: function (callback) {
+            console.log('rate dialog shown!');
+          },
+          onButtonClicked: function (buttonIndex) {
+            console.log('Selected index: -> ' + buttonIndex);
+          }
+        }
+      };
+      this.rating.promptForRating(false);
+    })
   }
 
   ngOnInit() {

@@ -28,7 +28,7 @@ export class QuisPage {
 
   klas: number;
   paket: String;
-  mapel: any;
+  mapel: String;
   totalArr: number;
   timeInSeconds: number;
   remainingSeconds: number;
@@ -101,27 +101,38 @@ export class QuisPage {
       this.saveAns[z] = null;
       this.savedRagu[z] = 0;
     }
+
+    console.log("" + this.klas + this.paket);
+  }
+
+  ionViewWillLeave() {
+    let warn = document.getElementsByClassName("warning");
+
+    while (warn.length) {
+      warn.item(0).classList.remove("warning");
+    }
   }
 
   showQuestion() {
 
     let url;
-    let s: String = "" + this.klas + this.paket;
 
     if (this.limiter < this.limitedVal) {
+
       if (this.klas < 6) {
         url = "assets/soal/" + this.klas + "/" + this.mapel + "/";
       } else {
-        if (s === "6a") {
-          url = "assets/soal/" + this.klas + "/" + "a/" + this.mapel + "/";
+        if (this.paket === "a") {
+          url = "assets/soal/" + this.klas + "/" + this.paket + "/" + this.mapel + "/";
         }
-        if (s === "6b") {
-          url = "assets/soal/" + this.klas + "/" + "b/" + this.mapel + "/";
+        if (this.paket === "b") {
+          url = "assets/soal/" + this.klas + "/"  + this.paket +  "/" + this.mapel + "/";
         }
       }
       this.question = url + this.datas[this.limiter].soal + ".png";
     }
 
+    console.log(url);
   }
 
   //timer countdown
@@ -143,7 +154,7 @@ export class QuisPage {
       this.remainingSeconds--;
       this.displayTime = this.getSecondsAsDigitalClock(this.remainingSeconds);
 
-      //check wheter remainingSeconds value is not zero then run method 
+      //check wheter remainingSeconds value is not zero then run method
       if (this.remainingSeconds > 0) {
         this.timerTick();
 
@@ -183,7 +194,7 @@ export class QuisPage {
   }
   // end method
 
-  //next and previous button 
+  //next and previous button
   nextq(val) {
     this.pos++;
     this.limiter++;
@@ -303,16 +314,17 @@ export class QuisPage {
       trueans: this.trueAns,
       totalar: this.limitedVal,
       kelass: this.klas,
+      paket: this.paket,
       mapel: this.mapel,
       notAns: this.nullAns
     });
   }
 
   reseting() {
-    this.cbForm.controls.listRadio.reset(); //clear checked ion-radio 
+    this.cbForm.controls.listRadio.reset(); //clear checked ion-radio
   }
 
-  //this methode for get previous and next answered question 
+  //this methode for get previous and next answered question
   answered(pos) {
     if (this.saveAns[pos] !== undefined) {
       if (this.saveAns[pos] === "a") {
@@ -423,7 +435,7 @@ export class QuisPage {
         subTitle: "Waktu Habis",
         buttons: ["OK"]
       });
-      
+
       alert.present();
 
       setTimeout(() => {

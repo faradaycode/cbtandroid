@@ -179,9 +179,19 @@ page-home {
 
   //animate circle
 
+  @media screen and (min-width: 285px) and (max-width: 340px) {
+
+    .upcontent h1 {
+      font-size: 2.5em;
+    }
+
+    .mid-content {
+      height: 190px;
+    }
+  }
 
   @media screen and (min-width: 768px) and (max-width: 1023px) {
-    
+
     .header-div {
       height: 350px;
     }

@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 
-<ion-content padding>
+<ion-content>
   <div class="container">
     <ion-grid>
       <ion-row [@flyInOut]="leftOut">
@@ -18,7 +18,7 @@
           </button>
         </ion-col>
         <ion-col>
-          <button ion-button full (click)="clickMapel('ipa')"> 
+          <button ion-button full (click)="clickMapel('ipa')">
             <div class="btn-content">
               <ion-img width="46" height="46" src="assets/imgs/chemistry.png"></ion-img>
               <span>ipa</span>
@@ -62,5 +62,29 @@
       <div class="red-dot"></div>
       <span>nilaiku</span>
     </button>
+
+    <div id="bottom-accordion">
+
+      <button ion-fab mini class="close-overlay-button" (click)="closeOverlay()">
+        <ion-icon name="close"></ion-icon>
+      </button>
+
+      <div class="paket-content">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <button ion-button color="light" clear full (click)="clkEvt('a')">
+                <span>A</span>
+              </button>
+            </ion-col>
+            <ion-col>
+              <button ion-button color="light" clear full (click)="clkEvt('b')">
+                <span>B</span>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+    </div>
   </div>
 </ion-content>
